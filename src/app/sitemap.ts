@@ -4,6 +4,7 @@ import { site } from "@/data/site";
 const routes = [
   "",
   "/platform",
+  "/market-access",
   "/corridors",
   "/pricing",
   "/company",
