@@ -8,9 +8,10 @@ import type { IconName } from "@/components/ui/Icon";
  *   SITE-003 — Local Paths
  *   SITE-004 — Cross-Border Paths
  *
- * Each path carries a `slug`, `status`, and role fields so a future
- * `/market-access/[slug]` route can render a full detail page without a data
- * migration. No detail pages are implemented in this PR.
+ * Each path carries a `slug`, `status`, and role fields. SITE-003 adds the
+ * `/market-access/[slug]` detail pages (see `src/data/destinations.ts`) for the
+ * first priority paths; implemented paths link to their page, while paths still
+ * in development link to a context-carrying `/contact` URL.
  */
 
 export type PathType = "Local" | "Cross-border" | "Multilateral" | "Regional";
@@ -214,7 +215,7 @@ export const marketAccessPaths: MarketAccessPath[] = [
     govDecisionRole:
       "Qualifies opportunities, extracts requirements, and structures readiness for Brazilian public buyers.",
     ctaLabel: "Explore Brazil local path",
-    ctaHref: "/contact",
+    ctaHref: "/market-access/brazil",
   },
   {
     slug: "united-states-united-states",
@@ -235,7 +236,7 @@ export const marketAccessPaths: MarketAccessPath[] = [
     govDecisionRole:
       "Maps the federal landscape, registration paths, and readiness for U.S. suppliers.",
     ctaLabel: "Explore U.S. local path",
-    ctaHref: "/contact",
+    ctaHref: "/market-access/united-states",
   },
   {
     slug: "brazil-united-states",
@@ -259,7 +260,7 @@ export const marketAccessPaths: MarketAccessPath[] = [
     saxGlobalRole:
       "Supports market access planning, partner strategy, and cross-border execution context.",
     ctaLabel: "Explore Brazil to U.S. path",
-    ctaHref: "/contact",
+    ctaHref: "/market-access/brazil-to-united-states",
   },
   {
     slug: "brazil-un-world-bank",
@@ -283,7 +284,7 @@ export const marketAccessPaths: MarketAccessPath[] = [
     saxGlobalRole:
       "Provides context for international eligibility and multilateral execution.",
     ctaLabel: "Explore multilateral path",
-    ctaHref: "/contact",
+    ctaHref: "/market-access/brazil-to-un-world-bank",
   },
   {
     slug: "united-states-brazil",
@@ -307,7 +308,7 @@ export const marketAccessPaths: MarketAccessPath[] = [
     saxGlobalRole:
       "Advises on representation, partner strategy, and local business context.",
     ctaLabel: "Explore U.S. to Brazil path",
-    ctaHref: "/contact",
+    ctaHref: "/contact?path=united-states-to-brazil&type=cross-border",
   },
   {
     slug: "brazil-paraguay",
@@ -330,7 +331,7 @@ export const marketAccessPaths: MarketAccessPath[] = [
     saxGlobalRole:
       "Supports regional route validation and local partner discussions.",
     ctaLabel: "Explore regional path",
-    ctaHref: "/contact",
+    ctaHref: "/contact?path=brazil-to-paraguay&type=regional",
   },
 ];
 

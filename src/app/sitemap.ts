@@ -1,10 +1,12 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/data/site";
+import { destinationSlugs } from "@/data/destinations";
 
 const routes = [
   "",
   "/platform",
   "/market-access",
+  ...destinationSlugs.map((slug) => `/market-access/${slug}`),
   "/corridors",
   "/pricing",
   "/company",

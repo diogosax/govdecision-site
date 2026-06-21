@@ -5,6 +5,12 @@ import { Icon, type IconName } from "@/components/ui/Icon";
 import { ContactForm } from "@/components/marketing/ContactForm";
 import { site } from "@/data/site";
 import { loginLink } from "@/data/navigation";
+import { resolveContactContext } from "@/data/destinations";
+
+/** Read `?path=` and `?type=` from `searchParams` (a single value each). */
+function firstParam(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
+}
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -30,7 +36,17 @@ const aside: { icon: IconName; title: string; body: string }[] = [
   },
 ];
 
-export default function ContactPage() {
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const sp = await searchParams;
+  const context = resolveContactContext(
+    firstParam(sp.path),
+    firstParam(sp.type),
+  );
+
   return (
     <>
       {/* Hero + form */}
@@ -48,6 +64,20 @@ export default function ContactPage() {
                 help you decide where to focus, what readiness you need, and
                 which route to market makes sense.
               </p>
+
+              {context && (
+                <div className="mt-6 flex items-start gap-3 rounded-2xl border border-coral/30 bg-coral/5 p-4">
+                  <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-white text-coral shadow-soft">
+                    <Icon
+                      name={context.type === "local" ? "target" : "route"}
+                      size={16}
+                    />
+                  </span>
+                  <p className="text-sm font-medium leading-relaxed text-plum">
+                    {context.message}
+                  </p>
+                </div>
+              )}
 
               <div className="mt-8 space-y-4">
                 {aside.map((a) => (
@@ -88,7 +118,7 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <ContactForm />
+              <ContactForm defaultMarkets={context?.targetMarkets} />
             </div>
           </div>
         </Container>
