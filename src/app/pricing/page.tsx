@@ -88,10 +88,10 @@ export default function PricingPage() {
       </Section>
 
       <CtaBand
-        eyebrow="Request pricing"
+        eyebrow="Get started"
         title="Let's scope the right plan for your company."
         subtitle="Pricing depends on your country, corridor, profile, and the level of assisted support you need. Tell us where you want to compete."
-        primary={{ label: "Request pricing", href: "/contact" }}
+        primary={{ label: "Talk to Sax Global", href: "/contact" }}
         secondary={{ label: "Explore the platform", href: "/platform" }}
       />
     </>

@@ -1,7 +1,45 @@
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { pricingPlans } from "@/data/pricing";
-import { primaryCta } from "@/data/navigation";
+
+/**
+ * Price block. Splits a value on " / " so a live figure renders as a prominent
+ * amount with a quiet cadence ("R$ 379,00" + "/ month"), while a consultative
+ * phrase ("Consult us", "Custom USD pricing") renders cleanly as a single line.
+ */
+function Price({
+  label,
+  value,
+  note,
+}: {
+  label: string;
+  value: string;
+  note?: string;
+}) {
+  const [amount, cadence] = value.split(" / ");
+  // A live figure leads with " / cadence" and reads big; a consultative phrase
+  // ("Consult us", "Custom USD pricing") sits a step smaller so it stays tidy.
+  return (
+    <div className="rounded-2xl bg-surface/70 p-4">
+      <p className="text-[0.65rem] font-semibold uppercase tracking-wide text-slate">
+        {label}
+      </p>
+      <p className="mt-1.5 leading-tight">
+        <span
+          className={`font-bold text-plum ${
+            cadence ? "text-lg sm:text-xl" : "text-base"
+          }`}
+        >
+          {amount}
+        </span>
+        {cadence && (
+          <span className="text-xs font-medium text-slate"> / {cadence}</span>
+        )}
+      </p>
+      {note && <p className="mt-2 text-[0.7rem] leading-snug text-slate">{note}</p>}
+    </div>
+  );
+}
 
 export function PricingCards() {
   return (
@@ -41,24 +79,18 @@ export function PricingCards() {
               {plan.description}
             </p>
 
-            {/* Price block (placeholders, edited in data/pricing.ts) */}
+            {/* Price block (edited in data/pricing.ts) */}
             <div className="mt-6 grid grid-cols-2 gap-3">
-              <div className="rounded-2xl bg-surface/70 p-4">
-                <p className="text-[0.65rem] font-semibold uppercase tracking-wide text-slate">
-                  Brazil · BRL
-                </p>
-                <p className="mt-1 text-sm font-bold text-plum">
-                  {plan.priceBrazil}
-                </p>
-              </div>
-              <div className="rounded-2xl bg-surface/70 p-4">
-                <p className="text-[0.65rem] font-semibold uppercase tracking-wide text-slate">
-                  International · USD
-                </p>
-                <p className="mt-1 text-sm font-bold text-plum">
-                  {plan.priceInternational}
-                </p>
-              </div>
+              <Price
+                label="Brazil · BRL"
+                value={plan.priceBrazil}
+                note={plan.noteBrazil}
+              />
+              <Price
+                label="International · USD"
+                value={plan.priceInternational}
+                note={plan.noteInternational}
+              />
             </div>
 
             <ul className="mt-6 flex-1 space-y-2.5">
@@ -78,7 +110,7 @@ export function PricingCards() {
 
             <div className="mt-7">
               <Button
-                href={primaryCta.href}
+                href={plan.ctaHref}
                 variant={featured ? "primary" : "secondary"}
                 size="lg"
                 withArrow

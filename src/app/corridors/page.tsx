@@ -53,13 +53,13 @@ export default function CorridorsPage() {
               {corridorsGlobalLine}
             </p>
             <WorldMap tone="plum" className="mt-4 max-h-[520px]" />
-            <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-white/65">
+            <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-7 gap-y-2.5 text-xs text-white/70">
               <li className="flex items-center gap-2">
                 <span className="h-2.5 w-2.5 rounded-full bg-coral" />
                 Active focus
               </li>
               <li className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-white" />
+                <span className="h-3 w-3 rounded-full border-[1.5px] border-white/70" />
                 In development
               </li>
               <li className="flex items-center gap-2">

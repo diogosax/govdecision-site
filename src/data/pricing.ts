@@ -1,9 +1,11 @@
 /**
  * Pricing configuration.
  *
- * Prices are intentionally placeholders ("to be confirmed" / "custom") so they
- * can be edited in one place without touching layout. The page supports both a
- * Brazil (BRL) and an International (USD) column per plan.
+ * Prices live here so they can be edited in one place without touching layout.
+ * Each plan carries a Brazil (BRL) and an International (USD) price. A price may
+ * be a live figure ("R$ 379,00 / month") or a consultative phrase ("Consult
+ * us"); the card splits on " / " to render the amount prominently and the
+ * cadence quietly. Optional notes add a short supporting line under a price.
  */
 export type PricingPlan = {
   name: string;
@@ -12,18 +14,24 @@ export type PricingPlan = {
   highlighted?: boolean;
   priceBrazil: string;
   priceInternational: string;
+  noteBrazil?: string;
+  noteInternational?: string;
   description: string;
   features: string[];
   cta: string;
+  /** Where the plan CTA points. No checkout yet, so this routes to /contact. */
+  ctaHref: string;
 };
 
 export const pricingPlans: PricingPlan[] = [
   {
     name: "GovDecision One",
-    market: "Self-service intelligence",
+    market: "Platform-led intelligence",
     badge: "Platform-led",
-    priceBrazil: "BRL pricing to be confirmed",
-    priceInternational: "USD pricing to be confirmed",
+    priceBrazil: "R$ 379,00 / month",
+    priceInternational: "US$ 99.90 / month",
+    noteBrazil: "For Brazil-based suppliers.",
+    noteInternational: "For the United States and other supported markets.",
     description:
       "For suppliers that want a structured platform to qualify opportunities, organize readiness, and decide where to compete.",
     features: [
@@ -34,15 +42,18 @@ export const pricingPlans: PricingPlan[] = [
       "Decision brief templates",
       "Basic pipeline organization",
     ],
-    cta: "Request pricing",
+    cta: "Start GovDecision One",
+    ctaHref: "/contact",
   },
   {
     name: "GovDecision Assisted",
     market: "Service-led market access",
     badge: "With Sax Global",
     highlighted: true,
-    priceBrazil: "Custom Brazil launch pricing",
+    priceBrazil: "Consult us",
     priceInternational: "Custom USD pricing",
+    noteBrazil: "Service-led market access with Sax Global.",
+    noteInternational: "Scoped to your corridor, profile, and support level.",
     description:
       "For suppliers that want Sax Global support to structure readiness, evaluate opportunities, and build practical government business routes.",
     features: [
@@ -55,7 +66,8 @@ export const pricingPlans: PricingPlan[] = [
       "Executive decision memos",
       "Priority Sax Global support",
     ],
-    cta: "Request pricing",
+    cta: "Talk to Sax Global",
+    ctaHref: "/contact",
   },
 ];
 

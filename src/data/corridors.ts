@@ -132,8 +132,10 @@ export const corridors: Corridor[] = [
     region: "Multilateral",
     type: "multilateral",
     status: "Multilateral",
-    lat: 27,
-    lon: -38,
+    // Abstract mid-Atlantic point between the Americas and Africa; placed so the
+    // marker and label sit in open ocean, clear of the United States label.
+    lat: 18,
+    lon: -32,
     summary:
       "Multilateral procurement with supplier registration, international eligibility, readiness, and documentation.",
     focus: [
