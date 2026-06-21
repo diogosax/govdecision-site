@@ -5,6 +5,13 @@
  * later, mapped into PT-BR / ES locale dictionaries without touching layout.
  * For now everything is authored in EN-US.
  */
+/**
+ * Public URLs prefer environment configuration (set these in Vercel), and fall
+ * back to the production defaults so local builds and previews always work.
+ */
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.govdecision.com";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.govdecision.com";
+
 export const site = {
   name: "GovDecision",
   parent: "Sax Group",
@@ -19,9 +26,9 @@ export const site = {
   ],
 
   // Used for metadata + canonical/OG resolution
-  url: "https://www.govdecision.com",
-  appUrl: "https://app.govdecision.com",
-  loginUrl: "https://app.govdecision.com/login",
+  url: SITE_URL,
+  appUrl: APP_URL,
+  loginUrl: `${APP_URL}/login`,
 
   // Easy to change once mailbox is provisioned
   contactEmail: "contact@govdecision.com",

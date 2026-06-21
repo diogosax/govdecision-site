@@ -1,4 +1,5 @@
 import type { IconName } from "@/components/ui/Icon";
+import { site } from "@/data/site";
 
 /**
  * Market Access Destination Pages — data foundation (SITE-003).
@@ -409,8 +410,11 @@ export const destinations: DestinationPage[] = [
       title: "Start your government readiness in this market.",
       subtitle:
         "Build your Supplier Passport, qualify real opportunities, and bring discipline to every Brazilian public bid.",
-      primary: { label: "Start with GovDecision", href: "/contact?path=brazil&type=local" },
-      secondary: { label: "Explore GovDecision", href: "/platform" },
+      primary: {
+        label: "Start GovDecision readiness",
+        href: "/contact?path=brazil&type=local",
+      },
+      secondary: { label: "Open GovDecision app", href: site.loginUrl },
     },
   },
 
@@ -625,8 +629,11 @@ export const destinations: DestinationPage[] = [
       title: "Start your government readiness in this market.",
       subtitle:
         "Build your Supplier Passport, confirm registration, and qualify the U.S. opportunities worth pursuing.",
-      primary: { label: "Start with GovDecision", href: "/contact?path=united-states&type=local" },
-      secondary: { label: "Explore GovDecision", href: "/platform" },
+      primary: {
+        label: "Start GovDecision readiness",
+        href: "/contact?path=united-states&type=local",
+      },
+      secondary: { label: "Open GovDecision app", href: site.loginUrl },
     },
   },
 

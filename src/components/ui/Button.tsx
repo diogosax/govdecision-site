@@ -46,11 +46,13 @@ export function Button({
   className = "",
   external = false,
   type,
+  disabled = false,
   ...rest
 }: CommonProps & {
   href?: string;
   external?: boolean;
   type?: "button" | "submit";
+  disabled?: boolean;
 }) {
   const classes = `${base} ${variants[variant]} ${sizes[size]} ${className}`;
   const content = (
@@ -76,7 +78,13 @@ export function Button({
   }
 
   return (
-    <button type={type ?? "button"} className={classes} {...rest}>
+    <button
+      type={type ?? "button"}
+      className={classes}
+      disabled={disabled}
+      aria-busy={disabled || undefined}
+      {...rest}
+    >
       {content}
     </button>
   );
