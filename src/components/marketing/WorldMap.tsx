@@ -6,6 +6,11 @@ import { corridorHub, corridors, type Corridor } from "@/data/corridors";
  * A dot-matrix world silhouette (no flags, seals, or clutter) with the listed
  * markets placed at their approximate geographic positions and coral corridor
  * arcs emanating from the Sax Global hub in Florida.
+ *
+ * The focus continents (the Americas and Africa) carry a soft wash and brighter
+ * dots so the regions GovDecision works in read clearly, while Europe, Asia, and
+ * Australia stay quietly in the background for context. It is a strategy visual,
+ * not a GIS map.
  */
 
 const W = 1000;
@@ -20,48 +25,60 @@ function project(lat: number, lon: number) {
 }
 
 // Rough continent ellipses used to mask the dot grid into a world silhouette.
-const land: { cx: number; cy: number; rx: number; ry: number }[] = [
-  { cx: 235, cy: 140, rx: 80, ry: 62 }, // North America
-  { cx: 270, cy: 162, rx: 55, ry: 44 }, // SE US toward hub
-  { cx: 250, cy: 205, rx: 40, ry: 36 }, // Mexico / Central America
-  { cx: 352, cy: 285, rx: 46, ry: 46 }, // South America (north)
-  { cx: 332, cy: 356, rx: 30, ry: 48 }, // South America (cone)
-  { cx: 548, cy: 235, rx: 58, ry: 52 }, // Africa (north)
-  { cx: 560, cy: 302, rx: 40, ry: 48 }, // Africa (south)
-  { cx: 545, cy: 128, rx: 46, ry: 32 }, // Europe
-  { cx: 730, cy: 155, rx: 135, ry: 82 }, // Asia
-  { cx: 800, cy: 250, rx: 70, ry: 44 }, // South / SE Asia
-  { cx: 868, cy: 335, rx: 52, ry: 33 }, // Australia
+// `focus` marks the regions GovDecision actively works (Americas + Africa).
+type Land = { cx: number; cy: number; rx: number; ry: number; focus: boolean };
+const land: Land[] = [
+  { cx: 235, cy: 140, rx: 82, ry: 64, focus: true }, // North America
+  { cx: 272, cy: 165, rx: 54, ry: 42, focus: true }, // SE US toward hub
+  { cx: 248, cy: 206, rx: 42, ry: 38, focus: true }, // Mexico / Central America
+  { cx: 352, cy: 285, rx: 48, ry: 46, focus: true }, // South America (north)
+  { cx: 334, cy: 358, rx: 30, ry: 50, focus: true }, // South America (cone)
+  { cx: 548, cy: 232, rx: 60, ry: 54, focus: true }, // Africa (north)
+  { cx: 560, cy: 304, rx: 42, ry: 50, focus: true }, // Africa (south)
+  { cx: 545, cy: 128, rx: 46, ry: 32, focus: false }, // Europe
+  { cx: 730, cy: 155, rx: 135, ry: 82, focus: false }, // Asia
+  { cx: 800, cy: 250, rx: 70, ry: 44, focus: false }, // South / SE Asia
+  { cx: 868, cy: 335, rx: 52, ry: 33, focus: false }, // Australia
 ];
 
-function isLand(x: number, y: number) {
-  return land.some(
-    (e) => ((x - e.cx) / e.rx) ** 2 + ((y - e.cy) / e.ry) ** 2 <= 1,
-  );
+function inEllipse(x: number, y: number, e: Land) {
+  return ((x - e.cx) / e.rx) ** 2 + ((y - e.cy) / e.ry) ** 2 <= 1;
 }
+
+// Soft, low-opacity wash blobs that make the focus continents evident without
+// turning the panel into a literal map.
+const regionWash: { cx: number; cy: number; rx: number; ry: number }[] = [
+  { cx: 248, cy: 152, rx: 104, ry: 88 }, // North & Central America
+  { cx: 346, cy: 314, rx: 60, ry: 94 }, // South America
+  { cx: 553, cy: 268, rx: 68, ry: 96 }, // Africa
+];
 
 function dots() {
-  const out: { x: number; y: number }[] = [];
+  const focus: { x: number; y: number }[] = [];
+  const context: { x: number; y: number }[] = [];
   for (let y = 30; y <= 478; y += 17) {
     for (let x = 16; x <= 984; x += 17) {
-      if (isLand(x, y)) out.push({ x, y });
+      const hit = land.find((e) => inEllipse(x, y, e));
+      if (!hit) continue;
+      (hit.focus ? focus : context).push({ x, y });
     }
   }
-  return out;
+  return { focus, context };
 }
 
-// Manual label placement so names never collide.
+// Manual label placement so names never collide. `lines` overrides the rendered
+// text (used to keep long names short on the map).
 const labelPos: Record<
   string,
-  { dx: number; dy: number; anchor: "start" | "middle" | "end" }
+  { dx: number; dy: number; anchor: "start" | "middle" | "end"; lines?: string[] }
 > = {
-  us: { dx: 14, dy: 4, anchor: "start" },
-  canada: { dx: -12, dy: -10, anchor: "end" },
-  mexico: { dx: -12, dy: 16, anchor: "end" },
-  brazil: { dx: 14, dy: 4, anchor: "start" },
-  paraguay: { dx: 12, dy: 18, anchor: "start" },
-  africa: { dx: 14, dy: 4, anchor: "start" },
-  multilateral: { dx: 0, dy: -16, anchor: "middle" },
+  canada: { dx: 0, dy: -15, anchor: "middle" },
+  us: { dx: 16, dy: 3, anchor: "start" },
+  mexico: { dx: -14, dy: 16, anchor: "end" },
+  brazil: { dx: 15, dy: 4, anchor: "start" },
+  paraguay: { dx: -14, dy: 16, anchor: "end" },
+  africa: { dx: 16, dy: 4, anchor: "start", lines: ["African markets"] },
+  multilateral: { dx: 0, dy: 26, anchor: "middle", lines: ["UN & World Bank"] },
 };
 
 function CorridorNode({
@@ -73,39 +90,58 @@ function CorridorNode({
 }) {
   const { x, y } = project(c.lat, c.lon);
   const coral = "#e56a3a";
-  const plum = tone === "plum" ? "#ffffff" : "#2b2440";
+  const neutral = tone === "plum" ? "#ffffff" : "#2b2440";
+  const halo = tone === "plum" ? "#2b2440" : "#fbfaf7";
   const isActive = c.status === "Active focus";
   const isMulti = c.type === "multilateral";
   const lp = labelPos[c.id];
-  const halo = tone === "plum" ? "#2b2440" : "#fbfaf7";
+  const lines = lp.lines ?? [c.name];
 
   return (
     <g>
-      {/* outer ring */}
-      <circle
-        cx={x}
-        cy={y}
-        r={isActive ? 13 : 10}
-        fill="none"
-        stroke={isActive ? coral : plum}
-        strokeOpacity={isActive ? 0.35 : 0.28}
-        strokeWidth={1.5}
-        strokeDasharray={c.status === "Targeted" ? "2 3" : undefined}
-      />
-      {isMulti ? (
-        // multilateral marker: rotated square (diamond)
-        <rect
-          x={x - 5}
-          y={y - 5}
-          width={10}
-          height={10}
-          transform={`rotate(45 ${x} ${y})`}
-          fill={coral}
-        />
+      {isActive ? (
+        // Active focus: clean, solid coral disc (the ringed marker is the hub).
+        <>
+          <circle cx={x} cy={y} r={7} fill={coral} />
+          <circle cx={x} cy={y} r={2.4} fill="#ffffff" />
+        </>
+      ) : isMulti ? (
+        // Multilateral: coral diamond inside a ring — a distinct shape.
+        <>
+          <circle
+            cx={x}
+            cy={y}
+            r={11}
+            fill="none"
+            stroke={coral}
+            strokeOpacity={0.32}
+            strokeWidth={1.5}
+          />
+          <rect
+            x={x - 5}
+            y={y - 5}
+            width={10}
+            height={10}
+            transform={`rotate(45 ${x} ${y})`}
+            fill={coral}
+          />
+          <circle cx={x} cy={y} r={1.8} fill="#ffffff" />
+        </>
       ) : (
-        <circle cx={x} cy={y} r={6} fill={isActive ? coral : plum} />
+        // In development (and targeted): hollow outline marker.
+        <>
+          <circle
+            cx={x}
+            cy={y}
+            r={9.5}
+            fill="none"
+            stroke={neutral}
+            strokeOpacity={0.55}
+            strokeWidth={1.6}
+          />
+          <circle cx={x} cy={y} r={3} fill={neutral} />
+        </>
       )}
-      <circle cx={x} cy={y} r={2.2} fill="#ffffff" />
 
       {/* label */}
       <text
@@ -114,13 +150,17 @@ function CorridorNode({
         textAnchor={lp.anchor}
         style={{ paintOrder: "stroke" }}
         stroke={halo}
-        strokeWidth={3.5}
+        strokeWidth={4}
         strokeLinejoin="round"
-        fill={tone === "plum" ? "#ffffff" : "#2b2440"}
+        fill={neutral}
         fontSize={13}
         fontWeight={600}
       >
-        {c.name}
+        {lines.map((line, i) => (
+          <tspan key={line} x={x + lp.dx} dy={i === 0 ? 0 : 15}>
+            {line}
+          </tspan>
+        ))}
       </text>
     </g>
   );
@@ -135,9 +175,10 @@ export function WorldMap({
   showLabels?: boolean;
   className?: string;
 }) {
-  const grid = dots();
+  const { focus, context } = dots();
   const hub = project(corridorHub.lat, corridorHub.lon);
   const dotColor = tone === "plum" ? "#ffffff" : "#2b2440";
+  const washId = tone === "plum" ? "region-wash-plum" : "region-wash-light";
 
   return (
     <svg
@@ -155,12 +196,41 @@ export function WorldMap({
           <stop offset="0%" stopColor="#e56a3a" stopOpacity="0.35" />
           <stop offset="100%" stopColor="#e56a3a" stopOpacity="0" />
         </radialGradient>
+        <radialGradient id="region-wash-plum">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.07" />
+          <stop offset="70%" stopColor="#ffffff" stopOpacity="0.03" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
+        <radialGradient id="region-wash-light">
+          <stop offset="0%" stopColor="#2b2440" stopOpacity="0.06" />
+          <stop offset="70%" stopColor="#2b2440" stopOpacity="0.025" />
+          <stop offset="100%" stopColor="#2b2440" stopOpacity="0" />
+        </radialGradient>
       </defs>
 
-      {/* dotted world silhouette */}
-      <g fill={dotColor} opacity={tone === "plum" ? 0.16 : 0.13}>
-        {grid.map((d, i) => (
-          <circle key={i} cx={d.x} cy={d.y} r={2} />
+      {/* soft wash behind the focus continents */}
+      <g>
+        {regionWash.map((r, i) => (
+          <ellipse
+            key={i}
+            cx={r.cx}
+            cy={r.cy}
+            rx={r.rx}
+            ry={r.ry}
+            fill={`url(#${washId})`}
+          />
+        ))}
+      </g>
+
+      {/* dotted world silhouette — context regions sit quietly behind focus */}
+      <g fill={dotColor} opacity={tone === "plum" ? 0.14 : 0.09}>
+        {context.map((d, i) => (
+          <circle key={i} cx={d.x} cy={d.y} r={1.7} />
+        ))}
+      </g>
+      <g fill={dotColor} opacity={tone === "plum" ? 0.34 : 0.2}>
+        {focus.map((d, i) => (
+          <circle key={i} cx={d.x} cy={d.y} r={2.1} />
         ))}
       </g>
 
@@ -176,19 +246,24 @@ export function WorldMap({
               key={c.id}
               d={`M ${hub.x} ${hub.y} Q ${mx} ${my} ${p.x} ${p.y}`}
               strokeWidth={c.status === "Active focus" ? 2 : 1.4}
-              strokeOpacity={c.status === "Active focus" ? 0.9 : 0.55}
-              strokeDasharray={
-                c.status === "In development" || c.status === "Targeted"
-                  ? "4 5"
-                  : undefined
-              }
+              strokeOpacity={c.status === "Active focus" ? 0.9 : 0.5}
+              strokeDasharray={c.status === "Active focus" ? undefined : "4 5"}
             />
           );
         })}
       </g>
 
       {/* hub */}
-      <circle cx={hub.x} cy={hub.y} r={26} fill="url(#hub-glow)" />
+      <circle cx={hub.x} cy={hub.y} r={28} fill="url(#hub-glow)" />
+      <circle
+        cx={hub.x}
+        cy={hub.y}
+        r={10}
+        fill="none"
+        stroke="#e56a3a"
+        strokeOpacity={0.5}
+        strokeWidth={1.5}
+      />
       <circle cx={hub.x} cy={hub.y} r={5.5} fill="#e56a3a" />
       <circle cx={hub.x} cy={hub.y} r={2} fill="#ffffff" />
 
