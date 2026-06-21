@@ -14,9 +14,9 @@ export const mainNav: NavLink[] = [
     description: "The product modules behind every decision.",
   },
   {
-    label: "Corridors",
-    href: "/corridors",
-    description: "Government business corridors, structured by country.",
+    label: "Market Access",
+    href: "/market-access",
+    description: "Local and cross-border government business paths.",
   },
   {
     label: "Pricing",
