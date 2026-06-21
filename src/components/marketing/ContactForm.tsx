@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { site } from "@/data/site";
@@ -11,27 +11,118 @@ const fieldClass =
 const labelClass =
   "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate";
 
-export function ContactForm({ defaultMarkets }: { defaultMarkets?: string }) {
-  const [submitted, setSubmitted] = useState(false);
+const FRIENDLY_ERROR =
+  "We could not send your request right now. Please try again or email contact@govdecision.com.";
 
-  // No backend is configured yet — keep the form safe and non-submitting.
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+const FALLBACK_SUCCESS =
+  "Thanks — your request was received. We will follow up shortly.";
+
+type Status = "idle" | "submitting" | "success" | "error";
+
+/**
+ * Context carried over from a Market Access destination page (or UTM tagging).
+ * These travel as hidden fields so the server can classify and route the lead.
+ */
+export type ContactFormProps = {
+  defaultMarkets?: string;
+  path?: string;
+  type?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+};
+
+export function ContactForm({
+  defaultMarkets,
+  path,
+  type,
+  utmSource,
+  utmMedium,
+  utmCampaign,
+}: ContactFormProps) {
+  const [status, setStatus] = useState<Status>("idle");
+  const [feedback, setFeedback] = useState("");
+
+  // Anti-spam timing + lead-source context, captured on the client only.
+  const mountedAt = useRef(0);
+  const sourcePage = useRef("");
+
+  useEffect(() => {
+    mountedAt.current = Date.now();
+    sourcePage.current = document.referrer || "";
+  }, []);
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitted(true);
+    if (status === "submitting") return;
+
+    // Read everything synchronously before any await (the event is reused).
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    const get = (key: string) => (fd.get(key) ?? "").toString();
+
+    const payload = {
+      name: get("name"),
+      company: get("company"),
+      workEmail: get("email"),
+      country: get("country"),
+      targetMarkets: get("markets"),
+      message: get("message"),
+      path: get("path") || undefined,
+      type: get("type") || undefined,
+      sourcePage: sourcePage.current || undefined,
+      utmSource: get("utmSource") || undefined,
+      utmMedium: get("utmMedium") || undefined,
+      utmCampaign: get("utmCampaign") || undefined,
+      honeypot: get("website"),
+      elapsedMs: mountedAt.current ? Date.now() - mountedAt.current : undefined,
+    };
+
+    setStatus("submitting");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data: unknown = await res.json().catch(() => null);
+      const result = data as { ok?: boolean; message?: string; error?: string } | null;
+
+      if (res.ok && result?.ok) {
+        setFeedback(
+          typeof result.message === "string" && result.message
+            ? result.message
+            : FALLBACK_SUCCESS,
+        );
+        setStatus("success");
+      } else {
+        // The API only ever returns user-safe error copy.
+        setFeedback(
+          typeof result?.error === "string" && result.error
+            ? result.error
+            : FRIENDLY_ERROR,
+        );
+        setStatus("error");
+      }
+    } catch {
+      setFeedback(FRIENDLY_ERROR);
+      setStatus("error");
+    }
   }
 
-  if (submitted) {
+  if (status === "success") {
     return (
-      <div className="rounded-3xl border border-line bg-white p-8 text-center shadow-soft">
+      <div
+        role="status"
+        aria-live="polite"
+        className="rounded-3xl border border-line bg-white p-8 text-center shadow-soft"
+      >
         <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-coral/10 text-coral">
           <Icon name="check" size={24} />
         </span>
-        <h3 className="mt-5 text-xl font-bold text-plum">
-          Thanks — let&apos;s talk readiness.
-        </h3>
+        <h3 className="mt-5 text-xl font-bold text-plum">Request received.</h3>
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-slate">
-          This form isn&apos;t connected to a backend yet. To reach the team
-          directly, email us and we&apos;ll set up your readiness conversation.
+          {feedback}
         </p>
         <a
           href={`mailto:${site.contactEmail}`}
@@ -42,14 +133,19 @@ export function ContactForm({ defaultMarkets }: { defaultMarkets?: string }) {
         </a>
         <button
           type="button"
-          onClick={() => setSubmitted(false)}
+          onClick={() => {
+            setFeedback("");
+            setStatus("idle");
+          }}
           className="mt-4 block w-full text-xs font-semibold text-slate underline-offset-4 hover:underline"
         >
-          Edit your details
+          Send another request
         </button>
       </div>
     );
   }
+
+  const submitting = status === "submitting";
 
   return (
     <form
@@ -57,6 +153,26 @@ export function ContactForm({ defaultMarkets }: { defaultMarkets?: string }) {
       className="rounded-3xl border border-line bg-white p-6 shadow-soft sm:p-8"
       noValidate
     >
+      {/* Context carried from destination pages / campaigns. */}
+      <input type="hidden" name="path" defaultValue={path ?? ""} />
+      <input type="hidden" name="type" defaultValue={type ?? ""} />
+      <input type="hidden" name="utmSource" defaultValue={utmSource ?? ""} />
+      <input type="hidden" name="utmMedium" defaultValue={utmMedium ?? ""} />
+      <input type="hidden" name="utmCampaign" defaultValue={utmCampaign ?? ""} />
+
+      {/* Honeypot: hidden from real users, tempting for bots. Must stay empty. */}
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="website">Leave this field empty</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          defaultValue=""
+        />
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className={labelClass}>
@@ -80,6 +196,7 @@ export function ContactForm({ defaultMarkets }: { defaultMarkets?: string }) {
             id="company"
             name="company"
             type="text"
+            required
             autoComplete="organization"
             className={fieldClass}
             placeholder="Company name"
@@ -107,6 +224,7 @@ export function ContactForm({ defaultMarkets }: { defaultMarkets?: string }) {
             id="country"
             name="country"
             type="text"
+            required
             autoComplete="country-name"
             className={fieldClass}
             placeholder="Where you are based"
@@ -122,6 +240,7 @@ export function ContactForm({ defaultMarkets }: { defaultMarkets?: string }) {
           id="markets"
           name="markets"
           type="text"
+          required
           className={fieldClass}
           placeholder="e.g. United States, Brazil, UN & World Bank"
           defaultValue={defaultMarkets}
@@ -141,9 +260,24 @@ export function ContactForm({ defaultMarkets }: { defaultMarkets?: string }) {
         />
       </div>
 
+      {status === "error" && (
+        <p
+          role="alert"
+          className="mt-5 rounded-xl border border-coral/40 bg-coral/5 px-4 py-3 text-sm font-medium text-coral-600"
+        >
+          {feedback}
+        </p>
+      )}
+
       <div className="mt-6">
-        <Button type="submit" size="lg" withArrow className="w-full sm:w-auto">
-          Request a GovDecision readiness conversation
+        <Button
+          type="submit"
+          size="lg"
+          withArrow
+          disabled={submitting}
+          className="w-full sm:w-auto"
+        >
+          {submitting ? "Sending…" : "Request a GovDecision readiness conversation"}
         </Button>
         <p className="mt-3 text-xs text-slate">
           By reaching out you agree to be contacted about your readiness

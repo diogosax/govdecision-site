@@ -118,7 +118,14 @@ export default async function ContactPage({
             </div>
 
             <div>
-              <ContactForm defaultMarkets={context?.targetMarkets} />
+              <ContactForm
+                defaultMarkets={context?.targetMarkets}
+                path={firstParam(sp.path)}
+                type={firstParam(sp.type)}
+                utmSource={firstParam(sp.utm_source)}
+                utmMedium={firstParam(sp.utm_medium)}
+                utmCampaign={firstParam(sp.utm_campaign)}
+              />
             </div>
           </div>
         </Container>
