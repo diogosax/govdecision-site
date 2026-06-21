@@ -11,7 +11,7 @@ const fieldClass =
 const labelClass =
   "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate";
 
-export function ContactForm() {
+export function ContactForm({ defaultMarkets }: { defaultMarkets?: string }) {
   const [submitted, setSubmitted] = useState(false);
 
   // No backend is configured yet — keep the form safe and non-submitting.
@@ -124,6 +124,7 @@ export function ContactForm() {
           type="text"
           className={fieldClass}
           placeholder="e.g. United States, Brazil, UN & World Bank"
+          defaultValue={defaultMarkets}
         />
       </div>
 
