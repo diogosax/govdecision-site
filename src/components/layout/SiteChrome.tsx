@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries/types";
 import { localePath } from "@/i18n/routing";
-import { mainNav, footerNav, loginHref } from "@/data/navigation";
+import { mainNav, footerNav, loginHref, type NavItem } from "@/data/navigation";
 import { SiteJsonLd } from "@/components/seo/JsonLd";
 import { Header, type HeaderNavItem } from "./Header";
 import { Footer } from "./Footer";
@@ -23,11 +23,20 @@ export function SiteChrome({
   dict: Dictionary;
   children: ReactNode;
 }) {
-  const nav: HeaderNavItem[] = mainNav.map((item) => ({
+  // Resolve a route-map item to a localized header item, recursing into any
+  // submenu children (SITE-014: Market Access → Market Access + Briefs). A
+  // `labelKey` override lets a submenu entry reuse a route with different copy
+  // (the Market Access overview link reads fuller than the parent category).
+  const toHeaderItem = (item: NavItem): HeaderNavItem => ({
     key: item.key,
-    label: dict.common.nav[item.key],
+    label: dict.common.nav[item.labelKey ?? item.key],
     href: localePath(locale, item.href),
-  }));
+    ...(item.children
+      ? { children: item.children.map(toHeaderItem) }
+      : {}),
+  });
+
+  const nav: HeaderNavItem[] = mainNav.map(toHeaderItem);
 
   const footerLinks: HeaderNavItem[] = footerNav.map((item) => ({
     key: item.key,
@@ -51,7 +60,7 @@ export function SiteChrome({
         homeHref={localePath(locale, "/")}
         nav={nav}
         primaryCta={{
-          label: dict.common.cta.startReadiness,
+          label: dict.common.cta.headerStart,
           href: localePath(locale, "/contact"),
         }}
         login={login}

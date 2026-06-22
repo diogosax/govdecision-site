@@ -18,6 +18,7 @@ export const ptBR = {
       platform: "Plataforma",
       marketAccess: "Mercados",
       opportunityBriefs: "Oportunidades",
+      marketAccessOverview: "Acesso a mercados",
       pricing: "Preços",
       company: "Empresa",
       contact: "Contato",
@@ -30,6 +31,7 @@ export const ptBR = {
     },
     cta: {
       startReadiness: "Iniciar readiness",
+      headerStart: "Começar",
       explorePlatform: "Conhecer a plataforma",
       viewCorridors: "Ver corredores",
       viewPricing: "Ver preços",
