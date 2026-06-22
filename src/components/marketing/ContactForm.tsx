@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import type { Locale } from "@/i18n/config";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { site } from "@/data/site";
@@ -11,19 +12,39 @@ const fieldClass =
 const labelClass =
   "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate";
 
-const FRIENDLY_ERROR =
-  "We could not send your request right now. Please try again or email contact@govdecision.com.";
-
-const FALLBACK_SUCCESS =
-  "Thanks — your request was received. We will follow up shortly.";
-
 type Status = "idle" | "submitting" | "success" | "error";
+
+/** Localized, user-facing form copy. */
+export type ContactFormCopy = {
+  name: string;
+  namePlaceholder: string;
+  companyLabel: string;
+  companyPlaceholder: string;
+  email: string;
+  emailPlaceholder: string;
+  country: string;
+  countryPlaceholder: string;
+  markets: string;
+  marketsPlaceholder: string;
+  message: string;
+  messagePlaceholder: string;
+  submit: string;
+  submitting: string;
+  consent: string;
+  successTitle: string;
+  successBody: string;
+  sendAnother: string;
+  errorMessage: string;
+};
 
 /**
  * Context carried over from a Market Access destination page (or UTM tagging).
  * These travel as hidden fields so the server can classify and route the lead.
+ * The API contract (`POST /api/contact`) is unchanged and never localized.
  */
 export type ContactFormProps = {
+  locale: Locale;
+  t: ContactFormCopy;
   defaultMarkets?: string;
   path?: string;
   type?: string;
@@ -33,6 +54,8 @@ export type ContactFormProps = {
 };
 
 export function ContactForm({
+  locale,
+  t,
   defaultMarkets,
   path,
   type,
@@ -89,23 +112,24 @@ export function ContactForm({
       const result = data as { ok?: boolean; message?: string; error?: string } | null;
 
       if (res.ok && result?.ok) {
-        setFeedback(
-          typeof result.message === "string" && result.message
+        // The API returns an EN success message. Keep it for EN; localized
+        // surfaces use their own copy so nothing leaks English.
+        const serverMessage =
+          locale === "en-US" && typeof result.message === "string"
             ? result.message
-            : FALLBACK_SUCCESS,
-        );
+            : "";
+        setFeedback(serverMessage || t.successBody);
         setStatus("success");
       } else {
-        // The API only ever returns user-safe error copy.
-        setFeedback(
-          typeof result?.error === "string" && result.error
+        const serverError =
+          locale === "en-US" && typeof result?.error === "string"
             ? result.error
-            : FRIENDLY_ERROR,
-        );
+            : "";
+        setFeedback(serverError || t.errorMessage);
         setStatus("error");
       }
     } catch {
-      setFeedback(FRIENDLY_ERROR);
+      setFeedback(t.errorMessage);
       setStatus("error");
     }
   }
@@ -120,7 +144,7 @@ export function ContactForm({
         <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-coral/10 text-coral">
           <Icon name="check" size={24} />
         </span>
-        <h3 className="mt-5 text-xl font-bold text-plum">Request received.</h3>
+        <h3 className="mt-5 text-xl font-bold text-plum">{t.successTitle}</h3>
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-slate">
           {feedback}
         </p>
@@ -139,7 +163,7 @@ export function ContactForm({
           }}
           className="mt-4 block w-full text-xs font-semibold text-slate underline-offset-4 hover:underline"
         >
-          Send another request
+          {t.sendAnother}
         </button>
       </div>
     );
@@ -176,7 +200,7 @@ export function ContactForm({
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className={labelClass}>
-            Name
+            {t.name}
           </label>
           <input
             id="name"
@@ -185,12 +209,12 @@ export function ContactForm({
             required
             autoComplete="name"
             className={fieldClass}
-            placeholder="Your full name"
+            placeholder={t.namePlaceholder}
           />
         </div>
         <div>
           <label htmlFor="company" className={labelClass}>
-            Company
+            {t.companyLabel}
           </label>
           <input
             id="company"
@@ -199,12 +223,12 @@ export function ContactForm({
             required
             autoComplete="organization"
             className={fieldClass}
-            placeholder="Company name"
+            placeholder={t.companyPlaceholder}
           />
         </div>
         <div>
           <label htmlFor="email" className={labelClass}>
-            Work email
+            {t.email}
           </label>
           <input
             id="email"
@@ -213,12 +237,12 @@ export function ContactForm({
             required
             autoComplete="email"
             className={fieldClass}
-            placeholder="you@company.com"
+            placeholder={t.emailPlaceholder}
           />
         </div>
         <div>
           <label htmlFor="country" className={labelClass}>
-            Country
+            {t.country}
           </label>
           <input
             id="country"
@@ -227,14 +251,14 @@ export function ContactForm({
             required
             autoComplete="country-name"
             className={fieldClass}
-            placeholder="Where you are based"
+            placeholder={t.countryPlaceholder}
           />
         </div>
       </div>
 
       <div className="mt-5">
         <label htmlFor="markets" className={labelClass}>
-          Target markets
+          {t.markets}
         </label>
         <input
           id="markets"
@@ -242,21 +266,21 @@ export function ContactForm({
           type="text"
           required
           className={fieldClass}
-          placeholder="e.g. United States, Brazil, UN & World Bank"
+          placeholder={t.marketsPlaceholder}
           defaultValue={defaultMarkets}
         />
       </div>
 
       <div className="mt-5">
         <label htmlFor="message" className={labelClass}>
-          Message
+          {t.message}
         </label>
         <textarea
           id="message"
           name="message"
           rows={4}
           className={`${fieldClass} resize-none`}
-          placeholder="What do you sell, and where do you want to compete?"
+          placeholder={t.messagePlaceholder}
         />
       </div>
 
@@ -277,12 +301,9 @@ export function ContactForm({
           disabled={submitting}
           className="w-full sm:w-auto"
         >
-          {submitting ? "Sending…" : "Request a GovDecision readiness conversation"}
+          {submitting ? t.submitting : t.submit}
         </Button>
-        <p className="mt-3 text-xs text-slate">
-          By reaching out you agree to be contacted about your readiness
-          conversation. No spam.
-        </p>
+        <p className="mt-3 text-xs text-slate">{t.consent}</p>
       </div>
     </form>
   );

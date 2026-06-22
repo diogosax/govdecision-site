@@ -46,12 +46,28 @@ const decisionPath = [
   "Pursuit",
 ];
 
+export type MarketAccessHeroCopy = {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  slogan: string;
+  primaryCta: string;
+  secondaryCta: string;
+};
+
 /**
  * Market Access hero: a strategic headline paired with a product-style path
  * selector mockup (origin / target / path type / next step) and a compact
- * decision path. All values shown are a sample (Brazil → United States).
+ * decision path. The mockup keeps its sample (Brazil → United States) values in
+ * English — it depicts the product UI; the marketing copy column is localized.
  */
-export function MarketAccessHero() {
+export function MarketAccessHero({
+  t,
+  primaryHref,
+}: {
+  t: MarketAccessHeroCopy;
+  primaryHref: string;
+}) {
   return (
     <section className="relative overflow-hidden border-b border-line bg-gradient-to-b from-surface to-ivory">
       <div aria-hidden className="bg-grid absolute inset-0 opacity-60" />
@@ -62,31 +78,28 @@ export function MarketAccessHero() {
       <Container className="relative grid items-center gap-14 py-16 lg:grid-cols-[1.05fr_1fr] lg:gap-12 lg:py-24">
         {/* Copy */}
         <div className="max-w-xl">
-          <Eyebrow>Market access paths</Eyebrow>
+          <Eyebrow>{t.eyebrow}</Eyebrow>
           <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight text-plum sm:text-5xl">
-            Find the government markets your company can realistically pursue.
+            {t.title}
           </h1>
           <p className="mt-6 text-pretty text-lg leading-relaxed text-slate">
-            Choose where your company is based and where you want to sell.
-            GovDecision helps you understand the path, the blockers, the
-            readiness work, and the route to market.
+            {t.subtitle}
           </p>
 
           {/* Supporting slogan */}
           <div className="mt-7 inline-flex items-center gap-2.5 rounded-full border border-coral/30 bg-coral/5 px-4 py-2">
-            <Icon name="route" size={16} className="text-coral" />
+            <Icon name="route" size={16} className="shrink-0 text-coral" />
             <span className="text-sm font-bold tracking-tight text-plum">
-              Local or cross-border, government business starts with better
-              decisions.
+              {t.slogan}
             </span>
           </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button href="/contact" size="lg" withArrow>
-              Start readiness
+            <Button href={primaryHref} size="lg" withArrow>
+              {t.primaryCta}
             </Button>
             <Button href="#paths" variant="ghost" size="lg">
-              Explore paths
+              {t.secondaryCta}
             </Button>
           </div>
         </div>

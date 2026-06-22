@@ -1,9 +1,34 @@
 import Link from "next/link";
-import { footerNav, loginLink } from "@/data/navigation";
 import { site } from "@/data/site";
 import { Logo } from "./Logo";
 
-export function Footer() {
+export type FooterNavItem = { key: string; label: string; href: string };
+
+export type FooterProps = {
+  homeHref: string;
+  nav: FooterNavItem[];
+  startReadinessHref: string;
+  login: { label: string; href: string };
+  t: {
+    tagline: string;
+    blurb: string;
+    platformHeading: string;
+    getStartedHeading: string;
+    startReadiness: string;
+    legalDisclaimer: string;
+    copyright: string;
+    madeWith: string;
+    inFlorida: string;
+  };
+};
+
+export function Footer({
+  homeHref,
+  nav,
+  startReadinessHref,
+  login,
+  t,
+}: FooterProps) {
   const year = new Date().getFullYear();
 
   return (
@@ -13,28 +38,26 @@ export function Footer() {
           <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr]">
             {/* Brand */}
             <div className="max-w-sm">
-              <Logo variant="white" className="h-8" />
+              <Logo variant="white" href={homeHref} className="h-8" />
               <p className="mt-5 text-sm font-medium uppercase tracking-[0.16em] text-white/50">
-                Public sector sales intelligence
+                {t.tagline}
               </p>
               <p className="mt-3 text-lg font-semibold text-white">
                 {site.tagline}
               </p>
               <p className="mt-4 text-sm leading-relaxed text-white/60">
-                {site.name} is a {site.parent} platform, built in{" "}
-                {site.location}. {site.parentArm} supports cross-border market
-                access for suppliers selling to governments.
+                {t.blurb}
               </p>
             </div>
 
             {/* Platform links */}
             <nav aria-label="Footer" className="text-sm">
               <h3 className="text-xs font-semibold uppercase tracking-[0.16em] text-white/40">
-                Platform
+                {t.platformHeading}
               </h3>
               <ul className="mt-4 space-y-3">
-                {footerNav.map((item) => (
-                  <li key={item.href}>
+                {nav.map((item) => (
+                  <li key={item.key}>
                     <Link
                       href={item.href}
                       className="text-white/75 transition-colors hover:text-white"
@@ -49,23 +72,23 @@ export function Footer() {
             {/* Account / contact */}
             <div className="text-sm">
               <h3 className="text-xs font-semibold uppercase tracking-[0.16em] text-white/40">
-                Get started
+                {t.getStartedHeading}
               </h3>
               <ul className="mt-4 space-y-3">
                 <li>
                   <a
-                    href={loginLink.href}
+                    href={login.href}
                     className="text-white/75 transition-colors hover:text-white"
                   >
-                    {loginLink.label}
+                    {login.label}
                   </a>
                 </li>
                 <li>
                   <Link
-                    href="/contact"
+                    href={startReadinessHref}
                     className="text-white/75 transition-colors hover:text-white"
                   >
-                    Start readiness
+                    {t.startReadiness}
                   </Link>
                 </li>
                 <li>
@@ -82,19 +105,19 @@ export function Footer() {
 
           {/* Legal disclaimer */}
           <p className="mt-14 max-w-3xl text-xs leading-relaxed text-white/45">
-            {site.legalDisclaimer}
+            {t.legalDisclaimer}
           </p>
 
           <div className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-8 text-sm text-white/55 sm:flex-row sm:items-center sm:justify-between">
             <p>
-              © {year} {site.name}. A {site.parent} platform.
+              © {year} {site.name}. {t.copyright}
             </p>
             <p className="inline-flex items-center gap-1.5">
-              Made with{" "}
+              {t.madeWith}{" "}
               <span aria-label="love" role="img" style={{ color: "#E56A3A" }}>
                 ❤
               </span>{" "}
-              in Florida
+              {t.inFlorida}
             </p>
           </div>
         </div>

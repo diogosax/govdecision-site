@@ -1,62 +1,29 @@
 import { site } from "./site";
 
-export type NavLink = {
-  label: string;
-  href: string;
-  description?: string;
-};
+/**
+ * Navigation structure. Labels are NOT stored here anymore — they come from the
+ * active locale dictionary (`common.nav.*`). This file keeps only the stable,
+ * locale-agnostic route map; the locale prefix is applied by `localePath`.
+ */
+export type NavKey =
+  | "platform"
+  | "marketAccess"
+  | "pricing"
+  | "company"
+  | "contact";
+
+export type NavItem = { key: NavKey; href: string };
 
 /** Primary header navigation — real routed pages, never scroll anchors. */
-export const mainNav: NavLink[] = [
-  {
-    label: "Platform",
-    href: "/platform",
-    description: "The product modules behind every decision.",
-  },
-  {
-    label: "Market Access",
-    href: "/market-access",
-    description: "Local and cross-border government business paths.",
-  },
-  {
-    label: "Pricing",
-    href: "/pricing",
-    description: "Platform-led and service-led plans.",
-  },
-  {
-    label: "Company",
-    href: "/company",
-    description: "Built by Sax Group in Florida.",
-  },
-  {
-    label: "Contact",
-    href: "/contact",
-    description: "Start a readiness conversation.",
-  },
+export const mainNav: NavItem[] = [
+  { key: "platform", href: "/platform" },
+  { key: "marketAccess", href: "/market-access" },
+  { key: "pricing", href: "/pricing" },
+  { key: "company", href: "/company" },
+  { key: "contact", href: "/contact" },
 ];
 
-export const footerNav: NavLink[] = mainNav;
+export const footerNav: NavItem[] = mainNav;
 
-export const loginLink: NavLink = { label: "Log in", href: site.loginUrl };
-
-export const primaryCta: NavLink = { label: "Start readiness", href: "/contact" };
-export const secondaryCta: NavLink = {
-  label: "Explore the platform",
-  href: "/platform",
-};
-
-/**
- * Language selector placeholder. EN is active for this release; PT/ES are
- * scaffolded as disabled "coming soon" entries so the UI is ready for i18n.
- */
-export type Language = {
-  code: "EN" | "PT" | "ES";
-  label: string;
-  active: boolean;
-};
-
-export const languages: Language[] = [
-  { code: "EN", label: "English (US)", active: true },
-  { code: "PT", label: "Português (BR)", active: false },
-  { code: "ES", label: "Español", active: false },
-];
+/** External app login — never locale-prefixed. */
+export const loginHref = site.loginUrl;

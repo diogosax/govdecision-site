@@ -1,6 +1,20 @@
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
-import { pricingPlans } from "@/data/pricing";
+
+export type PricingCardPlan = {
+  name: string;
+  highlighted?: boolean;
+  ctaHref: string;
+  market: string;
+  badge: string;
+  description: string;
+  features: string[];
+  cta: string;
+  priceBrazil: string;
+  priceInternational: string;
+  noteBrazil: string;
+  noteInternational: string;
+};
 
 /**
  * Price block. Splits a value on " / " so a live figure renders as a prominent
@@ -41,10 +55,20 @@ function Price({
   );
 }
 
-export function PricingCards() {
+export function PricingCards({
+  plans,
+  brazilLabel,
+  internationalLabel,
+  serviceLedBadge,
+}: {
+  plans: PricingCardPlan[];
+  brazilLabel: string;
+  internationalLabel: string;
+  serviceLedBadge: string;
+}) {
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      {pricingPlans.map((plan) => {
+      {plans.map((plan) => {
         const featured = plan.highlighted;
         return (
           <article
@@ -57,11 +81,11 @@ export function PricingCards() {
           >
             {featured && (
               <span className="absolute -top-3 left-7 rounded-full bg-coral px-3 py-1 text-xs font-semibold text-white shadow-soft">
-                Service-led
+                {serviceLedBadge}
               </span>
             )}
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-3">
               <div>
                 <h3 className="text-xl font-bold text-plum">{plan.name}</h3>
                 <p className="mt-1 text-sm font-medium text-slate">
@@ -69,7 +93,7 @@ export function PricingCards() {
                 </p>
               </div>
               {plan.badge && (
-                <span className="rounded-full bg-plum/5 px-3 py-1 text-xs font-semibold text-plum/70">
+                <span className="shrink-0 rounded-full bg-plum/5 px-3 py-1 text-xs font-semibold text-plum/70">
                   {plan.badge}
                 </span>
               )}
@@ -79,15 +103,15 @@ export function PricingCards() {
               {plan.description}
             </p>
 
-            {/* Price block (edited in data/pricing.ts) */}
+            {/* Price block */}
             <div className="mt-6 grid grid-cols-2 gap-3">
               <Price
-                label="Brazil · BRL"
+                label={brazilLabel}
                 value={plan.priceBrazil}
                 note={plan.noteBrazil}
               />
               <Price
-                label="International · USD"
+                label={internationalLabel}
                 value={plan.priceInternational}
                 note={plan.noteInternational}
               />

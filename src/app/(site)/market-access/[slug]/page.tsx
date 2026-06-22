@@ -10,10 +10,7 @@ import { ReadinessChecklist } from "@/components/market-access/ReadinessChecklis
 import { CommonBlockers } from "@/components/market-access/CommonBlockers";
 import { GovDecisionCritical } from "@/components/market-access/GovDecisionCritical";
 import { SaxGlobalReports } from "@/components/market-access/SaxGlobalReports";
-import {
-  destinationSlugs,
-  getDestination,
-} from "@/data/destinations";
+import { destinationSlugs, getDestination } from "@/data/destinations";
 
 type Params = { slug: string };
 
