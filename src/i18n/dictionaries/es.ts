@@ -2,8 +2,28 @@ import type { Dictionary } from "./types";
 
 /**
  * ES — neutral LATAM / international Spanish (not tied to one country).
- * Tone: strategic, commercial, premium. Brand names are kept. Copy stays tight
- * to protect the approved layout. "readiness" is rendered as "preparación".
+ *
+ * Tone: strategic, commercial, premium, founder-led where it helps. The whole
+ * surface uses the informal "tú" register, kept consistent throughout (no
+ * usted/tú mixing), which reads modern and direct without sounding casual.
+ *
+ * Conventions (SITE-010):
+ *   - Brand and product-architecture names stay in English and are explained in
+ *     Spanish: GovDecision, Sax Group, Sax Global, the plan names (GovDecision
+ *     One / Assisted) and the six platform modules (Supplier Passport,
+ *     Opportunity Qualification, Readiness Workspace, Country Packs, Deal Room,
+ *     Post-Award Enablement). This keeps the product vocabulary consistent
+ *     across locales (matching PT-BR).
+ *   - "readiness" is used as the signature product concept (the recurring
+ *     "Iniciar readiness" CTA, "organizar readiness"); "preparación" / "preparar"
+ *     / "listo" are used for plain Spanish in flowing copy. Awkward combinations
+ *     like "preparación de readiness" are avoided.
+ *   - "Go/No-Go" is kept as concise business language.
+ *   - "Government business" is rendered as "negocios gubernamentales" in
+ *     positioning labels and "negocios con el gobierno" / "ventas al gobierno"
+ *     where that reads clearer. USD figures use the US decimal convention.
+ *   - Copy is deliberately tight to protect the approved layout — labels and
+ *     CTAs stay short, headlines stay compact.
  */
 export const es = {
   common: {
@@ -15,7 +35,7 @@ export const es = {
       contact: "Contacto",
     },
     cta: {
-      startReadiness: "Iniciar preparación",
+      startReadiness: "Iniciar readiness",
       explorePlatform: "Conocer la plataforma",
       viewCorridors: "Ver corredores",
       viewPricing: "Ver precios",
@@ -37,7 +57,7 @@ export const es = {
         "GovDecision es una plataforma de Sax Group, creada en Orlando, Florida. Sax Global apoya el acceso a mercados internacionales para proveedores que venden a gobiernos.",
       platformHeading: "Plataforma",
       getStartedHeading: "Comenzar",
-      startReadiness: "Iniciar preparación",
+      startReadiness: "Iniciar readiness",
       legalDisclaimer:
         "GovDecision ofrece apoyo a la decisión, flujos de preparación y orientación de acceso a mercados. No garantiza elegibilidad, habilitación, aceptación de ofertas, financiamiento, contratos ni resultados en compras públicas.",
       copyright: "Una plataforma de Sax Group.",
@@ -48,15 +68,15 @@ export const es = {
 
   home: {
     meta: {
-      title: "GovDecision — Plataforma Global de Negocios con el Gobierno",
+      title: "GovDecision — Plataforma global de negocios gubernamentales",
       description:
-        "GovDecision ayuda a los proveedores a calificar oportunidades públicas, ganar preparación y entrar en mercados gubernamentales con mejores decisiones en varios países.",
+        "GovDecision ayuda a proveedores a calificar oportunidades públicas, organizar readiness y acceder a mercados gubernamentales con mejores decisiones, en varios países.",
     },
-    eyebrow: "Plataforma Global de Negocios con el Gobierno",
+    eyebrow: "Plataforma global de negocios gubernamentales",
     title:
-      "Las oportunidades con el gobierno están en todas partes. Lo difícil es saber dónde competir.",
+      "Las oportunidades públicas existen en muchos mercados. Lo difícil es saber dónde competir.",
     subtitle:
-      "GovDecision ayuda a los proveedores a calificar oportunidades, ganar preparación y entrar en mercados públicos con mejores decisiones en varios países.",
+      "GovDecision ayuda a proveedores a calificar oportunidades, organizar readiness y acceder a mercados gubernamentales con mejores decisiones, en varios países.",
     slogan: "Less Clipping, More Decision",
     strategicLead: "Ventas al gobierno, con mejores decisiones.",
     strategicRest: "De la preparación al contrato.",
@@ -69,8 +89,8 @@ export const es = {
     ],
     problem: {
       eyebrow: "El problema real",
-      title: "Más oportunidades no generan más triunfos. Las mejores decisiones, sí.",
-      lead: "El mercado está lleno de portales, alertas, PDFs y requisitos fragmentados. El dolor real no es encontrar oportunidades — es decidir qué vale la pena perseguir y qué resolver antes de competir.",
+      title: "Más oportunidades no generan más victorias. Las mejores decisiones, sí.",
+      lead: "El mercado está lleno de portales, alertas, PDFs y requisitos fragmentados. El dolor real no es encontrar oportunidades — es decidir qué vale la pena perseguir y qué resolver antes de poder competir.",
       paragraph:
         "La mayoría de los proveedores no pierde negocios con el gobierno por no haber visto la oportunidad. Pierde porque persiguió la equivocada, descubrió un requisito crítico demasiado tarde o le faltaron los documentos, registros o el socio local que el mercado exigía.",
       withoutLayer: "Sin una capa de decisión",
@@ -92,7 +112,7 @@ export const es = {
         {
           title: "Calificar oportunidades",
           description:
-            "Evalúa afinidad, complejidad y esfuerzo para que el equipo dedique tiempo a lo que puede ganar.",
+            "Evalúa afinidad, complejidad y esfuerzo para que el equipo dedique tiempo a lo que sí puede ganar.",
         },
         {
           title: "Detectar bloqueos",
@@ -102,7 +122,7 @@ export const es = {
         {
           title: "Construir preparación",
           description:
-            "Convierte requisitos en tareas con responsables y fechas, y observa subir la preparación.",
+            "Convierte requisitos en tareas con responsables y fechas, y mira cómo sube la preparación.",
         },
         {
           title: "Recomendar ruta de mercado",
@@ -142,14 +162,14 @@ export const es = {
       points: [
         "Extraer requisitos de documentos largos y fragmentados",
         "Resumir oportunidades en briefings claros",
-        "Detectar bloqueos y faltantes de preparación",
-        "Apoyar el análisis de preparación y la decisión go/no-go",
+        "Detectar bloqueos y brechas de preparación",
+        "Apoyar el análisis de preparación y la decisión Go/No-Go",
       ],
     },
     sax: {
       eyebrow: "Apoyo de Sax Global",
       title: "El software estructura el proceso. Sax Global apoya la ruta.",
-      lead: "GovDecision cuenta con Sax Global, el brazo de negocios internacionales de Sax Group. Cuando aplica, Sax Global puede apoyar acceso a mercados, estrategia de socio local, contexto de estructuración, ejecución internacional y orientación de preparación.",
+      lead: "GovDecision cuenta con Sax Global, el brazo de negocios internacionales de Sax Group. Cuando corresponde, Sax Global puede apoyar acceso a mercados, estrategia de socio local, contexto de estructuración, ejecución internacional y orientación de preparación.",
       cards: [
         {
           title: "Acceso a mercados",
@@ -173,7 +193,7 @@ export const es = {
       eyebrow: "De la preparación al contrato",
       title: "Conviértete en un proveedor listo para el gobierno.",
       subtitle:
-        "Comienza por la preparación. Persigue con método. Crece en mercados públicos con mejores decisiones.",
+        "Comienza por la preparación. Persigue con método. Crece en mercados del sector público con mejores decisiones.",
     },
   },
 
@@ -181,15 +201,15 @@ export const es = {
     meta: {
       title: "Plataforma",
       description:
-        "La capa de decisión para ventas al gobierno: Pasaporte del Proveedor, Calificación de Oportunidades, Espacio de Preparación, Paquetes por País, Sala de Decisión y Habilitación Pos-Contrato.",
+        "La capa de decisión para ventas al gobierno: Supplier Passport, Opportunity Qualification, Readiness Workspace, Country Packs, Deal Room y Post-Award Enablement.",
     },
     eyebrow: "La plataforma",
     title: "La capa de decisión para ventas al gobierno.",
-    lead: "Seis módulos conectados llevan al proveedor del ruido de las oportunidades a una decisión go/no-go defendible, un plan de preparación ejecutable y una ruta de mercado — en varios países.",
+    lead: "Seis módulos conectados llevan al proveedor del ruido de las oportunidades a una decisión Go/No-Go defendible, un plan de preparación ejecutable y una ruta de mercado — en varios países.",
     moduleLabel: "Módulo",
     modules: [
       {
-        name: "Pasaporte del Proveedor",
+        name: "Supplier Passport",
         tagline: "Un perfil estructurado de lo que tu empresa entrega de verdad.",
         description:
           "Un perfil vivo de tu empresa que toda decisión consulta — para evaluar afinidad, bloqueos y rutas contra la realidad, no por intuición.",
@@ -203,10 +223,10 @@ export const es = {
         ],
       },
       {
-        name: "Calificación de Oportunidades",
-        tagline: "Sabe qué vale la pena antes de invertir una semana en ello.",
+        name: "Opportunity Qualification",
+        tagline: "Descubre qué vale la pena antes de invertir una semana en ello.",
         description:
-          "Cada oportunidad recibe puntaje de afinidad, complejidad y esfuerzo, con bloqueos y requisitos críticos detectados a tiempo y una recomendación go/no-go clara.",
+          "Cada oportunidad recibe un puntaje de afinidad, complejidad y esfuerzo, con bloqueos y requisitos críticos detectados a tiempo y una recomendación Go/No-Go clara.",
         points: [
           "Puntaje de afinidad",
           "Puntaje de complejidad",
@@ -214,11 +234,11 @@ export const es = {
           "Detección de bloqueos",
           "Extracción de plazos",
           "Requisitos críticos",
-          "Recomendación go/no-go",
+          "Recomendación Go/No-Go",
         ],
       },
       {
-        name: "Espacio de Preparación",
+        name: "Readiness Workspace",
         tagline: "Convierte requisitos faltantes en un plan con responsables y fechas.",
         description:
           "Las listas de documentos, país y oportunidad se vuelven tareas con responsables y plazos, para que la preparación sea progreso medible y no una carrera.",
@@ -231,7 +251,7 @@ export const es = {
         ],
       },
       {
-        name: "Paquetes por País",
+        name: "Country Packs",
         tagline: "Las reglas locales del juego, estructuradas por mercado.",
         description:
           "Lógica específica de cada país para fuentes, registro, elegibilidad, socios locales, vías de presentación y la fricción operativa que sorprende al proveedor.",
@@ -247,7 +267,7 @@ export const es = {
         ],
       },
       {
-        name: "Sala de Decisión",
+        name: "Deal Room",
         tagline: "Donde la decisión de perseguir se toma y se aprueba.",
         description:
           "Una decisión estructurada reúne estrategia, elección de ruta, riesgos, supuestos de precio y necesidades de socio en un flujo de aprobación que la dirección firma.",
@@ -262,7 +282,7 @@ export const es = {
         ],
       },
       {
-        name: "Habilitación Pos-Contrato",
+        name: "Post-Award Enablement",
         tagline: "Ganar es el comienzo — la ejecución es donde está el margen.",
         description:
           "Preparación de entrega, garantías, hitos y plazos financieros se estructuran antes de volverse problema, para que ganar se vuelva contrato ejecutado.",
@@ -286,41 +306,41 @@ export const es = {
 
   marketAccess: {
     meta: {
-      title: "Acceso a Mercados — GovDecision",
+      title: "Acceso a mercados — GovDecision",
       description:
-        "Elige dónde está tu empresa y a qué gobiernos quieres venderle. GovDecision ayuda a los proveedores a entender rutas locales e internacionales con más preparación y mejores decisiones.",
+        "Elige dónde está tu empresa y a qué gobiernos quieres venderle. GovDecision ayuda a proveedores a entender rutas locales e internacionales con más preparación y mejores decisiones.",
     },
     hero: {
       eyebrow: "Rutas de acceso a mercados",
       title:
         "Encuentra los mercados públicos que tu empresa puede perseguir de verdad.",
       subtitle:
-        "Elige dónde está tu empresa y a quién quieres venderle. GovDecision te ayuda a entender la ruta, los bloqueos, la preparación y la salida al mercado.",
+        "Elige dónde está tu empresa y a quién quieres venderle. GovDecision te ayuda a entender la ruta, los bloqueos, la preparación y la ruta de mercado.",
       slogan:
         "Local o internacional, vender al gobierno empieza con mejores decisiones.",
-      primaryCta: "Iniciar preparación",
+      primaryCta: "Iniciar readiness",
       secondaryCta: "Ver rutas",
     },
     twoPaths: {
       eyebrow: "Dos rutas",
       title: "Dos formas de entrar en negocios con el gobierno.",
-      lead: "Todo proveedor empieza en uno de dos lugares: vendiendo en su propio país o cruzando una frontera. GovDecision estructura ambos — y Sax Global apoya donde la jornada sale del software.",
+      lead: "Todo proveedor empieza en uno de dos lugares: vendiendo en su propio país o cruzando una frontera. GovDecision estructura las dos rutas — y Sax Global apoya donde el recorrido va más allá del software.",
       examplesLabel: "Ejemplos",
       modes: [
         {
-          label: "Negocios con el gobierno local",
+          label: "Negocios gubernamentales locales",
           copy: "Vende a compradores públicos en tu mercado con una calificación más clara, preparación documental y disciplina al decidir ofertar.",
           helpsLabel: "Dónde ayuda GovDecision",
           helps: [
-            "Hallar lo que vale la pena",
+            "Encontrar lo que vale la pena",
             "Detectar documentos faltantes",
             "Organizar la preparación",
-            "Estructurar decisiones go/no-go",
+            "Estructurar decisiones Go/No-Go",
             "Preparar la ejecución pos-contrato",
           ],
         },
         {
-          label: "Negocios con el gobierno internacional",
+          label: "Negocios gubernamentales internacionales",
           copy: "Evalúa oportunidades en mercados extranjeros o multilaterales con preparación específica por país, lógica de ruta de mercado y apoyo de Sax Global.",
           helpsLabel: "Dónde ayudan GovDecision + Sax Global",
           helps: [
@@ -347,12 +367,12 @@ export const es = {
       requires: "Lo que esto suele exigir",
       recommendedFirstStepLabel: "Primer paso recomendado",
       recommendedFirstStep: "Comienza con un diagnóstico de preparación de GovDecision.",
-      startReadiness: "Iniciar preparación",
+      startReadiness: "Iniciar readiness",
       requirements: {
         Local: [
           "calificación de oportunidades",
           "preparación documental del proveedor",
-          "disciplina go/no-go",
+          "disciplina Go/No-Go",
           "preparación de ejecución pos-contrato",
         ],
         "Cross-border": [
@@ -400,12 +420,12 @@ export const es = {
           title:
             "Vende a compradores públicos de Brasil con más calificación y preparación.",
           summary:
-            "Lleva disciplina a las compras públicas de Brasil — desde hallar lo que vale la pena hasta organizar los documentos y decisiones de cada oferta.",
+            "Lleva disciplina a las compras públicas de Brasil — desde encontrar lo que vale la pena hasta organizar los documentos y decisiones de cada oferta.",
           focusAreas: [
             "Fuentes oficiales/públicas de oportunidades",
             "Documentación del proveedor",
             "Extracción de requisitos",
-            "Disciplina go/no-go",
+            "Disciplina Go/No-Go",
             "Flujos asistidos",
           ],
           ctaLabel: "Ver ruta local Brasil",
@@ -425,7 +445,7 @@ export const es = {
         },
         "brazil-united-states": {
           title:
-            "Apoya a proveedores brasileños a evaluar la entrada al gobierno de EE. UU.",
+            "Ayuda a proveedores brasileños a evaluar la entrada al gobierno de EE. UU.",
           summary:
             "Entiende qué exige una entrada creíble al sector público de EE. UU. antes de invertir — preparación, registro y ruta.",
           focusAreas: [
@@ -439,9 +459,9 @@ export const es = {
         },
         "brazil-un-world-bank": {
           title:
-            "Prepárate para compras multilaterales con más preparación y documentación.",
+            "Prepárate para las compras multilaterales con readiness y documentación más sólidas.",
           summary:
-            "Queda listo en registro y documentación para compras de la ONU y el Banco Mundial, y califica lo que vale la pena.",
+            "Queda listo en registro y documentación para las compras de la ONU y el Banco Mundial, y califica lo que vale la pena.",
           focusAreas: [
             "Registro de proveedor",
             "Elegibilidad internacional",
@@ -458,7 +478,7 @@ export const es = {
             "Lee con claridad la complejidad de las compras públicas de Brasil y decide si representar, asociarte o esperar.",
           focusAreas: [
             "Complejidad del mercado local",
-            "Entendimiento de compradores/fuentes",
+            "Conocimiento de compradores y fuentes",
             "Estrategia de representación o socio",
             "Preparación documental",
             "Contexto de Sax Global",
@@ -467,7 +487,7 @@ export const es = {
         },
         "brazil-paraguay": {
           title:
-            "Explora la expansión regional en negocios con el gobierno con una ruta estructurada.",
+            "Explora la expansión regional en negocios gubernamentales con una ruta estructurada.",
           summary:
             "Crece en mercados públicos vecinos con un paquete por país validado y una ruta clara, sin improvisar.",
           focusAreas: [
@@ -484,7 +504,7 @@ export const es = {
       eyebrow: "Dónde entra GovDecision",
       title: "GovDecision convierte el interés de mercado en una ruta lista para decidir.",
       lead: "Seis pasos llevan al proveedor del interés de mercado a una decisión defendible — perseguir ahora o preparar primero.",
-      note: "En lugar de correr tras cada oportunidad pública, GovDecision ayuda a los proveedores a entender qué pueden perseguir de verdad, qué resolver primero y qué ruta tiene sentido para cada mercado.",
+      note: "En lugar de correr tras cada oportunidad pública, GovDecision ayuda a proveedores a entender qué pueden perseguir de verdad, qué resolver primero y qué ruta tiene sentido para cada mercado.",
       journey: [
         {
           title: "Perfil del proveedor",
@@ -520,7 +540,7 @@ export const es = {
     sax: {
       eyebrow: "Dónde entra Sax Global",
       title: "Sax Global apoya la ruta más allá del software.",
-      lead: "En rutas internacionales, el software es solo parte de la jornada. Sax Global puede apoyar la planificación de acceso a mercados, el contexto de estructuración internacional, las discusiones de ruta con socios y la orientación práctica de ejecución, cuando aplica.",
+      lead: "En rutas internacionales, el software es solo parte del recorrido. Sax Global puede apoyar la planificación de acceso a mercados, el contexto de estructuración internacional, las discusiones de ruta con socios y la orientación práctica de ejecución, cuando corresponde.",
       cta: "Hablar con Sax Global",
       disclaimer:
         "Sax Global ofrece planificación, contexto y orientación. No garantiza acceso a mercados, elegibilidad, designación de socios, financiamiento ni resultados en contratos.",
@@ -543,7 +563,7 @@ export const es = {
         {
           title: "Preparación de ejecución internacional",
           description:
-            "Prepara la base operativa que una búsqueda en el exterior puede exigir.",
+            "Prepara la base operativa que puede exigir competir en el exterior.",
         },
         {
           title: "Validación de ruta comercial",
@@ -557,7 +577,7 @@ export const es = {
       title: "Empieza por la ruta. Luego construye la preparación.",
       subtitle:
         "Dinos dónde está tu empresa y a quién quieres venderle. Te ayudamos a entender el primer paso.",
-      primary: "Iniciar preparación",
+      primary: "Iniciar readiness",
       secondary: "Hablar con Sax Global",
     },
   },
@@ -569,7 +589,7 @@ export const es = {
         "Dos formas de trabajar con GovDecision: GovDecision One (con foco en la plataforma, autoservicio) y GovDecision Assisted (con foco en servicio, con apoyo de Sax Global). Precios para Brasil (BRL) e internacional (USD).",
     },
     eyebrow: "Precios",
-    title: "Una plataforma premium para quien toma en serio al gobierno.",
+    title: "Una plataforma premium para quien va en serio con el gobierno.",
     lead: "GovDecision One se centra en la plataforma, para equipos que quieren estructura y velocidad. GovDecision Assisted se centra en el servicio, con apoyo de Sax Global para construir acceso real a mercados. No es una herramienta de clipping — es una plataforma de crecimiento.",
     note: "Los precios pueden variar según país, corredor, perfil de la empresa, nivel de apoyo asistido y volumen de oportunidades activas.",
     serviceLedBadge: "Con servicio",
@@ -580,9 +600,9 @@ export const es = {
         market: "Inteligencia vía plataforma",
         badge: "Plataforma",
         description:
-          "Para proveedores que quieren una plataforma estructurada para calificar oportunidades, organizar la preparación y decidir dónde competir.",
+          "Para proveedores que buscan una plataforma estructurada para calificar oportunidades, organizar la preparación y decidir dónde competir.",
         features: [
-          "Pasaporte del Proveedor",
+          "Supplier Passport",
           "Espacio de calificación de oportunidades",
           "Lista de preparación",
           "Acceso a paquetes por país",
@@ -591,15 +611,15 @@ export const es = {
         ],
         cta: "Comenzar GovDecision One",
         priceBrazil: "R$ 379,00 / mes",
-        priceInternational: "US$ 99,90 / mes",
+        priceInternational: "US$ 99.90 / mes",
         noteBrazil: "Para proveedores con sede en Brasil.",
-        noteInternational: "Para EE. UU. y otros mercados disponibles.",
+        noteInternational: "Para EE. UU. y otros mercados atendidos.",
       },
       {
         market: "Acceso a mercados con servicio",
         badge: "Con Sax Global",
         description:
-          "Para proveedores que quieren el apoyo de Sax Global para estructurar la preparación, evaluar oportunidades y construir rutas prácticas de negocios con el gobierno.",
+          "Para proveedores que buscan el apoyo de Sax Global para estructurar la preparación, evaluar oportunidades y construir rutas prácticas de negocios con el gobierno.",
         features: [
           "Todo lo de GovDecision One",
           "Onboarding asistido",
@@ -611,7 +631,7 @@ export const es = {
           "Apoyo prioritario de Sax Global",
         ],
         cta: "Hablar con Sax Global",
-        priceBrazil: "Consúltenos",
+        priceBrazil: "Consúltanos",
         priceInternational: "Precio USD a medida",
         noteBrazil: "Acceso a mercados con servicio de Sax Global.",
         noteInternational: "Definido por tu corredor, perfil y nivel de apoyo.",
@@ -624,9 +644,9 @@ export const es = {
       capability: "Capacidad",
       guided: "Asistido",
       rows: [
-        "Pasaporte del Proveedor",
+        "Supplier Passport",
         "Calificación de oportunidades",
-        "Espacio de preparación",
+        "Readiness Workspace",
         "Acceso a paquetes por país",
         "Plantillas de briefing de decisión",
         "Organización del pipeline",
@@ -679,7 +699,7 @@ export const es = {
     why: {
       eyebrow: "Por qué la creamos",
       title: "Por qué Sax Group creó GovDecision",
-      lead: "Las ventas al sector público son fragmentadas, complejas y difíciles de navegar entre países. GovDecision existe para ayudar a los proveedores a transformar la complejidad de las compras públicas en claridad comercial.",
+      lead: "Las ventas al sector público son fragmentadas, complejas y difíciles de navegar entre países. GovDecision existe para ayudar a proveedores a transformar la complejidad de las compras públicas en claridad comercial.",
       beliefs: [
         {
           title: "Las decisiones ganan a las alertas",
@@ -702,13 +722,13 @@ export const es = {
       localLabelSuffix: "Sax Group · Orlando, Florida",
       heading: "Hecho con",
       inFlorida: "en Florida",
-      body: "Less Clipping, More Decision — una plataforma para empresas que quieren crecer con negocios con el gobierno, hecha con cuidado para quienes la usan.",
+      body: "Less Clipping, More Decision — una plataforma para empresas que quieren crecer en los negocios gubernamentales, hecha con cuidado para quienes la usan.",
       cta: "Hablar con el equipo",
     },
     finalCta: {
-      title: "Haz crecer tu negocio con el gobierno con método.",
+      title: "Haz crecer tu negocio con el gobierno, con método.",
       subtitle:
-        "Comienza por la preparación. Persigue con método. Crece en mercados públicos con mejores decisiones.",
+        "Comienza por la preparación. Persigue con método. Crece en mercados del sector público con mejores decisiones.",
       secondary: "Conocer la plataforma",
     },
   },
@@ -745,23 +765,23 @@ export const es = {
     disclaimer:
       "GovDecision ofrece apoyo a la decisión, flujos de preparación y orientación de acceso a mercados. No garantiza elegibilidad, habilitación, aceptación de ofertas, financiamiento, contratos ni resultados en compras públicas.",
     context: {
-      local: "Estás preguntando por una ruta de preparación local con GovDecision.",
-      cross: "Estás preguntando por una ruta de acceso a mercados con Sax Global.",
+      local: "Tu consulta es sobre una ruta de readiness local con GovDecision.",
+      cross: "Tu consulta es sobre una ruta de acceso a mercados con Sax Global.",
       localWithTarget:
-        "Estás preguntando por una ruta de preparación local con GovDecision: {target}.",
+        "Tu consulta es sobre una ruta de readiness local con GovDecision: {target}.",
       crossWithPair:
-        "Estás preguntando por una ruta de acceso a mercados con Sax Global: {origin} → {target}.",
+        "Tu consulta es sobre una ruta de acceso a mercados con Sax Global: {origin} → {target}.",
     },
     form: {
       name: "Nombre",
       namePlaceholder: "Tu nombre completo",
       companyLabel: "Empresa",
       companyPlaceholder: "Nombre de la empresa",
-      email: "Correo corporativo",
+      email: "Correo profesional",
       emailPlaceholder: "tu@empresa.com",
       country: "País",
       countryPlaceholder: "Dónde estás ubicado",
-      markets: "Mercados objetivo",
+      markets: "Mercados de interés",
       marketsPlaceholder: "ej.: Estados Unidos, Brasil, ONU y Banco Mundial",
       message: "Mensaje",
       messagePlaceholder: "¿Qué vendes y dónde quieres competir?",
@@ -900,7 +920,7 @@ export const es = {
       title: "Planifica tu ruta hacia un nuevo mercado.",
       subtitle:
         "Dinos dónde quieres competir. Te ayudamos a decidir qué preparación y ruta tienen sentido.",
-      primary: "Iniciar preparación",
+      primary: "Iniciar readiness",
       secondary: "Conocer la plataforma",
     },
   },
