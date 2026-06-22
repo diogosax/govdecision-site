@@ -1603,6 +1603,8 @@ export const contactPathLabels: Record<
   "brazil-to-un-world-bank": { origin: "Brazil", target: "UN & World Bank" },
   "united-states-to-brazil": { origin: "United States", target: "Brazil" },
   "brazil-to-paraguay": { origin: "Brazil", target: "Paraguay" },
+  // SITE-016 — new opportunity-brief corridor (Sax Global cross-border lead).
+  "brazil-to-mexico": { origin: "Brazil", target: "Mexico" },
 };
 
 export type ContactContext = {
