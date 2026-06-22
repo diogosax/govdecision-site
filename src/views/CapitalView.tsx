@@ -1,24 +1,26 @@
 import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/routing";
 import { Container } from "@/components/ui/Container";
-import { Icon, type IconName } from "@/components/ui/Icon";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Icon } from "@/components/ui/Icon";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { TrackedButton } from "@/components/analytics/TrackedButton";
-import { PageHero } from "@/components/marketing/PageHero";
 import { CtaBand } from "@/components/marketing/CtaBand";
+import { FieldRow, Meter, WindowFrame } from "@/components/marketing/MockupKit";
 import { BriefMockup } from "@/components/partner-capital/BriefMockup";
+import { CashflowTimeline } from "@/components/partner-capital/CashflowTimeline";
+import { Timeline } from "@/components/partner-capital/Timeline";
 import { BreadcrumbJsonLd, WebPageJsonLd } from "@/components/seo/JsonLd";
 import { getPartnerCapital } from "@/i18n/partner-capital";
 
-/** Icons for the four "what we structure" cards (order matches structures.points). */
-const structureIcons: IconName[] = ["memo", "checklist", "layers", "route"];
-
 /**
- * GovDecision Capital (SITE-015) — the finance-readiness layer. Rendered by both
- * the EN-US (`(site)`) and localized (`[locale]`) routes. Positioned as capital
- * readiness, finance-case preparation, and partner matching — NOT direct
- * lending. The hero "Discuss capital readiness" CTA carries the capital contact
- * context (`?path=govdecision-capital&type=cross-border`).
+ * GovDecision Capital (SITE-015, visual refresh) — the finance-readiness layer.
+ * Rendered by both the EN-US (`(site)`) and localized (`[locale]`) routes.
+ * Visual-first: hero finance-readiness mockup, a public-contract cash-flow
+ * timeline, a capital-gaps grid, a funding-route map, a before/after-award
+ * comparison, and a detailed (illustrative) Finance Readiness Brief. Positioned
+ * as capital readiness / case structuring / partner matching — NOT direct
+ * lending. The hero CTA carries `?path=govdecision-capital&type=cross-border`.
  */
 export function CapitalView({ locale }: { locale: Locale }) {
   const t = getPartnerCapital(locale).capital;
@@ -26,6 +28,7 @@ export function CapitalView({ locale }: { locale: Locale }) {
   const contactHref = lp("/contact?path=govdecision-capital&type=cross-border");
   const platformHref = lp("/platform");
   const page = "/capital";
+  const hm = t.heroMockup;
 
   return (
     <>
@@ -44,40 +47,72 @@ export function CapitalView({ locale }: { locale: Locale }) {
       />
 
       {/* ---------------------------------------------------------------- Hero */}
-      <PageHero eyebrow={t.hero.eyebrow} title={t.hero.title} lead={t.hero.subtitle}>
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <TrackedButton
-            href={contactHref}
-            size="lg"
-            withArrow
-            event="cta_clicked"
-            eventProps={{
-              locale,
-              page,
-              section: "hero",
-              cta: "discuss_capital_readiness",
-              href: contactHref,
-            }}
-          >
-            {t.hero.primaryCta}
-          </TrackedButton>
-          <TrackedButton
-            href={platformHref}
-            variant="ghost"
-            size="lg"
-            event="cta_clicked"
-            eventProps={{
-              locale,
-              page,
-              section: "hero",
-              cta: "explore_platform",
-              href: platformHref,
-            }}
-          >
-            {t.hero.secondaryCta}
-          </TrackedButton>
-        </div>
-      </PageHero>
+      <section className="relative overflow-hidden border-b border-line bg-gradient-to-b from-surface to-ivory">
+        <div aria-hidden className="bg-grid absolute inset-0 opacity-60" />
+        <div
+          aria-hidden
+          className="absolute -left-32 top-10 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(229,106,58,0.10),transparent_70%)]"
+        />
+        <Container className="relative grid items-center gap-14 py-16 lg:grid-cols-[1.05fr_1fr] lg:gap-12 lg:py-24">
+          <div className="max-w-xl">
+            <Eyebrow>{t.hero.eyebrow}</Eyebrow>
+            <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight text-plum sm:text-5xl">
+              {t.hero.title}
+            </h1>
+            <p className="mt-6 text-pretty text-lg leading-relaxed text-slate">
+              {t.hero.subtitle}
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <TrackedButton
+                href={contactHref}
+                size="lg"
+                withArrow
+                event="cta_clicked"
+                eventProps={{
+                  locale,
+                  page,
+                  section: "hero",
+                  cta: "discuss_capital_readiness",
+                  href: contactHref,
+                }}
+              >
+                {t.hero.primaryCta}
+              </TrackedButton>
+              <TrackedButton
+                href={platformHref}
+                variant="ghost"
+                size="lg"
+                event="cta_clicked"
+                eventProps={{
+                  locale,
+                  page,
+                  section: "hero",
+                  cta: "explore_platform",
+                  href: platformHref,
+                }}
+              >
+                {t.hero.secondaryCta}
+              </TrackedButton>
+            </div>
+          </div>
+
+          {/* Hero finance-readiness mockup */}
+          <div className="lg:pl-4">
+            <WindowFrame title={hm.windowTitle} badge={hm.illustrative}>
+              <Meter
+                value={58}
+                label={hm.scoreLabel}
+                valueLabel={hm.scoreValue}
+                tone="coral"
+              />
+              <div className="mt-4 divide-y divide-line/70">
+                <FieldRow label={hm.stageLabel} value={hm.stageValue} />
+                <FieldRow label={hm.timingLabel} value={hm.timingValue} emphasis />
+              </div>
+            </WindowFrame>
+          </div>
+        </Container>
+      </section>
 
       {/* ------------------------------------------- Why capital readiness matters */}
       <Section tone="white">
@@ -97,78 +132,77 @@ export function CapitalView({ locale }: { locale: Locale }) {
         </div>
       </Section>
 
-      {/* ------------------------------------------- Common finance gaps */}
+      {/* ------------------------------------------------- Cash-flow timeline */}
       <Section tone="ivory">
+        <SectionHeader
+          eyebrow={t.cashflow.eyebrow}
+          title={t.cashflow.title}
+          lead={t.cashflow.lead}
+        />
+        <div className="mt-12">
+          <CashflowTimeline
+            steps={t.cashflow.steps}
+            pressureLabel={t.cashflow.pressureLabel}
+            pressures={t.cashflow.pressures}
+          />
+        </div>
+      </Section>
+
+      {/* ------------------------------------------------------ Capital gaps grid */}
+      <Section tone="white">
         <SectionHeader eyebrow={t.gaps.eyebrow} title={t.gaps.title} lead={t.gaps.lead} />
-        <ul className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {t.gaps.items.map((item) => (
-            <li
+            <article
               key={item}
-              className="flex items-start gap-3 rounded-2xl border border-line bg-white p-4 text-sm font-medium text-plum/90"
+              className="flex items-center gap-3 rounded-2xl border border-line bg-surface/40 p-5"
             >
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-coral" />
-              {item}
-            </li>
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-plum/5 text-plum">
+                <Icon name="coins" size={20} />
+              </span>
+              <h3 className="text-sm font-bold text-plum">{item}</h3>
+            </article>
           ))}
-        </ul>
+        </div>
         <p className="mt-8 flex max-w-3xl items-start gap-2.5 rounded-2xl border border-line bg-white p-4 text-sm leading-relaxed text-slate">
           <Icon name="shield" size={17} className="mt-0.5 shrink-0 text-plum/50" />
           {t.gaps.note}
         </p>
       </Section>
 
-      {/* ----------------------------------- What GovDecision Capital structures */}
-      <Section tone="white">
-        <SectionHeader
-          eyebrow={t.structures.eyebrow}
-          title={t.structures.title}
-          lead={t.structures.lead}
-        />
-        <div className="mt-12 grid gap-5 sm:grid-cols-2">
-          {t.structures.points.map((p, i) => (
-            <article
-              key={p.title}
-              className="flex flex-col rounded-3xl border border-line bg-surface/40 p-6 sm:p-7"
-            >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-plum/5 text-plum">
-                <Icon name={structureIcons[i] ?? "memo"} size={22} />
-              </span>
-              <h3 className="mt-4 text-lg font-bold text-plum">{p.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate">
-                {p.description}
-              </p>
-            </article>
-          ))}
-        </div>
-      </Section>
-
-      {/* ------------------------------------------------- Partner funding routes */}
+      {/* -------------------------------------------------------- Funding-route map */}
       <Section tone="ivory">
         <SectionHeader
-          eyebrow={t.routes.eyebrow}
-          title={t.routes.title}
-          lead={t.routes.lead}
+          eyebrow={t.fundingRoute.eyebrow}
+          title={t.fundingRoute.title}
+          lead={t.fundingRoute.lead}
         />
-        <ul className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {t.routes.items.map((item) => (
-            <li
-              key={item}
-              className="flex items-start gap-3 rounded-2xl border border-line bg-white p-4 text-sm font-medium text-plum/90 shadow-soft"
-            >
-              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-plum/5 text-plum">
-                <Icon name="coins" size={13} />
+        <div className="mt-12">
+          <Timeline steps={t.fundingRoute.flow} />
+        </div>
+        <div className="mt-10 rounded-3xl border border-line bg-white p-6 shadow-soft sm:p-7">
+          <p className="text-[0.65rem] font-semibold uppercase tracking-wide text-slate">
+            {t.fundingRoute.routesLabel}
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {t.fundingRoute.routes.map((r) => (
+              <span
+                key={r}
+                className="inline-flex items-center gap-1.5 rounded-full bg-plum/5 px-3 py-1.5 text-xs font-semibold text-plum"
+              >
+                <Icon name="coins" size={13} className="text-coral" />
+                {r}
               </span>
-              {item}
-            </li>
-          ))}
-        </ul>
-        <p className="mt-8 flex max-w-3xl items-start gap-2.5 rounded-2xl border border-coral/30 bg-coral/5 p-4 text-sm leading-relaxed text-plum/80">
+            ))}
+          </div>
+        </div>
+        <p className="mt-6 flex max-w-3xl items-start gap-2.5 rounded-2xl border border-coral/30 bg-coral/5 p-4 text-sm leading-relaxed text-plum/80">
           <Icon name="shield" size={17} className="mt-0.5 shrink-0 text-coral" />
-          {t.routes.note}
+          {t.fundingRoute.note}
         </p>
       </Section>
 
-      {/* ------------------------------------ Where GovDecision helps before/after */}
+      {/* ------------------------------------------ Before / after award comparison */}
       <Section tone="white">
         <SectionHeader
           eyebrow={t.beforeAfter.eyebrow}
@@ -191,10 +225,10 @@ export function CapitalView({ locale }: { locale: Locale }) {
                 {col.points.map((point) => (
                   <li
                     key={point}
-                    className="flex items-start gap-3 text-sm leading-relaxed text-plum/90"
+                    className="flex items-start gap-3 text-sm font-semibold leading-relaxed text-plum/90"
                   >
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-coral/10 text-coral">
-                      <Icon name="check" size={12} />
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-coral/10 text-xs font-bold text-coral">
+                      ?
                     </span>
                     {point}
                   </li>
@@ -205,7 +239,7 @@ export function CapitalView({ locale }: { locale: Locale }) {
         </div>
       </Section>
 
-      {/* --------------------------------------- Sample finance-readiness mockup */}
+      {/* ----------------------------------------- Detailed Finance Readiness Brief */}
       <Section tone="surface">
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
           <div>
@@ -223,8 +257,8 @@ export function CapitalView({ locale }: { locale: Locale }) {
             briefTitle={t.mockup.briefTitle}
             illustrative={t.mockup.illustrative}
             fields={t.mockup.fields}
-            nextStepLabel={t.mockup.nextStepLabel}
-            nextStepValue={t.mockup.nextStepValue}
+            footerLabel={t.mockup.nextStepLabel}
+            footerValue={t.mockup.nextStepValue}
             icon="coins"
           />
         </div>

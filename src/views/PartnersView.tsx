@@ -5,21 +5,50 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { TrackedButton } from "@/components/analytics/TrackedButton";
-import { PageHero } from "@/components/marketing/PageHero";
 import { CtaBand } from "@/components/marketing/CtaBand";
+import { Meter, Pill, WindowFrame } from "@/components/marketing/MockupKit";
 import { BriefMockup } from "@/components/partner-capital/BriefMockup";
+import {
+  DecisionMatrix,
+  type MatrixCell,
+} from "@/components/partner-capital/DecisionMatrix";
+import { Timeline } from "@/components/partner-capital/Timeline";
 import { BreadcrumbJsonLd, WebPageJsonLd } from "@/components/seo/JsonLd";
 import { getPartnerCapital } from "@/i18n/partner-capital";
 
-/** Icons for the five route options (order matches partners.routes.options). */
-const routeIcons: IconName[] = ["target", "compass", "layers", "route", "shield"];
+/** Icons for the seven route-options nodes (order matches routes.options). */
+const routeIcons: IconName[] = [
+  "target",
+  "flag",
+  "layers",
+  "globe",
+  "route",
+  "compass",
+  "spark",
+];
 
 /**
- * GovDecision Partner Network (SITE-015). Rendered by both the EN-US (`(site)`)
- * and localized (`[locale]`) routes, so the layout is identical while copy and
- * link targets follow the active locale. The hero "Talk to Sax Global" CTA
- * carries the cross-border partner-network contact context
- * (`?path=partner-network&type=cross-border`).
+ * Decision-matrix cell tokens (structural, not copy). Each row = a context
+ * signal; each triple = how Direct / Partner / Validate-first fit. The friction
+ * signals here genuinely favour a partner or a validation step — never a
+ * guarantee. Order matches partners.matrix.rows.
+ */
+const matrixCells: [MatrixCell, MatrixCell, MatrixCell][] = [
+  ["harder", "strong", "none"], // Foreign buyer context
+  ["harder", "strong", "none"], // Local delivery requirement
+  ["harder", "strong", "check"], // Language / documentation friction
+  ["harder", "strong", "check"], // Portal registration complexity
+  ["harder", "strong", "none"], // After-award execution
+  ["harder", "strong", "check"], // Warranty / service support
+];
+
+/**
+ * GovDecision Partner Network (SITE-015, visual refresh). Rendered by both the
+ * EN-US (`(site)`) and localized (`[locale]`) routes. Visual-first: hero routing
+ * mockup, route-options infographic, a "when a partner matters" matrix, a
+ * partner-route timeline, and a detailed (illustrative) Partner Route Brief. The
+ * hero "Talk to Sax Global" CTA carries the cross-border partner-network contact
+ * context (`?path=partner-network&type=cross-border`).
  */
 export function PartnersView({ locale }: { locale: Locale }) {
   const t = getPartnerCapital(locale).partners;
@@ -27,6 +56,7 @@ export function PartnersView({ locale }: { locale: Locale }) {
   const contactHref = lp("/contact?path=partner-network&type=cross-border");
   const marketAccessHref = lp("/market-access");
   const page = "/partners";
+  const hm = t.heroMockup;
 
   return (
     <>
@@ -45,40 +75,98 @@ export function PartnersView({ locale }: { locale: Locale }) {
       />
 
       {/* ---------------------------------------------------------------- Hero */}
-      <PageHero eyebrow={t.hero.eyebrow} title={t.hero.title} lead={t.hero.subtitle}>
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <TrackedButton
-            href={contactHref}
-            size="lg"
-            withArrow
-            event="cta_clicked"
-            eventProps={{
-              locale,
-              page,
-              section: "hero",
-              cta: "talk_to_sax",
-              href: contactHref,
-            }}
-          >
-            {t.hero.primaryCta}
-          </TrackedButton>
-          <TrackedButton
-            href={marketAccessHref}
-            variant="ghost"
-            size="lg"
-            event="cta_clicked"
-            eventProps={{
-              locale,
-              page,
-              section: "hero",
-              cta: "explore_market_access",
-              href: marketAccessHref,
-            }}
-          >
-            {t.hero.secondaryCta}
-          </TrackedButton>
-        </div>
-      </PageHero>
+      <section className="relative overflow-hidden border-b border-line bg-gradient-to-b from-surface to-ivory">
+        <div aria-hidden className="bg-grid absolute inset-0 opacity-60" />
+        <div
+          aria-hidden
+          className="absolute -left-32 top-10 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(229,106,58,0.10),transparent_70%)]"
+        />
+        <Container className="relative grid items-center gap-14 py-16 lg:grid-cols-[1.05fr_1fr] lg:gap-12 lg:py-24">
+          <div className="max-w-xl">
+            <Eyebrow>{t.hero.eyebrow}</Eyebrow>
+            <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight text-plum sm:text-5xl">
+              {t.hero.title}
+            </h1>
+            <p className="mt-6 text-pretty text-lg leading-relaxed text-slate">
+              {t.hero.subtitle}
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <TrackedButton
+                href={contactHref}
+                size="lg"
+                withArrow
+                event="cta_clicked"
+                eventProps={{
+                  locale,
+                  page,
+                  section: "hero",
+                  cta: "talk_to_sax",
+                  href: contactHref,
+                }}
+              >
+                {t.hero.primaryCta}
+              </TrackedButton>
+              <TrackedButton
+                href={marketAccessHref}
+                variant="ghost"
+                size="lg"
+                event="cta_clicked"
+                eventProps={{
+                  locale,
+                  page,
+                  section: "hero",
+                  cta: "explore_market_access",
+                  href: marketAccessHref,
+                }}
+              >
+                {t.hero.secondaryCta}
+              </TrackedButton>
+            </div>
+          </div>
+
+          {/* Hero routing mockup */}
+          <div className="lg:pl-4">
+            <WindowFrame title={hm.windowTitle} badge={hm.illustrative}>
+              <p className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-coral">
+                {hm.routeLabel}
+              </p>
+              <div className="mt-3 space-y-2">
+                {hm.routes.map((r, i) => {
+                  const isRec = i === 1;
+                  return (
+                    <div
+                      key={r}
+                      className={`flex items-center justify-between rounded-xl border px-3 py-2.5 ${
+                        isRec
+                          ? "border-coral/40 bg-coral/5"
+                          : "border-line bg-surface/40"
+                      }`}
+                    >
+                      <span className="flex items-center gap-2 text-sm font-semibold text-plum">
+                        <Icon
+                          name={isRec ? "route" : "arrow-right"}
+                          size={15}
+                          className={isRec ? "text-coral" : "text-slate"}
+                        />
+                        {r}
+                      </span>
+                      {isRec && <Pill tone="coral">{hm.recommended}</Pill>}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="mt-4">
+                <Meter
+                  value={55}
+                  label={hm.dependencyLabel}
+                  valueLabel={hm.dependencyValue}
+                  tone="coral"
+                />
+              </div>
+            </WindowFrame>
+          </div>
+        </Container>
+      </section>
 
       {/* ----------------------------------------- Why partner strategy matters */}
       <Section tone="white">
@@ -98,30 +186,59 @@ export function PartnersView({ locale }: { locale: Locale }) {
         </div>
       </Section>
 
-      {/* --------------------------------------------------------- Route options */}
+      {/* --------------------------------------------------- Route-options infographic */}
       <Section tone="ivory">
         <SectionHeader
           eyebrow={t.routes.eyebrow}
           title={t.routes.title}
           lead={t.routes.lead}
         />
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {t.routes.options.map((opt, i) => (
             <article
               key={opt.title}
-              className="flex flex-col rounded-3xl border border-line bg-white p-6 shadow-soft sm:p-7"
+              className="flex items-start gap-3 rounded-2xl border border-line bg-white p-5 shadow-soft"
             >
-              <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-plum/5 text-plum">
-                  <Icon name={routeIcons[i] ?? "route"} size={22} />
-                </span>
-                <h3 className="text-lg font-bold text-plum">{opt.title}</h3>
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-plum/5 text-plum">
+                <Icon name={routeIcons[i] ?? "route"} size={20} />
+              </span>
+              <div>
+                <h3 className="text-sm font-bold text-plum">{opt.title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-slate">
+                  {opt.description}
+                </p>
               </div>
-              <p className="mt-4 text-sm leading-relaxed text-slate">
-                {opt.description}
-              </p>
             </article>
           ))}
+        </div>
+      </Section>
+
+      {/* ------------------------------------------------ When a partner matters */}
+      <Section tone="white">
+        <SectionHeader
+          eyebrow={t.matrix.eyebrow}
+          title={t.matrix.title}
+          lead={t.matrix.lead}
+        />
+        <div className="mt-12">
+          <DecisionMatrix
+            columns={t.matrix.columns}
+            cellLabels={t.matrix.cellLabels}
+            rows={t.matrix.rows}
+            cells={matrixCells}
+          />
+        </div>
+      </Section>
+
+      {/* -------------------------------------------------- Partner-route timeline */}
+      <Section tone="ivory">
+        <SectionHeader
+          eyebrow={t.timeline.eyebrow}
+          title={t.timeline.title}
+          lead={t.timeline.lead}
+        />
+        <div className="mt-12">
+          <Timeline steps={t.timeline.steps} />
         </div>
       </Section>
 
@@ -162,7 +279,7 @@ export function PartnersView({ locale }: { locale: Locale }) {
           {t.govDecision.points.map((point) => (
             <li
               key={point}
-              className="flex items-start gap-3 rounded-3xl border border-line bg-white p-6 shadow-soft"
+              className="flex items-start gap-3 rounded-2xl border border-line bg-white p-5 shadow-soft"
             >
               <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-coral/10 text-coral">
                 <Icon name="check" size={14} />
@@ -187,7 +304,7 @@ export function PartnersView({ locale }: { locale: Locale }) {
                   {t.sax.lead}
                 </p>
               </div>
-              <ul className="space-y-3">
+              <ul className="grid gap-3 sm:grid-cols-2">
                 {t.sax.points.map((point) => (
                   <li
                     key={point}
@@ -205,7 +322,7 @@ export function PartnersView({ locale }: { locale: Locale }) {
         </div>
       </section>
 
-      {/* ------------------------------------------- Sample partner route mockup */}
+      {/* ------------------------------------------- Detailed Partner Route Brief */}
       <Section tone="surface">
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
           <div>
@@ -223,8 +340,12 @@ export function PartnersView({ locale }: { locale: Locale }) {
             briefTitle={t.mockup.briefTitle}
             illustrative={t.mockup.illustrative}
             fields={t.mockup.fields}
-            nextStepLabel={t.mockup.nextStepLabel}
-            nextStepValue={t.mockup.nextStepValue}
+            checklist={{
+              label: t.mockup.validationLabel,
+              items: t.mockup.validationItems,
+            }}
+            footerLabel={t.mockup.decisionLabel}
+            footerValue={t.mockup.decisionValue}
             icon="route"
           />
         </div>

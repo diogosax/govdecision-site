@@ -2,7 +2,7 @@ import type { PartnerCapitalChrome } from "./types";
 
 /**
  * EN-US — source of truth for the Partner Network + GovDecision Capital pages
- * (SITE-015). PT-BR and ES mirror this shape exactly.
+ * (SITE-015, visual refresh). PT-BR and ES mirror this shape exactly.
  *
  * Content-safety review: no guaranteed partner placement, no guaranteed
  * financing, no direct lending, no credit approval, no guaranteed market access
@@ -38,68 +38,83 @@ export const enUS = {
       title:
         "Government business often needs the right route, not just the right opportunity.",
       subtitle:
-        "GovDecision helps suppliers understand when to go direct, partner locally, use a distributor, subcontract, or prepare first. Sax Global can support partner-route planning where cross-border execution matters.",
+        "Know when to go direct, partner locally, use a distributor, subcontract, or prepare first. Sax Global supports partner-route planning where cross-border execution matters.",
       primaryCta: "Talk to Sax Global",
       secondaryCta: "Explore Market Access",
+    },
+    heroMockup: {
+      windowTitle: "govdecision · Partner Routing",
+      routeLabel: "Route signal",
+      routes: ["Direct", "Partner route", "Prepare first"],
+      recommended: "Recommended",
+      dependencyLabel: "Partner dependency",
+      dependencyValue: "Medium",
+      illustrative: "Illustrative",
     },
     why: {
       eyebrow: "Why partner strategy matters",
       title: "Software finds the opportunity. The route wins it.",
-      lead: "A qualified opportunity still needs a way to reach the buyer — directly, through a partner, or not yet at all. The route is often the deciding factor.",
+      lead: "A qualified opportunity still needs a way to reach the buyer — directly, through a partner, or not yet.",
       points: [
         {
           title: "More than software",
           description:
-            "Suppliers often need presence, representation, or a channel on the ground before they can deliver. Knowing which — early — protects your pursuit budget.",
+            "Presence, representation, or a channel is often needed before you can deliver.",
         },
         {
           title: "Cross-border adds dependency",
           description:
-            "Selling into another country can mean a representative, importer, or distributor before delivery is even possible. Route dependency is a planning input, not an afterthought.",
+            "Another country can mean a representative, importer, or distributor first.",
         },
         {
-          title: "The wrong route is expensive",
+          title: "The wrong route is costly",
           description:
-            "Going direct when you needed a partner — or partnering when you could have gone direct — shows up late and costs the most. Route choice belongs in the Go/No-Go decision.",
+            "Going direct when you needed a partner shows up late — and expensive.",
         },
       ],
     },
     routes: {
       eyebrow: "Route options",
-      title: "Five ways into a government market.",
-      lead: "Most pursuits resolve to one of a few routes. The work is choosing — and validating — the right one before you commit.",
+      title: "Seven ways into a government market.",
+      lead: "Most pursuits resolve to one of a few routes. The work is choosing — and validating — the right one.",
       options: [
-        {
-          title: "Go direct",
-          description:
-            "Sell straight to the buyer when registration, presence, and delivery are realistic on your own.",
-        },
-        {
-          title: "Partner locally",
-          description:
-            "Appoint a local representative or partner to carry presence, relationships, and follow-up on the ground.",
-        },
-        {
-          title: "Use a distributor",
-          description:
-            "Reach the buyer through a distributor or reseller that already holds the channel and the stock.",
-        },
-        {
-          title: "Subcontract or team",
-          description:
-            "Join a prime or consortium as a subcontractor when the contract is large or local content is required.",
-        },
-        {
-          title: "Prepare first",
-          description:
-            "Hold, build readiness, and validate the route before committing pursuit resources to it.",
-        },
+        { title: "Direct sale", description: "Sell straight to the buyer." },
+        { title: "Local representative", description: "Presence and follow-up on the ground." },
+        { title: "Distributor / reseller", description: "Reach the buyer through an existing channel." },
+        { title: "Importer / trading", description: "Move goods through an import partner." },
+        { title: "Subcontractor", description: "Supply under a prime contractor." },
+        { title: "Consortium", description: "Team up to meet size or local content." },
+        { title: "Technical integrator", description: "Deliver through a systems integrator." },
+      ],
+    },
+    matrix: {
+      eyebrow: "When a partner matters",
+      title: "Read the signals before you choose.",
+      lead: "Some contexts push toward a partner — or toward validating first. A quick read, not a verdict.",
+      columns: {
+        direct: "Direct route",
+        partner: "Partner route",
+        validate: "Validate first",
+      },
+      cellLabels: {
+        strong: "Stronger",
+        harder: "Harder",
+        check: "Validate",
+        none: "—",
+      },
+      rows: [
+        "Foreign buyer context",
+        "Local delivery requirement",
+        "Language / documentation friction",
+        "Portal registration complexity",
+        "After-award execution",
+        "Warranty / service support",
       ],
     },
     categories: {
       eyebrow: "Partner categories",
-      title: "The partner ecosystem a pursuit may need.",
-      lead: "Depending on the market and the contract, a route can involve several of these potential partner categories. GovDecision and Sax Global help you map which ones are relevant.",
+      title: "The ecosystem a pursuit may need.",
+      lead: "Depending on the market and the contract, a route can involve several of these potential partner categories.",
       items: [
         "Local representatives",
         "Distributors / resellers",
@@ -113,48 +128,69 @@ export const enUS = {
         "Insurance / surety / performance bond partners",
         "Trade finance / FX partners",
       ],
-      note: "These are potential partner categories to evaluate — not a roster of contracted partners. Partner matching is offered where applicable, and any route must be validated for the specific opportunity.",
+      note: "Potential partner categories to evaluate — not a roster of contracted partners. Partner matching is offered where applicable, and any route must be validated.",
+    },
+    timeline: {
+      eyebrow: "Partner-route thinking",
+      title: "How a route gets decided.",
+      lead: "GovDecision and Sax Global structure the partner-route question step by step.",
+      steps: [
+        { title: "Opportunity signal", description: "A qualified opportunity appears." },
+        { title: "Route hypothesis", description: "Direct, partner, or prepare first?" },
+        { title: "Readiness check", description: "Registration, presence, delivery gaps." },
+        { title: "Partner category", description: "Which partner type the route needs." },
+        { title: "Validation", description: "Confirm the route is real." },
+        { title: "Pursuit decision", description: "Go, partner first, or hold." },
+      ],
     },
     govDecision: {
       eyebrow: "Where GovDecision helps",
-      title: "Route choice starts from facts, not guesswork.",
-      lead: "The platform turns an opportunity into a structured route question — so direct vs. partner is a decision you can defend.",
+      title: "Route choice starts from facts.",
+      lead: "The platform turns an opportunity into a structured route question.",
       points: [
-        "Supplier Passport organizes your capabilities, certifications, and enabled markets so a route decision starts from facts.",
-        "Opportunity Qualification and AI-assisted requirement extraction surface where a local partner, representative, or importer is likely required.",
-        "Blocker detection flags the registration, eligibility, and presence gaps that decide direct vs. partner.",
-        "Country Packs explain country-specific route expectations and the partner structures suppliers commonly use.",
-        "The Go/No-Go memo and Deal Room capture the recommended partner route before pursuit resources are committed.",
-        "Partner-route recommendations and finance-readiness notes carry into Post-Award Enablement once the work begins.",
+        "Supplier Passport frames capabilities, certifications, and enabled markets.",
+        "Opportunity Qualification and AI-assisted requirement extraction flag where a partner is likely required.",
+        "Blocker detection surfaces registration, eligibility, and presence gaps.",
+        "Country Packs explain country-specific route and partner expectations.",
+        "The Go/No-Go memo and Deal Room capture the recommended partner route.",
+        "Partner-route notes carry into Post-Award Enablement.",
       ],
     },
     sax: {
       eyebrow: "Where Sax Global helps",
       title: "Cross-border route planning, where it matters.",
-      lead: "When an opportunity crosses a border, Sax Global adds market context and partner-route planning on top of the platform.",
+      lead: "When an opportunity crosses a border, Sax Global adds market context on top of the platform.",
       points: [
-        "Partner-route planning where cross-border execution matters.",
-        "Context on local representation, distribution, and importer structures by market.",
-        "Market access framing that connects the opportunity to a realistic route to market.",
-        "Partner matching where applicable — surfacing potential partner categories to evaluate, not guaranteed placements.",
-        "A second read on whether to go now, partner first, or prepare before pursuit.",
+        "Partner-route planning for cross-border execution.",
+        "Context on local representation, distribution, and importer structures.",
+        "Market access framing that ties the opportunity to a real route.",
+        "Partner matching where applicable — categories to evaluate, not guaranteed placements.",
+        "A second read on whether to go now, partner first, or prepare.",
       ],
     },
     mockup: {
       eyebrow: "Sample output",
       title: "What a partner-route read looks like.",
-      lead: "A short, structured view of the route question for a single opportunity — the kind of read GovDecision and Sax Global help you reach before you commit.",
+      lead: "A short, structured view of the route question for a single opportunity.",
       windowTitle: "govdecision · Partner Route Brief",
       illustrative: "Illustrative",
       briefTitle: "Partner Route Brief",
       fields: [
-        { label: "Opportunity path", value: "Brazil → United States" },
-        { label: "Recommended route", value: "Local distributor + readiness checklist" },
+        { label: "Path", value: "Brazil → United States" },
+        { label: "Opportunity type", value: "Technical supplies" },
+        { label: "Recommended route", value: "Distributor + readiness checklist" },
         { label: "Partner dependency", value: "Medium" },
         { label: "Execution risk", value: "Medium" },
       ],
-      nextStepLabel: "Next step",
-      nextStepValue: "Validate route before pursuit",
+      validationLabel: "Validation needed",
+      validationItems: [
+        "Local registration path",
+        "Delivery / service capacity",
+        "Warranty support",
+        "Documentation language",
+      ],
+      decisionLabel: "Decision",
+      decisionValue: "Validate route before pursuit",
       caption: "Illustrative — not a real customer case.",
     },
     disclaimer:
@@ -180,125 +216,147 @@ export const enUS = {
       eyebrow: "GovDecision Capital",
       title: "Winning is only the start. Execution needs capital readiness.",
       subtitle:
-        "GovDecision Capital helps suppliers estimate working capital needs, understand payment timing, organize finance-readiness, and prepare a stronger case for partner funding routes when applicable.",
+        "Estimate working capital needs, understand payment timing, organize finance-readiness, and prepare a stronger case for partner funding routes when applicable.",
       primaryCta: "Discuss capital readiness",
       secondaryCta: "Explore the platform",
+    },
+    heroMockup: {
+      windowTitle: "govdecision · Finance Readiness",
+      scoreLabel: "Finance readiness",
+      scoreValue: "Medium",
+      stageLabel: "Stage",
+      stageValue: "Pre-award",
+      timingLabel: "Payment timing",
+      timingValue: "High risk",
+      illustrative: "Illustrative",
     },
     why: {
       eyebrow: "Why capital readiness matters",
       title: "An award is a cash-flow event.",
-      lead: "Public contracts often ask you to deliver, guarantee, and wait — before you are paid. Capital readiness is what keeps a win from becoming a strain.",
+      lead: "Public contracts often ask you to deliver, guarantee, and wait — before you are paid.",
       points: [
         {
           title: "Timing, not viability",
           description:
-            "Strong suppliers stall because production, guarantees, and delivery come due long before the receivable. Mapping that timing early changes the decision.",
+            "Costs and guarantees come due long before the receivable arrives.",
         },
         {
           title: "Finance belongs in the pursuit",
-          description:
-            "A clear view of working capital, guarantees, and payment timing makes a Go/No-Go honest — and a funding conversation far easier when it matters.",
+          description: "A clear view makes a Go/No-Go honest from the start.",
         },
         {
           title: "Readiness travels well",
-          description:
-            "Cross-border work adds FX, import, and tax timing. A structured finance case keeps those moving parts visible instead of surprising you after award.",
+          description: "Cross-border work adds FX, import, and tax timing.",
         },
       ],
     },
+    cashflow: {
+      eyebrow: "Cash-flow timeline",
+      title: "Where a public contract strains cash.",
+      lead: "Map the gap between when costs land and when payment arrives.",
+      steps: [
+        "Opportunity review",
+        "Bid / proposal",
+        "Award",
+        "Purchase / production",
+        "Delivery",
+        "Invoice",
+        "Payment",
+      ],
+      pressureLabel: "Where capital pressure may appear",
+      pressures: [
+        "Inventory",
+        "Logistics",
+        "Guarantees",
+        "Labor",
+        "FX",
+        "Payment delay",
+      ],
+    },
     gaps: {
-      eyebrow: "Common finance gaps",
-      title: "Where public contracts strain cash flow.",
-      lead: "The same gaps show up again and again. Naming them early turns a vague worry into a question you can plan around.",
+      eyebrow: "Capital gaps",
+      title: "The gaps that show up again and again.",
+      lead: "Naming them early turns a worry into a question you can plan around.",
       items: [
-        "Working capital before delivery",
-        "Inventory or production cost",
-        "Import / logistics costs",
-        "Performance guarantees",
-        "Bid bonds",
+        "Working capital",
+        "Inventory / production",
+        "Import and logistics",
+        "Bid bond / guarantee",
         "Payment timing",
-        "Milestone-based invoicing",
         "FX exposure",
-        "Tax / import timing",
         "Receivables delay",
       ],
       note: "Which gaps apply depends on the opportunity and must be validated case by case.",
     },
-    structures: {
-      eyebrow: "What GovDecision Capital structures",
-      title: "From requirements to a finance case.",
+    fundingRoute: {
+      eyebrow: "Funding-route map",
+      title: "From readiness to a finance case.",
       lead: "GovDecision Capital helps structure the finance case and connect qualified situations to partner routes where applicable. It is not direct lending.",
-      points: [
+      flow: [
         {
-          title: "The finance case",
-          description:
-            "Turn requirements into an estimated working-capital need, guarantee picture, and payment-timing view — drawn from Opportunity Qualification and AI-assisted requirement extraction.",
+          title: "Finance readiness score",
+          description: "Drawn from Opportunity Qualification and blocker detection.",
         },
         {
-          title: "Finance-readiness notes",
-          description:
-            "Capture guarantees, bonds, and cash-flow assumptions as finance-readiness notes inside the Readiness Workspace and Deal Room.",
+          title: "Finance case",
+          description: "Structured in the Readiness Workspace and Deal Room.",
         },
         {
-          title: "The timing map",
-          description:
-            "Lay out when costs land versus when payment arrives, so milestone invoicing and receivables delay are visible well before award.",
+          title: "Partner route",
+          description: "Which partner funding routes may be relevant.",
         },
         {
-          title: "The partner-route brief",
-          description:
-            "Summarize which partner funding routes may be relevant, so a funding conversation starts from a structured case — not a blank page.",
+          title: "Review",
+          description: "Validate assumptions before anything is committed.",
+        },
+        {
+          title: "Execution support",
+          description: "Carried into Post-Award Enablement.",
         },
       ],
-    },
-    routes: {
-      eyebrow: "Partner funding routes",
-      title: "Routes to evaluate — not a loan.",
-      lead: "When a situation is serious, GovDecision Capital can point to the partner funding routes that may be relevant. Whether any applies depends on the opportunity.",
-      items: [
+      routesLabel: "Possible partner routes",
+      routes: [
         "Working capital",
-        "Factoring / receivables anticipation",
+        "Factoring / receivables",
         "Export finance",
         "Trade finance",
-        "FX / cross-border payment partners",
-        "Surety / performance bond partners",
-        "Local partner financing",
-        "Bank or fintech partner route",
+        "Surety / performance bond",
+        "FX / cross-border payments",
       ],
-      note: "These are potential partner routes to evaluate. Which may be relevant depends on the opportunity and must be validated — GovDecision Capital is not a lender and does not provide financing.",
+      note: "Potential partner routes to evaluate. Which may be relevant depends on the opportunity and must be validated — GovDecision Capital is not a lender and does not provide financing.",
     },
     beforeAfter: {
       eyebrow: "Before & after award",
-      title: "Finance-readiness across the pursuit.",
-      lead: "Capital readiness is useful twice: to make a clear-eyed decision before award, and to execute without surprises after it.",
+      title: "The questions capital readiness answers.",
+      lead: "Useful twice: a clear decision before award, and clean execution after it.",
       beforeLabel: "Before award",
       beforePoints: [
-        "Estimate the working-capital need implied by the opportunity.",
-        "Flag bid bonds and performance-guarantee requirements early.",
-        "Map payment timing against production and delivery costs.",
-        "Note FX, import, and tax-timing exposure for cross-border work.",
-        "Fold the finance picture into the Go/No-Go memo.",
+        "Can we pursue this?",
+        "What guarantees may be required?",
+        "What cash gap could appear?",
+        "What partner route should we prepare?",
       ],
       afterLabel: "After award",
       afterPoints: [
-        "Organize the finance-readiness case for partner funding routes.",
-        "Track guarantees, milestones, and invoicing in Post-Award Enablement.",
-        "Surface receivables-delay and working-capital coverage as delivery proceeds.",
-        "Prepare a structured case to share with finance partners where applicable.",
+        "Can we deliver?",
+        "When do we get paid?",
+        "What needs to be financed?",
+        "What documents does a finance partner need?",
       ],
     },
     mockup: {
       eyebrow: "Sample output",
       title: "What a finance-readiness read looks like.",
-      lead: "A short, structured view of the capital question for a single opportunity — organized, cautious, and built to be validated.",
+      lead: "A short, structured view of the capital question for a single opportunity.",
       windowTitle: "govdecision · Finance Readiness Brief",
       illustrative: "Illustrative",
       briefTitle: "Finance Readiness Brief",
       fields: [
-        { label: "Opportunity stage", value: "Pre-award / Post-award" },
-        { label: "Estimated working capital gap", value: "Medium" },
+        { label: "Opportunity stage", value: "Pre-award" },
+        { label: "Working capital gap", value: "Medium" },
         { label: "Payment timing risk", value: "High" },
         { label: "Guarantee requirement", value: "Validate" },
+        { label: "FX exposure", value: "Depends" },
         { label: "Funding route", value: "Partner finance review" },
       ],
       nextStepLabel: "Next step",

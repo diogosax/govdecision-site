@@ -13,9 +13,14 @@ export type HeaderNavItem = {
   key: string;
   label: string;
   href: string;
+  /** Shorter label used when this item is flattened into the mobile menu
+   *  (falls back to `label`). Lets the Platform overview read "Platform Overview"
+   *  on desktop but "Platform" on mobile. */
+  shortLabel?: string;
   /** Optional submenu entries. When present, the item renders as a small
    *  dropdown on desktop and is flattened into its children on mobile.
-   *  (SITE-014: Opportunity Briefs lives under Market Access.) */
+   *  (SITE-014: Briefs under Market Access; SITE-015: Partner Network +
+   *  GovDecision Capital under Platform.) */
   children?: HeaderNavItem[];
 };
 
@@ -310,7 +315,7 @@ export function Header({
                     isActive(item.href) ? "text-coral" : "text-plum"
                   }`}
                 >
-                  {item.label}
+                  {item.shortLabel ?? item.label}
                   <span aria-hidden className="text-slate">
                     &rsaquo;
                   </span>
