@@ -23,12 +23,15 @@ export function BriefsGrid({
   markets,
   labels,
   locale,
+  experimentVariant,
 }: {
   items: BriefGridItem[];
   /** Unique markets in display order: canonical key + localized label. */
   markets: { market: string; label: string }[];
   labels: BriefsGridLabels;
   locale: string;
+  /** Active `briefsCta` variant (SITE-017), forwarded to each card's CTA event. */
+  experimentVariant?: string;
 }) {
   const [active, setActive] = useState<string>("all");
   const visible =
@@ -65,7 +68,13 @@ export function BriefsGrid({
       ) : (
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {visible.map((item) => (
-            <BriefCard key={item.slug} item={item} labels={labels} locale={locale} />
+            <BriefCard
+              key={item.slug}
+              item={item}
+              labels={labels}
+              locale={locale}
+              experimentVariant={experimentVariant}
+            />
           ))}
         </div>
       )}

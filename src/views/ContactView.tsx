@@ -5,6 +5,8 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { ContactForm } from "@/components/marketing/ContactForm";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
+import { ExperimentView } from "@/components/analytics/ExperimentView";
+import { getExperimentVariant } from "@/lib/experiments/experiments";
 import { site } from "@/data/site";
 import { loginHref } from "@/data/navigation";
 import { contactPathLabels } from "@/data/destinations";
@@ -89,6 +91,12 @@ export function ContactView({
   const type = firstParam(sp.type);
   const context = resolveContext(dict, locale, path, type);
 
+  // Experiment 5 — Contact intent helper (contactIntent). Control renders the
+  // form + contextual banner unchanged; variant A adds a "What happens next"
+  // card, variant B a compact trust card. No new fields, no friction, no API change.
+  const contactIntentVariant = getExperimentVariant("contactIntent");
+  const intent = dict.experiments.contactIntent;
+
   return (
     <>
       {/* Hero + form */}
@@ -162,6 +170,55 @@ export function ContactView({
             </div>
 
             <div>
+              <ExperimentView
+                experiment="contactIntent"
+                variant={contactIntentVariant}
+                locale={locale}
+                page="/contact"
+              />
+
+              {contactIntentVariant === "variantA" && (
+                <div className="mb-6 rounded-3xl border border-line bg-white p-6 shadow-soft">
+                  <div className="flex items-center gap-2.5">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-coral/10 text-coral">
+                      <Icon name="route" size={16} />
+                    </span>
+                    <h2 className="text-base font-bold text-plum">
+                      {intent.nextSteps.title}
+                    </h2>
+                  </div>
+                  <ol className="mt-4 space-y-3">
+                    {intent.nextSteps.steps.map((step, i) => (
+                      <li
+                        key={step}
+                        className="flex items-start gap-3 text-sm leading-relaxed text-slate"
+                      >
+                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-plum text-[0.7rem] font-bold text-white">
+                          {i + 1}
+                        </span>
+                        <span>{step}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
+              {contactIntentVariant === "variantB" && (
+                <div className="mb-6 flex items-start gap-3 rounded-3xl border border-coral/30 bg-coral/5 p-5 shadow-soft">
+                  <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-white text-coral shadow-soft">
+                    <Icon name="shield" size={16} />
+                  </span>
+                  <div>
+                    <p className="text-sm font-bold text-plum">
+                      {intent.trust.title}
+                    </p>
+                    <p className="mt-1 text-sm leading-relaxed text-slate">
+                      {intent.trust.body}
+                    </p>
+                  </div>
+                </div>
+              )}
+
               <ContactForm
                 locale={locale}
                 t={t.form}

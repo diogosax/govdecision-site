@@ -33,7 +33,8 @@ export type AnalyticsEventName =
   | "app_login_clicked"
   | "locale_suggestion_shown"
   | "locale_suggestion_accepted"
-  | "locale_suggestion_dismissed";
+  | "locale_suggestion_dismissed"
+  | "experiment_viewed";
 
 /**
  * Allowlisted, non-PII event properties. Anything not on this shape is dropped
@@ -67,6 +68,10 @@ export type AnalyticsProperties = {
   /** locale_suggestion_* only — the visitor's current site locale + offered locale. */
   currentLocale?: string;
   suggestedLocale?: string;
+  /** experiment_viewed + tracked CTAs (SITE-017) — the experiment key and the
+   *  shown variant ("control" | "variantA" | "variantB"). Never PII. */
+  experiment?: string;
+  variant?: string;
 };
 
 /** The only keys that may ever reach the analytics provider. */
@@ -94,6 +99,8 @@ const ALLOWED_KEYS = [
   "toPath",
   "currentLocale",
   "suggestedLocale",
+  "experiment",
+  "variant",
 ] as const satisfies readonly (keyof AnalyticsProperties)[];
 
 /** Keep values short and structured — never long free text. */

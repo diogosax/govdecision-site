@@ -1,6 +1,9 @@
 import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/routing";
+import { getDictionary } from "@/i18n/get-dictionary";
+import { getExperimentVariant } from "@/lib/experiments/experiments";
 import { TrackedButton } from "@/components/analytics/TrackedButton";
+import { ExperimentView } from "@/components/analytics/ExperimentView";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Icon } from "@/components/ui/Icon";
@@ -22,6 +25,12 @@ import { getPartnerCapital } from "@/i18n/partner-capital";
 export function OpportunityBriefsView({ locale }: { locale: Locale }) {
   const chrome = briefChrome[locale];
   const contactHref = localePath(locale, "/contact");
+
+  // Experiment 4 — Opportunity Briefs CTA (briefsCta). Applies to the index
+  // brief-card CTA only; the detail-page CTAs are unaffected.
+  const briefsCtaVariant = getExperimentVariant("briefsCta");
+  const briefsCtaLabel =
+    getDictionary(locale).experiments.briefsCta[briefsCtaVariant];
 
   const items: BriefGridItem[] = getBriefCards(locale).map((c) => ({
     slug: c.slug,
@@ -158,13 +167,20 @@ export function OpportunityBriefsView({ locale }: { locale: Locale }) {
           title={chrome.featuredTitle}
           lead={chrome.featuredLead}
         />
+        <ExperimentView
+          experiment="briefsCta"
+          variant={briefsCtaVariant}
+          locale={locale}
+          page="/opportunity-briefs"
+        />
         <div className="mt-12">
           <BriefsGrid
             items={items}
             markets={markets}
             locale={locale}
+            experimentVariant={briefsCtaVariant}
             labels={{
-              cardCta: chrome.cardCta,
+              cardCta: briefsCtaLabel,
               cardWhyLabel: chrome.cardWhyLabel,
               opportunityField: chrome.opportunityField,
               buyerField: chrome.buyerField,

@@ -4,6 +4,8 @@ import type { Dictionary } from "@/i18n/dictionaries/types";
 import { localePath } from "@/i18n/routing";
 import { Button } from "@/components/ui/Button";
 import { TrackedButton } from "@/components/analytics/TrackedButton";
+import { ExperimentView } from "@/components/analytics/ExperimentView";
+import { getExperimentVariant } from "@/lib/experiments/experiments";
 import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -37,10 +39,20 @@ export function HomeView({
   const lp = (href: string) => localePath(locale, href);
   const t = dict.home;
 
+  // Experiment 1 — Home hero CTA copy (homeHeroCta). Deterministic, config-based.
+  const heroCtaVariant = getExperimentVariant("homeHeroCta");
+  const heroCtaLabel = dict.experiments.homeHeroCta[heroCtaVariant];
+
   return (
     <>
       {/* ---------------------------------------------------------------- Hero */}
       <section className="relative overflow-hidden bg-gradient-to-b from-surface to-ivory">
+        <ExperimentView
+          experiment="homeHeroCta"
+          variant={heroCtaVariant}
+          locale={locale}
+          page="/"
+        />
         <div aria-hidden className="bg-grid absolute inset-0 opacity-60" />
         <div
           aria-hidden
@@ -76,9 +88,11 @@ export function HomeView({
                   section: "hero",
                   cta: "start_readiness",
                   href: lp("/contact"),
+                  experiment: "homeHeroCta",
+                  variant: heroCtaVariant,
                 }}
               >
-                {dict.common.cta.startReadiness}
+                {heroCtaLabel}
               </TrackedButton>
               <TrackedButton
                 href={lp("/platform")}
