@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { usePathname } from "next/navigation";
 import type { Locale } from "@/i18n/config";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { trackEvent, pageFromPathname } from "@/lib/analytics/events";
 import { site } from "@/data/site";
 
 const fieldClass =
@@ -70,10 +72,31 @@ export function ContactForm({
   const mountedAt = useRef(0);
   const sourcePage = useRef("");
 
+  // Analytics funnel: fire `contact_form_started` once, on first interaction.
+  const startedRef = useRef(false);
+  const pathname = usePathname();
+
   useEffect(() => {
     mountedAt.current = Date.now();
     sourcePage.current = document.referrer || "";
   }, []);
+
+  /**
+   * Funnel context — only the contextual `path`/`type` and locale/page. Never
+   * any field the user types (name, email, company, country, markets, message).
+   */
+  const funnelProps = () => ({
+    locale,
+    page: pageFromPathname(pathname),
+    path,
+    type,
+  });
+
+  function handleFirstInteraction() {
+    if (startedRef.current) return;
+    startedRef.current = true;
+    trackEvent("contact_form_started", funnelProps());
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -102,6 +125,8 @@ export function ContactForm({
     };
 
     setStatus("submitting");
+    // Fire on submit attempt, before the API responds. No field content sent.
+    trackEvent("contact_form_submitted", funnelProps());
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -109,7 +134,12 @@ export function ContactForm({
         body: JSON.stringify(payload),
       });
       const data: unknown = await res.json().catch(() => null);
-      const result = data as { ok?: boolean; message?: string; error?: string } | null;
+      const result = data as {
+        ok?: boolean;
+        message?: string;
+        error?: string;
+        leadType?: string;
+      } | null;
 
       if (res.ok && result?.ok) {
         // The API returns an EN success message. Keep it for EN; localized
@@ -120,6 +150,11 @@ export function ContactForm({
             : "";
         setFeedback(serverMessage || t.successBody);
         setStatus("success");
+        // `leadType` is an internal enum (e.g. LOCAL_READINESS) — not PII.
+        trackEvent("contact_form_succeeded", {
+          ...funnelProps(),
+          leadType: result.leadType,
+        });
       } else {
         const serverError =
           locale === "en-US" && typeof result?.error === "string"
@@ -127,10 +162,19 @@ export function ContactForm({
             : "";
         setFeedback(serverError || t.errorMessage);
         setStatus("error");
+        // Map HTTP status to an allowlisted reason — never raw server text.
+        const reason =
+          res.status === 400
+            ? "validation"
+            : res.status === 502
+              ? "delivery"
+              : "unknown";
+        trackEvent("contact_form_failed", { ...funnelProps(), reason });
       }
     } catch {
       setFeedback(t.errorMessage);
       setStatus("error");
+      trackEvent("contact_form_failed", { ...funnelProps(), reason: "network" });
     }
   }
 
@@ -174,6 +218,8 @@ export function ContactForm({
   return (
     <form
       onSubmit={handleSubmit}
+      onFocus={handleFirstInteraction}
+      onChange={handleFirstInteraction}
       className="rounded-3xl border border-line bg-white p-6 shadow-soft sm:p-8"
       noValidate
     >

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { locales, localeNames, localeShort, type Locale } from "@/i18n/config";
 import { switchLocalePath } from "@/i18n/routing";
+import { trackEvent, pageFromPathname } from "@/lib/analytics/events";
 
 /**
  * Functional language selector.
@@ -56,7 +57,14 @@ export function LanguageSelector({
     setOpen(false);
     if (target === locale) return;
     const search = typeof window !== "undefined" ? window.location.search : "";
-    router.push(switchLocalePath(pathname, search, target));
+    const toPath = switchLocalePath(pathname, search, target);
+    trackEvent("language_switched", {
+      fromLocale: locale,
+      toLocale: target,
+      fromPath: pageFromPathname(pathname),
+      toPath: pageFromPathname(toPath),
+    });
+    router.push(toPath);
   }
 
   const triggerColor =

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { Locale } from "@/i18n/config";
 import { Button } from "@/components/ui/Button";
+import { trackEvent, pageFromPathname } from "@/lib/analytics/events";
 import { Logo } from "./Logo";
 import { LanguageSelector } from "./LanguageSelector";
 
@@ -49,6 +50,23 @@ export function Header({
   }, [menuOpen]);
 
   const isActive = (href: string) => pathname.startsWith(href);
+  const page = pageFromPathname(pathname);
+
+  const trackPrimaryCta = () =>
+    trackEvent("cta_clicked", {
+      locale,
+      page,
+      section: "header",
+      cta: "start_readiness",
+      href: primaryCta.href,
+    });
+  const trackLogin = () =>
+    trackEvent("app_login_clicked", {
+      locale,
+      page,
+      section: "header",
+      href: login.href,
+    });
 
   return (
     <header
@@ -94,11 +112,12 @@ export function Header({
           />
           <a
             href={login.href}
+            onClick={trackLogin}
             className="whitespace-nowrap text-sm font-semibold text-plum/80 transition-colors hover:text-plum"
           >
             {login.label}
           </a>
-          <Button href={primaryCta.href} size="md" withArrow>
+          <Button href={primaryCta.href} size="md" withArrow onClick={trackPrimaryCta}>
             {primaryCta.label}
           </Button>
         </div>
@@ -159,13 +178,19 @@ export function Header({
               size="lg"
               withArrow
               className="w-full"
-              onClick={() => setMenuOpen(false)}
+              onClick={() => {
+                trackPrimaryCta();
+                setMenuOpen(false);
+              }}
             >
               {primaryCta.label}
             </Button>
             <a
               href={login.href}
-              onClick={() => setMenuOpen(false)}
+              onClick={() => {
+                trackLogin();
+                setMenuOpen(false);
+              }}
               className="rounded-full border border-line py-3 text-center text-sm font-semibold text-plum"
             >
               {login.label}

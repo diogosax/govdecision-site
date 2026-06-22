@@ -1,10 +1,13 @@
 import Link from "next/link";
+import type { Locale } from "@/i18n/config";
 import { site } from "@/data/site";
+import { TrackedLink } from "@/components/analytics/TrackedLink";
 import { Logo } from "./Logo";
 
 export type FooterNavItem = { key: string; label: string; href: string };
 
 export type FooterProps = {
+  locale: Locale;
   homeHref: string;
   nav: FooterNavItem[];
   startReadinessHref: string;
@@ -23,6 +26,7 @@ export type FooterProps = {
 };
 
 export function Footer({
+  locale,
   homeHref,
   nav,
   startReadinessHref,
@@ -76,20 +80,33 @@ export function Footer({
               </h3>
               <ul className="mt-4 space-y-3">
                 <li>
-                  <a
+                  <TrackedLink
                     href={login.href}
+                    event="app_login_clicked"
+                    eventProps={{
+                      locale,
+                      section: "footer",
+                      href: login.href,
+                    }}
                     className="text-white/75 transition-colors hover:text-white"
                   >
                     {login.label}
-                  </a>
+                  </TrackedLink>
                 </li>
                 <li>
-                  <Link
+                  <TrackedLink
                     href={startReadinessHref}
+                    event="cta_clicked"
+                    eventProps={{
+                      locale,
+                      section: "footer",
+                      cta: "start_readiness",
+                      href: startReadinessHref,
+                    }}
                     className="text-white/75 transition-colors hover:text-white"
                   >
                     {t.startReadiness}
-                  </Link>
+                  </TrackedLink>
                 </li>
                 <li>
                   <a

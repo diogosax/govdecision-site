@@ -60,6 +60,7 @@ export function PricingView({
       <Section tone="ivory">
         <PricingCards
           plans={plans}
+          locale={locale}
           brazilLabel={t.brazilLabel}
           internationalLabel={t.internationalLabel}
           serviceLedBadge={t.serviceLedBadge}
@@ -119,8 +120,30 @@ export function PricingView({
         eyebrow={t.finalCta.eyebrow}
         title={t.finalCta.title}
         subtitle={t.finalCta.subtitle}
-        primary={{ label: t.finalCta.primary, href: lp("/contact") }}
-        secondary={{ label: t.finalCta.secondary, href: lp("/platform") }}
+        primary={{
+          label: t.finalCta.primary,
+          href: lp("/contact"),
+          event: "cta_clicked",
+          eventProps: {
+            locale,
+            page: "/pricing",
+            section: "final_cta",
+            cta: "start_readiness",
+            href: lp("/contact"),
+          },
+        }}
+        secondary={{
+          label: t.finalCta.secondary,
+          href: lp("/platform"),
+          event: "cta_clicked",
+          eventProps: {
+            locale,
+            page: "/pricing",
+            section: "final_cta",
+            cta: "explore_platform",
+            href: lp("/platform"),
+          },
+        }}
       />
     </>
   );

@@ -110,8 +110,37 @@ export default async function DestinationDetailPage({
         eyebrow={d.cta.eyebrow}
         title={d.cta.title}
         subtitle={d.cta.subtitle}
-        primary={d.cta.primary}
-        secondary={d.cta.secondary}
+        primary={{
+          ...d.cta.primary,
+          event: "destination_cta_clicked",
+          eventProps: {
+            locale: "en-US",
+            page: `/market-access/${d.slug}`,
+            section: "final_cta",
+            path: d.slug,
+            pathType: d.pathType,
+            originCountry: d.originCountry,
+            targetMarket: d.targetMarket,
+            cta: d.cta.primary.label,
+            href: d.cta.primary.href,
+          },
+        }}
+        secondary={{
+          ...d.cta.secondary,
+          // The "Open GovDecision app" secondary is the external login link.
+          event: /^https?:\/\//.test(d.cta.secondary.href)
+            ? "app_login_clicked"
+            : "destination_cta_clicked",
+          eventProps: {
+            locale: "en-US",
+            page: `/market-access/${d.slug}`,
+            section: "final_cta",
+            path: d.slug,
+            pathType: d.pathType,
+            cta: d.cta.secondary.label,
+            href: d.cta.secondary.href,
+          },
+        }}
       />
     </>
   );

@@ -26,6 +26,8 @@ export function MarketAccessView({
   const cards: PathCardData[] = marketAccessPaths.map((p) => {
     const c = t.paths.cards[p.slug];
     return {
+      slug: p.slug,
+      locale,
       pathType: p.pathType,
       pathTypeLabel: t.pathTypeLabels[p.pathType] ?? p.pathType,
       statusLabel: t.statusLabels[p.status] ?? p.status,
@@ -114,6 +116,7 @@ export function MarketAccessView({
         />
         <div className="mt-12">
           <PathSelector
+            locale={locale}
             t={{ ...t.selector, pathTypeLabels: t.pathTypeLabels }}
             startReadinessHref={contactHref}
           />
@@ -172,8 +175,30 @@ export function MarketAccessView({
         eyebrow={t.finalCta.eyebrow}
         title={t.finalCta.title}
         subtitle={t.finalCta.subtitle}
-        primary={{ label: t.finalCta.primary, href: contactHref }}
-        secondary={{ label: t.finalCta.secondary, href: contactHref }}
+        primary={{
+          label: t.finalCta.primary,
+          href: contactHref,
+          event: "cta_clicked",
+          eventProps: {
+            locale,
+            page: "/market-access",
+            section: "final_cta",
+            cta: "start_readiness",
+            href: contactHref,
+          },
+        }}
+        secondary={{
+          label: t.finalCta.secondary,
+          href: contactHref,
+          event: "cta_clicked",
+          eventProps: {
+            locale,
+            page: "/market-access",
+            section: "final_cta",
+            cta: "talk_to_team",
+            href: contactHref,
+          },
+        }}
       />
     </>
   );

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/Button";
+import { TrackedButton } from "@/components/analytics/TrackedButton";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Icon } from "@/components/ui/Icon";
@@ -55,9 +56,25 @@ export function DestinationHero({ d }: { d: DestinationPage }) {
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button href={d.cta.primary.href} size="lg" withArrow>
+            <TrackedButton
+              href={d.cta.primary.href}
+              size="lg"
+              withArrow
+              event="destination_cta_clicked"
+              eventProps={{
+                locale: "en-US",
+                page: `/market-access/${d.slug}`,
+                section: "hero",
+                path: d.slug,
+                pathType: d.pathType,
+                originCountry: d.originCountry,
+                targetMarket: d.targetMarket,
+                cta: d.cta.primary.label,
+                href: d.cta.primary.href,
+              }}
+            >
               {d.cta.primary.label}
-            </Button>
+            </TrackedButton>
             <Button href="#readiness" variant="ghost" size="lg">
               See readiness
             </Button>

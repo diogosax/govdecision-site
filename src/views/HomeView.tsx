@@ -3,6 +3,7 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries/types";
 import { localePath } from "@/i18n/routing";
 import { Button } from "@/components/ui/Button";
+import { TrackedButton } from "@/components/analytics/TrackedButton";
 import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -62,12 +63,36 @@ export function HomeView({
             </div>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button href={lp("/contact")} size="lg" withArrow>
+              <TrackedButton
+                href={lp("/contact")}
+                size="lg"
+                withArrow
+                event="cta_clicked"
+                eventProps={{
+                  locale,
+                  page: "/",
+                  section: "hero",
+                  cta: "start_readiness",
+                  href: lp("/contact"),
+                }}
+              >
                 {dict.common.cta.startReadiness}
-              </Button>
-              <Button href={lp("/platform")} variant="ghost" size="lg">
+              </TrackedButton>
+              <TrackedButton
+                href={lp("/platform")}
+                variant="ghost"
+                size="lg"
+                event="cta_clicked"
+                eventProps={{
+                  locale,
+                  page: "/",
+                  section: "hero",
+                  cta: "explore_platform",
+                  href: lp("/platform"),
+                }}
+              >
                 {dict.common.cta.explorePlatform}
-              </Button>
+              </TrackedButton>
             </div>
 
             <p className="mt-8 text-sm text-slate">
@@ -311,8 +336,30 @@ export function HomeView({
         eyebrow={t.finalCta.eyebrow}
         title={t.finalCta.title}
         subtitle={t.finalCta.subtitle}
-        primary={{ label: dict.common.cta.startReadiness, href: lp("/contact") }}
-        secondary={{ label: dict.common.cta.explorePlatform, href: lp("/platform") }}
+        primary={{
+          label: dict.common.cta.startReadiness,
+          href: lp("/contact"),
+          event: "cta_clicked",
+          eventProps: {
+            locale,
+            page: "/",
+            section: "final_cta",
+            cta: "start_readiness",
+            href: lp("/contact"),
+          },
+        }}
+        secondary={{
+          label: dict.common.cta.explorePlatform,
+          href: lp("/platform"),
+          event: "cta_clicked",
+          eventProps: {
+            locale,
+            page: "/",
+            section: "final_cta",
+            cta: "explore_platform",
+            href: lp("/platform"),
+          },
+        }}
       />
     </>
   );
