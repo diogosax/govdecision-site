@@ -31,7 +31,7 @@ export const es = {
       platform: "Plataforma",
       marketAccess: "Mercados",
       opportunityBriefs: "Oportunidades",
-      opportunityBriefsShort: "Oportunidades",
+      marketAccessOverview: "Acceso a mercados",
       pricing: "Precios",
       company: "Empresa",
       contact: "Contacto",
@@ -44,6 +44,7 @@ export const es = {
     },
     cta: {
       startReadiness: "Iniciar readiness",
+      headerStart: "Empezar",
       explorePlatform: "Conocer la plataforma",
       viewCorridors: "Ver corredores",
       viewPricing: "Ver precios",

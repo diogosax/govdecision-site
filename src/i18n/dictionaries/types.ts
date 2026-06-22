@@ -19,9 +19,11 @@ export interface Dictionary {
       platform: string;
       marketAccess: string;
       opportunityBriefs: string;
-      /** Compact header-only label for Opportunity Briefs (SITE-014). The full
-       *  `opportunityBriefs` label is kept for the footer + mobile menu. */
-      opportunityBriefsShort: string;
+      /** Submenu-only label for the Market Access landing link inside the Market
+       *  Access dropdown (SITE-014). Reads fuller than the parent category label
+       *  `marketAccess` ("Acesso a mercados" / "Acceso a mercados" vs "Mercados").
+       *  In EN both are "Market Access". */
+      marketAccessOverview: string;
       pricing: string;
       company: string;
       contact: string;
@@ -36,6 +38,9 @@ export interface Dictionary {
     /** Reusable call-to-action labels (kept short for layout safety). */
     cta: {
       startReadiness: string;
+      /** Header-only, ultra-short variant of `startReadiness` (same href/behavior).
+       *  Kept separate so page-level `startReadiness` CTAs are unaffected. */
+      headerStart: string;
       explorePlatform: string;
       viewCorridors: string;
       viewPricing: string;

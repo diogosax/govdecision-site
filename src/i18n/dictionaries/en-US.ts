@@ -10,7 +10,7 @@ export const enUS = {
       platform: "Platform",
       marketAccess: "Market Access",
       opportunityBriefs: "Opportunity Briefs",
-      opportunityBriefsShort: "Briefs",
+      marketAccessOverview: "Market Access",
       pricing: "Pricing",
       company: "Company",
       contact: "Contact",
@@ -23,6 +23,7 @@ export const enUS = {
     },
     cta: {
       startReadiness: "Start readiness",
+      headerStart: "Start",
       explorePlatform: "Explore the platform",
       viewCorridors: "View corridors",
       viewPricing: "View pricing",
