@@ -6,6 +6,8 @@ import { Icon } from "@/components/ui/Icon";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { CtaBand } from "@/components/marketing/CtaBand";
 import { BriefsPromo } from "@/components/briefs/BriefsPromo";
+import { PartnerCapitalPromo } from "@/components/partner-capital/PartnerCapitalPromo";
+import { getPartnerCapital } from "@/i18n/partner-capital";
 import { MarketAccessHero } from "@/components/market-access/MarketAccessHero";
 import { PathSelector } from "@/components/market-access/PathSelector";
 import { PathCard, type PathCardData } from "@/components/market-access/PathCard";
@@ -178,6 +180,15 @@ export function MarketAccessView({
 
       {/* ------------------------------------------------- Where Sax Global enters */}
       <SaxGlobalSupport t={t.sax} ctaHref={contactHref} />
+
+      {/* ------------------------------------------- Partner / Capital cross-link */}
+      <PartnerCapitalPromo
+        locale={locale}
+        page="/market-access"
+        partnerHref={lp("/partners")}
+        capitalHref={lp("/capital")}
+        t={getPartnerCapital(locale).promo}
+      />
 
       {/* ----------------------------------------------------------- Final CTA */}
       <CtaBand

@@ -31,6 +31,9 @@ export function SiteChrome({
     key: item.key,
     label: dict.common.nav[item.labelKey ?? item.key],
     href: localePath(locale, item.href),
+    ...(item.shortLabelKey
+      ? { shortLabel: dict.common.nav[item.shortLabelKey] }
+      : {}),
     ...(item.children
       ? { children: item.children.map(toHeaderItem) }
       : {}),

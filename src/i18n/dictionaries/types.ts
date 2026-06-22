@@ -24,6 +24,14 @@ export interface Dictionary {
        *  `marketAccess` ("Acesso a mercados" / "Acceso a mercados" vs "Mercados").
        *  In EN both are "Market Access". */
       marketAccessOverview: string;
+      /** Platform dropdown submenu labels (SITE-015). `platformOverview` is the
+       *  desktop overview label ("Platform Overview"); the mobile flatten falls
+       *  back to the shorter `platform` label. */
+      platformOverview: string;
+      partnerNetwork: string;
+      govDecisionCapital: string;
+      partners: string;
+      capital: string;
       pricing: string;
       company: string;
       contact: string;

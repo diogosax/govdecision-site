@@ -9,6 +9,8 @@ export type NavKey =
   | "platform"
   | "marketAccess"
   | "opportunityBriefs"
+  | "partners"
+  | "capital"
   | "pricing"
   | "company"
   | "contact";
@@ -20,29 +22,51 @@ export type NavKey =
  * reads "Acesso a mercados" / "Acceso a mercados" while the parent reads the
  * shorter category label "Mercados").
  */
-export type NavLabelKey = NavKey | "marketAccessOverview";
+export type NavLabelKey =
+  | NavKey
+  | "marketAccessOverview"
+  | "platformOverview"
+  | "partnerNetwork"
+  | "govDecisionCapital";
 
 export type NavItem = {
   key: NavKey;
   href: string;
   /** Override the dictionary label key (defaults to `key`). */
   labelKey?: NavLabelKey;
-  /** Optional submenu entries (SITE-014: Briefs lives under Market Access). */
+  /** Optional shorter label key used only when this item is flattened into the
+   *  mobile menu (e.g. the Platform overview reads "Platform Overview" in the
+   *  desktop dropdown but "Platform" in the flattened mobile list). */
+  shortLabelKey?: NavLabelKey;
+  /** Optional submenu entries (SITE-014: Briefs lives under Market Access;
+   *  SITE-015: Partner Network + GovDecision Capital live under Platform). */
   children?: NavItem[];
 };
 
 /**
  * Primary header navigation — real routed pages, never scroll anchors.
  *
- * SITE-014 keeps five top-level items (no header overflow) and groups Opportunity
- * Briefs under Market Access as a small dropdown. The parent "Market Access"
- * ("Mercados") opens a menu with two destinations: the Market Access overview
- * (`marketAccessOverview` label) and Opportunity Briefs. Both also appear in the
- * mobile menu (flattened) and the footer; Briefs additionally keeps its in-page
- * promos on Home and Market Access.
+ * Five top-level items keep the header compact (no overflow). Two of them open a
+ * small premium dropdown:
+ *   - Platform → Platform Overview · Partner Network · GovDecision Capital (SITE-015)
+ *   - Market Access → Market Access overview · Opportunity Briefs (SITE-014)
+ * Submenu items are flattened into the mobile menu and also appear in the footer.
  */
 export const mainNav: NavItem[] = [
-  { key: "platform", href: "/platform" },
+  {
+    key: "platform",
+    href: "/platform",
+    children: [
+      {
+        key: "platform",
+        href: "/platform",
+        labelKey: "platformOverview",
+        shortLabelKey: "platform",
+      },
+      { key: "partners", href: "/partners", labelKey: "partnerNetwork" },
+      { key: "capital", href: "/capital", labelKey: "govDecisionCapital" },
+    ],
+  },
   {
     key: "marketAccess",
     href: "/market-access",
@@ -56,11 +80,17 @@ export const mainNav: NavItem[] = [
   { key: "contact", href: "/contact" },
 ];
 
-/** Footer navigation — the full set, including Opportunity Briefs (SITE-013). */
+/**
+ * Footer navigation — the full set. Partners + GovDecision Capital live here
+ * (SITE-015) rather than in the primary header, keeping the header uncluttered
+ * while the two pages stay discoverable via the footer and in-page promos.
+ */
 export const footerNav: NavItem[] = [
   { key: "platform", href: "/platform" },
   { key: "marketAccess", href: "/market-access" },
   { key: "opportunityBriefs", href: "/opportunity-briefs" },
+  { key: "partners", href: "/partners" },
+  { key: "capital", href: "/capital" },
   { key: "pricing", href: "/pricing" },
   { key: "company", href: "/company" },
   { key: "contact", href: "/contact" },
