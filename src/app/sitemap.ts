@@ -27,14 +27,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  // Market Access destination briefings — EN-US only (deep fallback in SITE-008).
+  // Market Access destination briefings — now localized (SITE-012). One entry
+  // per locale, cross-linked with hreflang alternates, just like core routes.
   for (const slug of destinationSlugs) {
-    entries.push({
-      url: abs(`/market-access/${slug}`),
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    });
+    const path = `/market-access/${slug}`;
+    const languages: Record<string, string> = {};
+    for (const l of locales) languages[l] = abs(localePath(l, path));
+    languages["x-default"] = abs(localePath("en-US", path));
+
+    for (const l of locales) {
+      entries.push({
+        url: abs(localePath(l, path)),
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.7,
+        alternates: { languages },
+      });
+    }
   }
 
   return entries;

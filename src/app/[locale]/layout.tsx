@@ -15,6 +15,13 @@ import { isPrefixedLocale, localeHtmlLang } from "@/i18n/config";
  * from the `(site)` route group at the root, so it is intentionally NOT a valid
  * `[locale]` value here — anything other than pt-BR/es 404s (clean fallback).
  */
+/**
+ * Only pt-BR and es are valid locale segments; any other prefix 404s cleanly via
+ * the branded global 404 (this app has multiple root layouts, so a root-level
+ * unmatched URL is served by `app/global-not-found`).
+ */
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return [{ locale: "pt-BR" }, { locale: "es" }];
 }

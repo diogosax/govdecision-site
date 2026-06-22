@@ -28,7 +28,10 @@ export type AnalyticsEventName =
   | "contact_form_submitted"
   | "contact_form_succeeded"
   | "contact_form_failed"
-  | "app_login_clicked";
+  | "app_login_clicked"
+  | "locale_suggestion_shown"
+  | "locale_suggestion_accepted"
+  | "locale_suggestion_dismissed";
 
 /**
  * Allowlisted, non-PII event properties. Anything not on this shape is dropped
@@ -55,6 +58,9 @@ export type AnalyticsProperties = {
   toLocale?: string;
   fromPath?: string;
   toPath?: string;
+  /** locale_suggestion_* only — the visitor's current site locale + offered locale. */
+  currentLocale?: string;
+  suggestedLocale?: string;
 };
 
 /** The only keys that may ever reach the analytics provider. */
@@ -77,6 +83,8 @@ const ALLOWED_KEYS = [
   "toLocale",
   "fromPath",
   "toPath",
+  "currentLocale",
+  "suggestedLocale",
 ] as const satisfies readonly (keyof AnalyticsProperties)[];
 
 /** Keep values short and structured — never long free text. */

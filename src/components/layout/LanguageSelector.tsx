@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { locales, localeNames, localeShort, type Locale } from "@/i18n/config";
 import { switchLocalePath } from "@/i18n/routing";
 import { trackEvent, pageFromPathname } from "@/lib/analytics/events";
+import { setLocalePreference } from "@/lib/locale-preference";
 
 /**
  * Functional language selector.
@@ -56,6 +57,8 @@ export function LanguageSelector({
   function selectLocale(target: Locale) {
     setOpen(false);
     if (target === locale) return;
+    // An explicit choice silences the browser-language suggestion banner.
+    setLocalePreference("selected");
     const search = typeof window !== "undefined" ? window.location.search : "";
     const toPath = switchLocalePath(pathname, search, target);
     trackEvent("language_switched", {

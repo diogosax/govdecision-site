@@ -3,8 +3,10 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries/types";
 import { localePath } from "@/i18n/routing";
 import { mainNav, loginHref } from "@/data/navigation";
+import { SiteJsonLd } from "@/components/seo/JsonLd";
 import { Header, type HeaderNavItem } from "./Header";
 import { Footer } from "./Footer";
+import { LocaleSuggestionBanner } from "./LocaleSuggestionBanner";
 
 /**
  * The shared site shell (skip link + header + main + footer), wired with the
@@ -31,6 +33,7 @@ export function SiteChrome({
 
   return (
     <>
+      <SiteJsonLd locale={locale} />
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-plum focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
@@ -60,6 +63,7 @@ export function SiteChrome({
         login={login}
         t={dict.common.footer}
       />
+      <LocaleSuggestionBanner locale={locale} />
     </>
   );
 }

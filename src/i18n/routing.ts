@@ -6,12 +6,13 @@
  *   pt-BR:  /pt-BR       /pt-BR/platform
  *   es:     /es          /es/platform
  *
- * Only the core marketing routes have localized equivalents in this PR. Deep
- * pages (e.g. Market Access destination briefings) stay in EN-US as a clean
- * fallback, so `localePath` deliberately leaves them unprefixed and the
- * language switcher falls back to the nearest localized route.
+ * The core marketing routes and the six Market Access destination briefings
+ * (`/market-access/[slug]`) exist in every locale (SITE-012), so they are all
+ * localized. Any other deep route has no localized page and stays unprefixed,
+ * with the language switcher falling back to the nearest localized route.
  */
 import { defaultLocale, isPrefixedLocale, locales, type Locale } from "./config";
+import { destinationSlugs } from "@/data/destinations";
 
 /** Core routes that exist in every locale. Keep in sync with `app/[locale]/*`. */
 export const localizedPaths = [
@@ -23,6 +24,14 @@ export const localizedPaths = [
   "/contact",
   "/corridors",
 ] as const;
+
+/**
+ * Localized Market Access destination detail routes, one per known slug. These
+ * have a page in every locale (`app/[locale]/market-access/[slug]`), so they
+ * are localized exactly like the core routes.
+ */
+export const localizedDestinationPaths: readonly string[] =
+  destinationSlugs.map((slug) => `/market-access/${slug}`);
 
 function isExternal(href: string): boolean {
   return /^(https?:|mailto:|tel:)/.test(href) || href.startsWith("#");
@@ -36,7 +45,10 @@ function splitHref(href: string): { path: string; rest: string } {
 }
 
 function hasLocalizedVersion(path: string): boolean {
-  return (localizedPaths as readonly string[]).includes(path);
+  return (
+    (localizedPaths as readonly string[]).includes(path) ||
+    localizedDestinationPaths.includes(path)
+  );
 }
 
 /**

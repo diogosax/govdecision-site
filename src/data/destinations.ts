@@ -193,7 +193,7 @@ export const aiAssistNote =
 export const saxGlobalDisclaimer =
   "Sax Global provides planning, context, and guidance. It does not guarantee market access, eligibility, registration approval, partner placement, financing, or contract outcomes. Sample figures are illustrative.";
 
-const businessPlanSnapshot = [
+export const businessPlanSnapshot = [
   "Market entry hypothesis",
   "Required registrations",
   "Product / category fit",
