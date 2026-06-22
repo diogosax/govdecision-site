@@ -11,6 +11,7 @@ import { Icon, type IconName } from "@/components/ui/Icon";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { HeroMockup } from "@/components/marketing/HeroMockup";
 import { WorldMap } from "@/components/marketing/WorldMap";
+import { worldMapLabels } from "@/components/marketing/worldMapLabels";
 import { CtaBand } from "@/components/marketing/CtaBand";
 import { capabilityCards } from "@/data/platform";
 import { corridors } from "@/data/corridors";
@@ -213,7 +214,11 @@ export function HomeView({
           lead={t.corridors.lead}
         />
         <div className="mt-10 overflow-hidden rounded-[2rem] border border-line bg-gradient-to-b from-surface/60 to-white p-4 sm:p-8">
-          <WorldMap tone="light" className="max-h-[460px]" />
+          <WorldMap
+            tone="light"
+            className="max-h-[460px]"
+            labels={worldMapLabels[locale]}
+          />
         </div>
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {corridors.map((c) => (

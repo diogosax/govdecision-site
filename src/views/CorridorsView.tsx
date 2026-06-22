@@ -5,6 +5,7 @@ import { Icon } from "@/components/ui/Icon";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { PageHero } from "@/components/marketing/PageHero";
 import { WorldMap } from "@/components/marketing/WorldMap";
+import { worldMapLabels } from "@/components/marketing/worldMapLabels";
 import { CtaBand } from "@/components/marketing/CtaBand";
 import { corridors, type CorridorStatus } from "@/data/corridors";
 
@@ -54,7 +55,11 @@ export function CorridorsView({
             <p className="text-center text-sm font-semibold uppercase tracking-[0.16em] text-white/50">
               {t.globalLine}
             </p>
-            <WorldMap tone="plum" className="mt-4 max-h-[520px]" />
+            <WorldMap
+              tone="plum"
+              className="mt-4 max-h-[520px]"
+              labels={worldMapLabels[locale]}
+            />
             <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-7 gap-y-2.5 text-xs text-white/70">
               <li className="flex items-center gap-2">
                 <span className="h-2.5 w-2.5 rounded-full bg-coral" />

@@ -42,6 +42,16 @@ export const localeHtmlLang: Record<Locale, string> = {
   es: "es",
 };
 
+/**
+ * Open Graph `og:locale` codes (underscore form). Spanish uses the LATAM
+ * regional code `es_419` to match the neutral-LATAM copy the site ships.
+ */
+export const ogLocale: Record<Locale, string> = {
+  "en-US": "en_US",
+  "pt-BR": "pt_BR",
+  es: "es_419",
+};
+
 export function isLocale(value: string): value is Locale {
   return (locales as readonly string[]).includes(value);
 }

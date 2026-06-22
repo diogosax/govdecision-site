@@ -1,7 +1,25 @@
 import type { Metadata } from "next";
 import { site } from "@/data/site";
-import { defaultLocale, localeHtmlLang, type Locale } from "./config";
+import {
+  defaultLocale,
+  locales,
+  ogLocale,
+  type Locale,
+} from "./config";
 import { buildAlternates } from "./routing";
+
+/** OG locale for `locale`, plus the other locales as `alternateLocale`. */
+function ogLocaleFields(locale: Locale): {
+  locale: string;
+  alternateLocale: string[];
+} {
+  return {
+    locale: ogLocale[locale],
+    alternateLocale: locales
+      .filter((l) => l !== locale)
+      .map((l) => ogLocale[l]),
+  };
+}
 
 /**
  * Base metadata shared by both root layouts (EN root + `[locale]`). Per-page
@@ -32,7 +50,7 @@ export function rootMetadata(locale: Locale): Metadata {
     openGraph: {
       type: "website",
       siteName: site.name,
-      locale: localeHtmlLang[locale],
+      ...ogLocaleFields(locale),
       title: site.ogTitle,
       description: site.ogDescription,
       url: locale === defaultLocale ? "/" : `/${locale}`,
@@ -74,9 +92,41 @@ export function pageMetadata(
       title: copy.title,
       description: copy.description,
       url: alternates.canonical,
-      locale: localeHtmlLang[locale],
+      ...ogLocaleFields(locale),
     },
     twitter: {
+      title: copy.title,
+      description: copy.description,
+    },
+  };
+}
+
+/**
+ * Per-page metadata for a Market Access destination briefing. `path` is the
+ * bare, locale-less detail route (e.g. "/market-access/brazil"). Emits a fully
+ * absolute title (the SEO string verbatim), canonical, hreflang alternates for
+ * every locale, and OG locale fields. Used by both the EN-US (`(site)`) and the
+ * localized (`[locale]`) destination routes.
+ */
+export function destinationMetadata(
+  locale: Locale,
+  path: string,
+  copy: { title: string; description: string },
+): Metadata {
+  const alternates = buildAlternates(locale, path);
+  return {
+    title: { absolute: copy.title },
+    description: copy.description,
+    alternates,
+    openGraph: {
+      type: "website",
+      title: copy.title,
+      description: copy.description,
+      url: alternates.canonical,
+      ...ogLocaleFields(locale),
+    },
+    twitter: {
+      card: "summary_large_image",
       title: copy.title,
       description: copy.description,
     },

@@ -84,9 +84,11 @@ const labelPos: Record<
 function CorridorNode({
   c,
   tone,
+  labels,
 }: {
   c: Corridor;
   tone: "light" | "plum";
+  labels?: Record<string, string[]>;
 }) {
   const { x, y } = project(c.lat, c.lon);
   const coral = "#e56a3a";
@@ -95,7 +97,8 @@ function CorridorNode({
   const isActive = c.status === "Active focus";
   const isMulti = c.type === "multilateral";
   const lp = labelPos[c.id];
-  const lines = lp.lines ?? [c.name];
+  // Localized compact labels override the default name when provided.
+  const lines = labels?.[c.id] ?? lp.lines ?? [c.name];
 
   return (
     <g>
@@ -170,10 +173,13 @@ export function WorldMap({
   tone = "light",
   showLabels = true,
   className = "",
+  labels,
 }: {
   tone?: "light" | "plum";
   showLabels?: boolean;
   className?: string;
+  /** Localized compact labels per corridor id; falls back to the default name. */
+  labels?: Record<string, string[]>;
 }) {
   const { focus, context } = dots();
   const hub = project(corridorHub.lat, corridorHub.lon);
@@ -269,7 +275,9 @@ export function WorldMap({
 
       {/* market nodes */}
       {showLabels
-        ? corridors.map((c) => <CorridorNode key={c.id} c={c} tone={tone} />)
+        ? corridors.map((c) => (
+            <CorridorNode key={c.id} c={c} tone={tone} labels={labels} />
+          ))
         : corridors.map((c) => {
             const p = project(c.lat, c.lon);
             return (
