@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/data/site";
 import { destinationSlugs } from "@/data/destinations";
+import { briefSlugs } from "@/data/opportunity-briefs";
 import { locales } from "@/i18n/config";
 import { localePath, localizedPaths } from "@/i18n/routing";
 
@@ -31,6 +32,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // per locale, cross-linked with hreflang alternates, just like core routes.
   for (const slug of destinationSlugs) {
     const path = `/market-access/${slug}`;
+    const languages: Record<string, string> = {};
+    for (const l of locales) languages[l] = abs(localePath(l, path));
+    languages["x-default"] = abs(localePath("en-US", path));
+
+    for (const l of locales) {
+      entries.push({
+        url: abs(localePath(l, path)),
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.7,
+        alternates: { languages },
+      });
+    }
+  }
+
+  // Government Opportunity Briefs detail pages — localized (SITE-013). One entry
+  // per locale, cross-linked with hreflang alternates. (The index route is
+  // already covered by the core `localizedPaths` loop above.)
+  for (const slug of briefSlugs) {
+    const path = `/opportunity-briefs/${slug}`;
     const languages: Record<string, string> = {};
     for (const l of locales) languages[l] = abs(localePath(l, path));
     languages["x-default"] = abs(localePath("en-US", path));

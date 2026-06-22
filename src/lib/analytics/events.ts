@@ -23,6 +23,8 @@ export type AnalyticsEventName =
   | "market_access_selector_changed"
   | "market_access_path_clicked"
   | "destination_cta_clicked"
+  | "opportunity_brief_clicked"
+  | "opportunity_brief_cta_clicked"
   | "pricing_cta_clicked"
   | "contact_form_started"
   | "contact_form_submitted"
@@ -52,6 +54,10 @@ export type AnalyticsProperties = {
   market?: string;
   originCountry?: string;
   targetMarket?: string;
+  /** opportunity_brief_* only — the brief slug, its category, and related path. */
+  slug?: string;
+  opportunityType?: string;
+  relatedPath?: string;
   /** contact_form_failed only — one of: validation | delivery | network | unknown. */
   reason?: string;
   fromLocale?: string;
@@ -78,6 +84,9 @@ const ALLOWED_KEYS = [
   "market",
   "originCountry",
   "targetMarket",
+  "slug",
+  "opportunityType",
+  "relatedPath",
   "reason",
   "fromLocale",
   "toLocale",

@@ -132,3 +132,35 @@ export function destinationMetadata(
     },
   };
 }
+
+/**
+ * Per-page metadata for a Government Opportunity Brief detail page (SITE-013).
+ * `path` is the bare, locale-less detail route (e.g.
+ * "/opportunity-briefs/brazil-facilities-maintenance"). Emits the brief's
+ * absolute title, canonical, hreflang alternates for every locale, and OG
+ * locale fields. Used by both the EN-US and localized brief routes.
+ */
+export function briefMetadata(
+  locale: Locale,
+  path: string,
+  copy: { title: string; description: string },
+): Metadata {
+  const alternates = buildAlternates(locale, path);
+  return {
+    title: { absolute: copy.title },
+    description: copy.description,
+    alternates,
+    openGraph: {
+      type: "article",
+      title: copy.title,
+      description: copy.description,
+      url: alternates.canonical,
+      ...ogLocaleFields(locale),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: copy.title,
+      description: copy.description,
+    },
+  };
+}

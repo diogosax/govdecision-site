@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries/types";
 import { localePath } from "@/i18n/routing";
-import { mainNav, loginHref } from "@/data/navigation";
+import { mainNav, footerNav, loginHref } from "@/data/navigation";
 import { SiteJsonLd } from "@/components/seo/JsonLd";
 import { Header, type HeaderNavItem } from "./Header";
 import { Footer } from "./Footer";
@@ -24,6 +24,12 @@ export function SiteChrome({
   children: ReactNode;
 }) {
   const nav: HeaderNavItem[] = mainNav.map((item) => ({
+    key: item.key,
+    label: dict.common.nav[item.key],
+    href: localePath(locale, item.href),
+  }));
+
+  const footerLinks: HeaderNavItem[] = footerNav.map((item) => ({
     key: item.key,
     label: dict.common.nav[item.key],
     href: localePath(locale, item.href),
@@ -58,7 +64,7 @@ export function SiteChrome({
       <Footer
         locale={locale}
         homeHref={localePath(locale, "/")}
-        nav={nav}
+        nav={footerLinks}
         startReadinessHref={localePath(locale, "/contact")}
         login={login}
         t={dict.common.footer}

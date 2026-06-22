@@ -13,12 +13,14 @@
  */
 import { defaultLocale, isPrefixedLocale, locales, type Locale } from "./config";
 import { destinationSlugs } from "@/data/destinations";
+import { briefSlugs } from "@/data/opportunity-briefs";
 
 /** Core routes that exist in every locale. Keep in sync with `app/[locale]/*`. */
 export const localizedPaths = [
   "/",
   "/platform",
   "/market-access",
+  "/opportunity-briefs",
   "/pricing",
   "/company",
   "/contact",
@@ -32,6 +34,14 @@ export const localizedPaths = [
  */
 export const localizedDestinationPaths: readonly string[] =
   destinationSlugs.map((slug) => `/market-access/${slug}`);
+
+/**
+ * Localized Opportunity Brief detail routes, one per known slug (SITE-013).
+ * These have a page in every locale (`app/[locale]/opportunity-briefs/[slug]`).
+ */
+export const localizedBriefPaths: readonly string[] = briefSlugs.map(
+  (slug) => `/opportunity-briefs/${slug}`,
+);
 
 function isExternal(href: string): boolean {
   return /^(https?:|mailto:|tel:)/.test(href) || href.startsWith("#");
@@ -47,7 +57,8 @@ function splitHref(href: string): { path: string; rest: string } {
 function hasLocalizedVersion(path: string): boolean {
   return (
     (localizedPaths as readonly string[]).includes(path) ||
-    localizedDestinationPaths.includes(path)
+    localizedDestinationPaths.includes(path) ||
+    localizedBriefPaths.includes(path)
   );
 }
 
@@ -98,6 +109,9 @@ export function switchLocalePath(
   }
   if (path.startsWith("/market-access")) {
     return localePath(target, "/market-access");
+  }
+  if (path.startsWith("/opportunity-briefs")) {
+    return localePath(target, "/opportunity-briefs");
   }
   return localePath(target, "/");
 }

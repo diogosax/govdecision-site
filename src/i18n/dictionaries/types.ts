@@ -18,9 +18,17 @@ export interface Dictionary {
     nav: {
       platform: string;
       marketAccess: string;
+      opportunityBriefs: string;
       pricing: string;
       company: string;
       contact: string;
+    };
+    /** Reusable Opportunity Briefs promo (Home + Market Access cross-links). */
+    briefsPromo: {
+      eyebrow: string;
+      title: string;
+      lead: string;
+      cta: string;
     };
     /** Reusable call-to-action labels (kept short for layout safety). */
     cta: {

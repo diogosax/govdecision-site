@@ -5,6 +5,7 @@ import { localePath } from "@/i18n/routing";
 import { Icon } from "@/components/ui/Icon";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { CtaBand } from "@/components/marketing/CtaBand";
+import { BriefsPromo } from "@/components/briefs/BriefsPromo";
 import { MarketAccessHero } from "@/components/market-access/MarketAccessHero";
 import { PathSelector } from "@/components/market-access/PathSelector";
 import { PathCard, type PathCardData } from "@/components/market-access/PathCard";
@@ -154,6 +155,14 @@ export function MarketAccessView({
           </Link>
         </div>
       </Section>
+
+      {/* ------------------------------------------- Opportunity Briefs promo */}
+      <BriefsPromo
+        locale={locale}
+        page="/market-access"
+        href={lp("/opportunity-briefs")}
+        t={dict.common.briefsPromo}
+      />
 
       {/* ------------------------------------------------ Where GovDecision enters */}
       <Section tone="white">
