@@ -2,9 +2,15 @@ import type { Dictionary } from "./types";
 
 /**
  * PT-BR — natural Brazilian Portuguese for business owners and executives.
- * Tone: strategic, commercial, premium. Brand names (GovDecision, Sax Group,
- * Sax Global, plan names) are kept. Copy is deliberately tight to protect the
- * approved layout — labels and CTAs stay short, headlines stay compact.
+ * Tone: strategic, commercial, premium. Brand and product-architecture names
+ * (GovDecision, Sax Group, Sax Global, the plan names, and the six platform
+ * modules — Supplier Passport, Opportunity Qualification, Readiness Workspace,
+ * Country Packs, Deal Room, Post-Award Enablement) stay in English and are
+ * explained in Portuguese. "Government business" is rendered as "negócios
+ * governamentais" in positioning labels, and as "negócios com o governo" /
+ * "vendas ao governo" in sentences where that reads clearer. Copy is
+ * deliberately tight to protect the approved layout — labels and CTAs stay
+ * short, headlines stay compact.
  */
 export const ptBR = {
   common: {
@@ -49,15 +55,15 @@ export const ptBR = {
 
   home: {
     meta: {
-      title: "GovDecision — Plataforma Global de Negócios com o Governo",
+      title: "GovDecision — Plataforma global de negócios governamentais",
       description:
-        "A GovDecision ajuda fornecedores a qualificar oportunidades públicas, ganhar prontidão e entrar em mercados governamentais com decisões melhores em vários países.",
+        "A GovDecision ajuda fornecedores a qualificar oportunidades públicas, organizar readiness e acessar mercados governamentais com decisões melhores em vários países.",
     },
-    eyebrow: "Plataforma Global de Negócios com o Governo",
+    eyebrow: "Plataforma global de negócios governamentais",
     title:
-      "Oportunidades com o governo existem em todo lugar. O difícil é saber onde competir.",
+      "Oportunidades públicas existem em muitos mercados. O difícil é saber onde competir.",
     subtitle:
-      "A GovDecision ajuda fornecedores a qualificar oportunidades, ganhar prontidão e entrar em mercados públicos com decisões melhores, em vários países.",
+      "A GovDecision ajuda fornecedores a qualificar oportunidades, organizar readiness e acessar mercados governamentais com decisões melhores, em vários países.",
     slogan: "Less Clipping, More Decision",
     strategicLead: "Vendas ao governo, com decisões melhores.",
     strategicRest: "Da prontidão ao contrato.",
@@ -144,7 +150,7 @@ export const ptBR = {
         "Extrair requisitos de documentos longos e fragmentados",
         "Resumir oportunidades em briefings claros",
         "Detectar bloqueios e itens de prontidão faltantes",
-        "Apoiar a análise de prontidão e a decisão go/no-go",
+        "Apoiar a análise de prontidão e a decisão Go/No-Go",
       ],
     },
     sax: {
@@ -174,7 +180,7 @@ export const ptBR = {
       eyebrow: "Da prontidão ao contrato",
       title: "Torne-se um fornecedor pronto para o governo.",
       subtitle:
-        "Comece pela prontidão. Persiga com método. Cresça em mercados públicos com decisões melhores.",
+        "Comece pela prontidão. Persiga com método. Cresça em mercados do setor público com decisões melhores.",
     },
   },
 
@@ -182,16 +188,16 @@ export const ptBR = {
     meta: {
       title: "Plataforma",
       description:
-        "A camada de decisão para vendas ao governo: Passaporte do Fornecedor, Qualificação de Oportunidades, Espaço de Prontidão, Pacotes por País, Sala de Decisão e Habilitação Pós-Contrato.",
+        "A camada de decisão para vendas ao governo: Supplier Passport, Opportunity Qualification, Readiness Workspace, Country Packs, Deal Room e Post-Award Enablement.",
     },
     eyebrow: "A plataforma",
     title: "A camada de decisão para vendas ao governo.",
-    lead: "Seis módulos conectados levam o fornecedor do ruído das oportunidades a uma decisão go/no-go defensável, um plano de prontidão executável e uma rota de mercado — em vários países.",
+    lead: "Seis módulos conectados levam o fornecedor do ruído das oportunidades a uma decisão Go/No-Go defensável, um plano de prontidão executável e uma rota de mercado — em vários países.",
     moduleLabel: "Módulo",
     modules: [
       {
-        name: "Passaporte do Fornecedor",
-        tagline: "Um perfil estruturado do que sua empresa entrega de verdade.",
+        name: "Supplier Passport",
+        tagline: "O perfil estruturado do que sua empresa entrega de verdade.",
         description:
           "Um perfil vivo da sua empresa que toda decisão consulta — para avaliar aderência, bloqueios e rotas contra a realidade, não no achismo.",
         points: [
@@ -204,10 +210,10 @@ export const ptBR = {
         ],
       },
       {
-        name: "Qualificação de Oportunidades",
+        name: "Opportunity Qualification",
         tagline: "Saiba o que vale a pena antes de gastar uma semana nisso.",
         description:
-          "Cada oportunidade recebe nota de aderência, complexidade e esforço, com bloqueios e requisitos críticos antecipados e uma recomendação go/no-go clara.",
+          "Cada oportunidade recebe nota de aderência, complexidade e esforço, com bloqueios e requisitos críticos antecipados e uma recomendação Go/No-Go clara.",
         points: [
           "Nota de aderência",
           "Nota de complexidade",
@@ -215,11 +221,11 @@ export const ptBR = {
           "Detecção de bloqueios",
           "Extração de prazos",
           "Requisitos críticos",
-          "Recomendação go/no-go",
+          "Recomendação Go/No-Go",
         ],
       },
       {
-        name: "Espaço de Prontidão",
+        name: "Readiness Workspace",
         tagline: "Transforme requisitos faltantes em um plano com responsáveis e prazos.",
         description:
           "Checklists de documentos, país e oportunidade viram tarefas acompanhadas, com responsáveis e prazos — a prontidão vira progresso mensurável, não correria.",
@@ -232,7 +238,7 @@ export const ptBR = {
         ],
       },
       {
-        name: "Pacotes por País",
+        name: "Country Packs",
         tagline: "As regras locais do jogo, estruturadas por mercado.",
         description:
           "Lógica específica de cada país para fontes, registro, elegibilidade, parceiros locais, formas de submissão e o atrito operacional que pega o fornecedor de surpresa.",
@@ -248,7 +254,7 @@ export const ptBR = {
         ],
       },
       {
-        name: "Sala de Decisão",
+        name: "Deal Room",
         tagline: "Onde a decisão de perseguir é tomada e aprovada.",
         description:
           "Uma decisão estruturada reúne estratégia, escolha de rota, riscos, premissas de preço e necessidades de parceiro em um fluxo de aprovação que a liderança assina.",
@@ -263,7 +269,7 @@ export const ptBR = {
         ],
       },
       {
-        name: "Habilitação Pós-Contrato",
+        name: "Post-Award Enablement",
         tagline: "Ganhar é o começo — a execução é onde está a margem.",
         description:
           "Prontidão de entrega, garantias, marcos e prazos financeiros são estruturados antes de virarem problema, para que vitórias virem contratos executados.",
@@ -287,14 +293,14 @@ export const ptBR = {
 
   marketAccess: {
     meta: {
-      title: "Acesso a Mercados — GovDecision",
+      title: "Acesso a mercados — GovDecision",
       description:
         "Escolha onde sua empresa está e para onde quer vender a governos. A GovDecision ajuda fornecedores a entender caminhos locais e internacionais com mais prontidão e decisões melhores.",
     },
     hero: {
       eyebrow: "Caminhos de acesso a mercados",
       title:
-        "Encontre os mercados públicos que sua empresa pode realmente atacar.",
+        "Encontre os mercados governamentais que sua empresa pode realmente atacar.",
       subtitle:
         "Escolha onde sua empresa está e para onde quer vender. A GovDecision ajuda você a entender o caminho, os bloqueios, a prontidão e a rota de mercado.",
       slogan:
@@ -309,19 +315,19 @@ export const ptBR = {
       examplesLabel: "Exemplos",
       modes: [
         {
-          label: "Negócios com o governo local",
+          label: "Negócios governamentais locais",
           copy: "Venda a compradores públicos no seu mercado com qualificação mais clara, prontidão documental e disciplina na decisão de propor.",
           helpsLabel: "Onde a GovDecision ajuda",
           helps: [
             "Achar o que vale a pena",
             "Detectar documentos faltantes",
             "Organizar a prontidão",
-            "Estruturar decisões go/no-go",
+            "Estruturar decisões Go/No-Go",
             "Preparar a execução pós-contrato",
           ],
         },
         {
-          label: "Negócios com o governo internacional",
+          label: "Negócios governamentais internacionais",
           copy: "Avalie oportunidades em mercados estrangeiros ou multilaterais com prontidão específica por país, lógica de rota de mercado e apoio da Sax Global.",
           helpsLabel: "Onde GovDecision + Sax Global ajudam",
           helps: [
@@ -353,7 +359,7 @@ export const ptBR = {
         Local: [
           "qualificação de oportunidades",
           "prontidão documental do fornecedor",
-          "disciplina go/no-go",
+          "disciplina Go/No-Go",
           "prontidão de execução pós-contrato",
         ],
         "Cross-border": [
@@ -406,7 +412,7 @@ export const ptBR = {
             "Fontes oficiais/públicas de oportunidades",
             "Documentação do fornecedor",
             "Extração de requisitos",
-            "Disciplina go/no-go",
+            "Disciplina Go/No-Go",
             "Fluxos assistidos",
           ],
           ctaLabel: "Ver caminho local Brasil",
@@ -470,7 +476,7 @@ export const ptBR = {
           title:
             "Explore a expansão regional em negócios com o governo com um caminho estruturado.",
           summary:
-            "Cresça em mercados públicos vizinhos com um pacote por país validado e uma rota clara, sem achismo.",
+            "Cresça em mercados governamentais vizinhos com um pacote por país validado e uma rota clara, sem achismo.",
           focusAreas: [
             "Expansão regional",
             "Validação do pacote por país",
@@ -583,7 +589,7 @@ export const ptBR = {
         description:
           "Para fornecedores que querem uma plataforma estruturada para qualificar oportunidades, organizar a prontidão e decidir onde competir.",
         features: [
-          "Passaporte do Fornecedor",
+          "Supplier Passport",
           "Espaço de qualificação de oportunidades",
           "Checklist de prontidão",
           "Acesso aos pacotes por país",
@@ -592,7 +598,7 @@ export const ptBR = {
         ],
         cta: "Começar a GovDecision One",
         priceBrazil: "R$ 379,00 / mês",
-        priceInternational: "US$ 99,90 / mês",
+        priceInternational: "US$ 99.90 / mês",
         noteBrazil: "Para fornecedores sediados no Brasil.",
         noteInternational: "Para os EUA e outros mercados atendidos.",
       },
@@ -625,9 +631,9 @@ export const ptBR = {
       capability: "Recurso",
       guided: "Assistido",
       rows: [
-        "Passaporte do Fornecedor",
+        "Supplier Passport",
         "Qualificação de oportunidades",
-        "Espaço de prontidão",
+        "Readiness Workspace",
         "Acesso aos pacotes por país",
         "Modelos de briefing de decisão",
         "Organização do pipeline",
@@ -709,7 +715,7 @@ export const ptBR = {
     finalCta: {
       title: "Faça seu negócio com o governo crescer com método.",
       subtitle:
-        "Comece pela prontidão. Persiga com método. Cresça em mercados públicos com decisões melhores.",
+        "Comece pela prontidão. Persiga com método. Cresça em mercados do setor público com decisões melhores.",
       secondary: "Conhecer a plataforma",
     },
   },
@@ -721,7 +727,7 @@ export const ptBR = {
         "Comece sua conversa de prontidão para vender ao governo com a GovDecision. Conte o que você vende e onde quer competir.",
     },
     eyebrow: "Contato",
-    title: "Comece sua conversa de prontidão para o governo.",
+    title: "Comece sua conversa de prontidão para vender ao governo.",
     lead: "Conte o que você vende e onde quer competir. Vamos ajudar a decidir onde focar, qual prontidão você precisa e qual rota de mercado faz sentido.",
     aside: [
       {
@@ -758,11 +764,11 @@ export const ptBR = {
       namePlaceholder: "Seu nome completo",
       companyLabel: "Empresa",
       companyPlaceholder: "Nome da empresa",
-      email: "E-mail corporativo",
+      email: "E-mail profissional",
       emailPlaceholder: "voce@empresa.com",
       country: "País",
       countryPlaceholder: "Onde você está sediado",
-      markets: "Mercados-alvo",
+      markets: "Mercados de interesse",
       marketsPlaceholder: "ex.: Estados Unidos, Brasil, ONU e Banco Mundial",
       message: "Mensagem",
       messagePlaceholder: "O que você vende e onde quer competir?",
