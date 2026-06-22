@@ -1094,6 +1094,488 @@ export const destinations: DestinationPage[] = [
       secondary: { label: "Explore GovDecision", href: "/platform" },
     },
   },
+
+  /* ------------------------------------ United States → Brazil (cross-border) */
+  {
+    slug: "united-states-to-brazil",
+    originCountry: "United States",
+    targetMarket: "Brazil",
+    pathType: "cross-border",
+    status: "in-development",
+
+    heroEyebrow: "Cross-border market access",
+    heroTitle:
+      "A practical path for U.S. suppliers approaching Brazilian public procurement.",
+    heroSubtitle:
+      "Brazil can be a significant public sector market, but foreign suppliers need more than opportunity alerts. GovDecision helps structure the decision, while Sax Global helps evaluate the market access path.",
+
+    readinessPriority: "Local route + documentation validation",
+    firstStep: "Market access review + Supplier Passport",
+
+    metaTitle: "United States to Brazil Government Business — GovDecision",
+    metaDescription:
+      "Explore how U.S. suppliers can evaluate a path into Brazilian public procurement with GovDecision readiness workflows and Sax Global market access support.",
+
+    marketSnapshot: {
+      metrics: [
+        {
+          label: "Target population",
+          value: "≈ 212 million",
+          note: "World Bank · 2024",
+          icon: "globe",
+        },
+        {
+          label: "Target GDP",
+          value: "≈ US$2.18 trillion",
+          note: "World Bank · 2024",
+          icon: "layers",
+        },
+        {
+          label: "Public procurement",
+          value: "≈ 12–14% of GDP",
+          note: "Estimate · OECD context",
+          icon: "checklist",
+        },
+        {
+          label: "Currency",
+          value: "Brazilian real (BRL)",
+          icon: "award",
+        },
+        {
+          label: "Main language",
+          value: "Portuguese",
+          icon: "flag",
+        },
+        {
+          label: "Market type",
+          value: "Cross-border entry",
+          note: "Local route + documentation",
+          icon: "route",
+        },
+      ],
+      sourceNotes: [
+        {
+          label: "World Bank — Population, Brazil",
+          url: "https://data.worldbank.org/indicator/SP.POP.TOTL?locations=BR",
+          year: "2024",
+        },
+        {
+          label: "World Bank — GDP (current US$), Brazil",
+          url: "https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?locations=BR",
+          year: "2024",
+        },
+        {
+          label: "OECD — Government at a Glance, Size of public procurement",
+          url: "https://www.oecd.org/en/publications/government-at-a-glance-2025_0efd0bcd-en/full-report/size-of-public-procurement_6979cd47.html",
+          year: "2025",
+        },
+        {
+          label: "PNCP — Portal Nacional de Contratações Públicas",
+          url: "https://pncp.gov.br/",
+        },
+        {
+          label: "Compras.gov.br — Federal procurement portal",
+          url: "https://www.gov.br/compras/pt-br",
+        },
+      ],
+    },
+
+    marketOverview:
+      "Brazil runs one of the world's largest public procurement environments — federal, state, and municipal buyers, state-owned companies, and autonomous social services (the Sistema S context where it applies) — across a national portal and many buyer-specific ones. For a U.S. supplier the opportunity is real, but so is the complexity: registration and documentation, Portuguese-language operations, local route and representative considerations, and tax, import, and execution questions that have to be validated before pursuit. Requirements vary by buyer, category, procurement method, source, and opportunity.",
+    whyItMatters: [
+      "Buyers and sources are fragmented across federal, state, municipal, state-owned, and Sistema S contexts — each with its own portals and rules.",
+      "Operations run in Portuguese, and documentation usually needs localization plus a validated local registration path, not just translation.",
+      "Route to market and tax, import, and delivery assumptions should be validated before resources are committed.",
+    ],
+
+    basicChecklist: [
+      {
+        item: "Supplier Passport",
+        status: "usually-needed",
+        description:
+          "A clear, structured profile of what your company sells and can prove abroad.",
+      },
+      {
+        item: "Product / category fit",
+        status: "usually-needed",
+        description:
+          "Confirm your offering maps to real Brazilian buyer demand and bid objects.",
+      },
+      {
+        item: "Portuguese-language documentation",
+        status: "usually-needed",
+        description:
+          "Editais and communication run in Portuguese; documents typically need localization, not just translation.",
+      },
+      {
+        item: "Brazilian procurement source monitoring",
+        status: "usually-needed",
+        description:
+          "PNCP, Compras.gov.br, and buyer-specific portals each carry different opportunities.",
+      },
+      {
+        item: "Local registration path",
+        status: "validate",
+        description:
+          "How a foreign supplier registers and habilitates depends on the buyer, category, and method — validate before assuming.",
+      },
+      {
+        item: "Tax / fiscal representation context",
+        status: "depends",
+        description:
+          "Fiscal and tax representation needs depend on the route and the nature of the supply.",
+      },
+      {
+        item: "Local representative / distributor strategy",
+        status: "depends",
+        description:
+          "Often useful, and sometimes effectively required by the route or buyer context.",
+      },
+      {
+        item: "Import / logistics feasibility",
+        status: "depends",
+        description:
+          "Import, customs, and delivery feasibility depend on the product and the terms.",
+      },
+      {
+        item: "Local stock requirement",
+        status: "depends",
+        description:
+          "Depends on the product, delivery terms, and buyer expectations.",
+      },
+      {
+        item: "Local production / content requirement",
+        status: "validate",
+        description:
+          "Local-content rules are not universal; validate category and buyer rules before assuming.",
+      },
+      {
+        item: "Certification / technical documentation",
+        status: "depends",
+        description:
+          "Sector certifications or technical documentation may apply depending on the object and buyer.",
+      },
+      {
+        item: "Bid bond / guarantee / payment terms",
+        status: "validate",
+        description:
+          "Guarantees, bonds, and payment timing vary by edital — validate per opportunity.",
+      },
+      {
+        item: "Execution & after-award readiness",
+        status: "usually-needed",
+        description:
+          "Plan delivery, support, and post-award obligations before you pursue.",
+      },
+    ],
+    commonBlockers: [
+      "Misunderstanding Brazil's buyer and source fragmentation",
+      "Assuming every opportunity is accessible from abroad",
+      "Portuguese documentation and communication gaps",
+      "Tax and import complexity",
+      "An unclear local route",
+      "No representative or distributor strategy",
+      "Local delivery and stock assumptions",
+      "Guarantees and payment-timing surprises",
+      "Missing category-specific certifications",
+      "No bid / no-bid discipline",
+    ],
+    routeOptions: [
+      "Local representative or commercial agent",
+      "Distributor or channel partner",
+      "Brazilian subsidiary or local entity",
+      "Teaming or subcontracting with a local supplier",
+      "Prepare first, then enter",
+    ],
+
+    govDecisionRole: [
+      "Supplier Passport turns scattered U.S. company data into one structured, reusable profile.",
+      "Country Pack logic applies Brazil's buyer, source, and registration rules to your situation.",
+      "Opportunity Qualification scores fit and reads the buyer and source behind each notice.",
+      "AI-assisted requirement extraction surfaces what an edital demands, in plain terms.",
+      "Blocker detection flags documentation, registration, and local-route gaps early.",
+      "A go / no-go memo and Deal Room keep a cross-border decision auditable and ready for post-award execution.",
+    ],
+    readinessConsole: {
+      supplierPassport: 74,
+      marketFit: 79,
+      criticalBlockers: 3,
+      recommendedRoute: "Validate route + local docs",
+      decision: "Prepare, then pursue",
+    },
+
+    saxGlobal: {
+      emphasis: "primary",
+      intro:
+        "Cross-border entry into Brazil is where software meets the real world. Sax Global supports the market access journey — Brazil entry context, local route and registration-path validation, partner and distributor strategy, documentation and operational readiness, and practical cross-border execution discussion.",
+      score: {
+        attractiveness: 78,
+        readinessGap: "Medium",
+        routeComplexity: "High",
+        partnerDependency: "Medium–High",
+        executionRisk: "Medium",
+        firstMove: "Validate Brazil route + local documentation context",
+      },
+      businessPlan: businessPlanSnapshot,
+      role: [
+        "Market access planning and Brazil entry context",
+        "Local route and registration-path validation",
+        "Partner / distributor strategy discussion",
+        "Documentation and operational readiness context",
+        "Cross-border execution and commercial route discussion",
+      ],
+    },
+
+    cta: {
+      eyebrow: "Plan the path",
+      title: "Plan this market entry path with Sax Global.",
+      subtitle:
+        "Validate the Brazil route, local documentation context, and readiness gaps before you commit resources to Brazilian public procurement.",
+      primary: {
+        label: "Talk to Sax Global",
+        href: "/contact?path=united-states-to-brazil&type=cross-border",
+      },
+      secondary: { label: "Explore GovDecision", href: "/platform" },
+    },
+  },
+
+  /* ------------------------------------------ Brazil → Paraguay (regional) */
+  {
+    slug: "brazil-to-paraguay",
+    originCountry: "Brazil",
+    targetMarket: "Paraguay",
+    pathType: "regional",
+    status: "targeted",
+
+    heroEyebrow: "Regional market access",
+    heroTitle:
+      "A regional path for Brazilian suppliers exploring Paraguayan public procurement.",
+    heroSubtitle:
+      "Paraguay can be a practical regional expansion path for Brazilian suppliers, but the route still requires market validation, documentation, local context, and execution planning.",
+
+    readinessPriority: "Country pack validation + local route",
+    firstStep: "Readiness review + regional market access planning",
+
+    metaTitle: "Brazil to Paraguay Government Business — GovDecision",
+    metaDescription:
+      "Explore how Brazilian suppliers can evaluate a regional path into Paraguayan public procurement with GovDecision readiness workflows and Sax Global market access support.",
+
+    marketSnapshot: {
+      metrics: [
+        {
+          label: "Target population",
+          value: "≈ 6.9 million",
+          note: "World Bank · 2024",
+          icon: "globe",
+        },
+        {
+          label: "Target GDP",
+          value: "≈ US$44.5 billion",
+          note: "World Bank · 2024",
+          icon: "layers",
+        },
+        {
+          label: "Public procurement",
+          value: "Pending validation",
+          note: "DNCP · consolidated volume not confirmed",
+          icon: "checklist",
+        },
+        {
+          label: "Currency",
+          value: "Paraguayan guaraní (PYG)",
+          icon: "award",
+        },
+        {
+          label: "Main language",
+          value: "Spanish · Guaraní co-official",
+          icon: "flag",
+        },
+        {
+          label: "Procurement access",
+          value: "DNCP · contrataciones.gov.py",
+          note: "National procurement portal",
+          icon: "route",
+        },
+      ],
+      sourceNotes: [
+        {
+          label: "World Bank — Population, total, Paraguay",
+          url: "https://data.worldbank.org/indicator/SP.POP.TOTL?locations=PY",
+          year: "2024",
+        },
+        {
+          label: "World Bank — GDP (current US$), Paraguay",
+          url: "https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?locations=PY",
+          year: "2024",
+        },
+        {
+          label: "DNCP — Dirección Nacional de Contrataciones Públicas",
+          url: "https://www.contrataciones.gov.py/",
+        },
+        {
+          label: "DNCP — Open procurement data portal",
+          url: "https://www.datos.gov.py/portal-de-datos-abiertos-de-la-direccion-nacional-de-contrataciones-publicas",
+        },
+      ],
+    },
+
+    marketOverview:
+      "Paraguay can be a practical regional expansion path for Brazilian suppliers — geographic proximity, Mercosur and regional business familiarity, and a shared neighborhood lower some friction. But it is still a foreign market: operations run in Spanish, public procurement portals and rules must be validated, local representation or partner needs depend on the opportunity, and delivery, logistics, documentation, and compliance assumptions have to be checked. Paraguay should be evaluated corridor by corridor and category by category, with source validation and local route assumptions reviewed before pursuing.",
+    whyItMatters: [
+      "Geographic proximity and Mercosur familiarity can lower friction, but they do not remove procurement complexity.",
+      "Operations run in Spanish (Guaraní is co-official), and documentation may need translation or legalization depending on the opportunity.",
+      "Procurement runs through the national DNCP system; sources, buyer rules, and local route assumptions should be validated corridor by corridor.",
+    ],
+
+    basicChecklist: [
+      {
+        item: "Supplier Passport",
+        status: "usually-needed",
+        description:
+          "A clear, structured profile of what your company sells and can prove in a new market.",
+      },
+      {
+        item: "Product / category fit",
+        status: "usually-needed",
+        description:
+          "Confirm your offering maps to real Paraguayan buyer demand and tender objects.",
+      },
+      {
+        item: "Spanish-language documentation",
+        status: "usually-needed",
+        description:
+          "Tenders and communication run in Spanish; documents typically need localization, not just translation.",
+      },
+      {
+        item: "Paraguayan procurement source validation",
+        status: "validate",
+        description:
+          "Validate the DNCP system and any buyer-specific sources before relying on them.",
+      },
+      {
+        item: "Local registration requirements",
+        status: "validate",
+        description:
+          "How a foreign supplier registers and qualifies depends on the buyer, category, and method — validate per opportunity.",
+      },
+      {
+        item: "Local representative / distributor strategy",
+        status: "depends",
+        description:
+          "Often useful, and sometimes effectively required by the route or buyer context.",
+      },
+      {
+        item: "Local company requirement",
+        status: "depends",
+        description:
+          "Whether a local company or presence is needed depends on the opportunity — validate before assuming.",
+      },
+      {
+        item: "Local stock requirement",
+        status: "depends",
+        description:
+          "Depends on delivery terms and the buyer's lead-time expectations.",
+      },
+      {
+        item: "Local production / content requirement",
+        status: "validate",
+        description:
+          "Local-content rules are not universal; validate buyer and category rules before assuming.",
+      },
+      {
+        item: "Customs / logistics feasibility",
+        status: "depends",
+        description:
+          "Customs, transport, and delivery feasibility depend on the product and the terms.",
+      },
+      {
+        item: "Guarantees / payment terms",
+        status: "depends",
+        description:
+          "Bid or performance guarantees and payment timing vary by tender — validate per opportunity.",
+      },
+      {
+        item: "Document legalization / translation",
+        status: "depends",
+        description:
+          "Legalization or certified translation may apply depending on the documents and tender.",
+      },
+      {
+        item: "Execution readiness",
+        status: "usually-needed",
+        description:
+          "Plan delivery, support, and post-award obligations before you pursue.",
+      },
+    ],
+    commonBlockers: [
+      "Assuming regional proximity removes procurement complexity",
+      "Lack of Spanish or local documentation",
+      "An unclear local route",
+      "Lack of source validation",
+      "Buyer-specific requirements",
+      "Delivery and logistics assumptions",
+      "Guarantees and payment-timing surprises",
+      "Missing local commercial support",
+      "No country-specific readiness checklist",
+    ],
+    routeOptions: [
+      "Local representative or commercial agent",
+      "Distributor or channel partner",
+      "Local company or registered presence where required",
+      "Cross-border supply under validated terms",
+      "Prepare the country pack first, then enter",
+    ],
+
+    govDecisionRole: [
+      "Supplier Passport turns your Brazilian company profile into one structured, reusable profile.",
+      "Country Pack validation applies Paraguay's DNCP rules, sources, and registration logic.",
+      "Opportunity Qualification scores fit and filters which opportunities are worth pursuing.",
+      "Blocker detection flags documentation, registration, and local-route gaps early.",
+      "Route recommendation shows whether to go direct, represent, distribute, or prepare first.",
+      "A go / no-go memo and Deal Room keep the regional decision auditable and ready for post-award execution.",
+    ],
+    readinessConsole: {
+      supplierPassport: 72,
+      marketFit: 70,
+      criticalBlockers: 3,
+      recommendedRoute: "Validate country pack + route",
+      decision: "Prepare first",
+    },
+
+    saxGlobal: {
+      emphasis: "primary",
+      intro:
+        "A regional move into Paraguay is more practical than a distant cross-border entry, but it is still a market access journey. Sax Global supports regional market access planning, local route validation, partner and distributor path discussion, documentation and readiness context, and a first 90-day plan.",
+      score: {
+        attractiveness: 68,
+        readinessGap: "Medium",
+        routeComplexity: "Medium",
+        partnerDependency: "Medium",
+        executionRisk: "Medium",
+        firstMove: "Validate country pack + local route assumptions",
+      },
+      businessPlan: businessPlanSnapshot,
+      role: [
+        "Regional market access planning",
+        "Local route validation",
+        "Partner / distributor path discussion",
+        "Documentation and readiness context",
+        "First 90-day plan",
+      ],
+    },
+
+    cta: {
+      eyebrow: "Plan the path",
+      title: "Plan this regional path with Sax Global.",
+      subtitle:
+        "Validate the country pack, local route assumptions, and readiness gaps before you pursue Paraguayan public procurement.",
+      primary: {
+        label: "Talk to Sax Global",
+        href: "/contact?path=brazil-to-paraguay&type=regional",
+      },
+      secondary: { label: "Explore GovDecision", href: "/platform" },
+    },
+  },
 ];
 
 /* --------------------------------------------------------------- Helpers */

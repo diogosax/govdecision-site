@@ -4,14 +4,13 @@ import type { IconName } from "@/components/ui/Icon";
  * Market Access Paths — data foundation.
  *
  * This file is the single source of truth for the /market-access experience and
- * is intentionally shaped to power future per-path route pages:
- *   SITE-003 — Local Paths
- *   SITE-004 — Cross-Border Paths
+ * powers the per-path route pages:
+ *   SITE-003 — Local + first cross-border / multilateral paths
+ *   SITE-007 — United States → Brazil and Brazil → Paraguay paths
  *
- * Each path carries a `slug`, `status`, and role fields. SITE-003 adds the
- * `/market-access/[slug]` detail pages (see `src/data/destinations.ts`) for the
- * first priority paths; implemented paths link to their page, while paths still
- * in development link to a context-carrying `/contact` URL.
+ * Each path carries a `slug`, `status`, and role fields. Every card now links
+ * to its `/market-access/[slug]` detail page (see `src/data/destinations.ts`);
+ * the detail pages carry the contextual `/contact?path=…&type=…` CTAs.
  */
 
 export type PathType = "Local" | "Cross-border" | "Multilateral" | "Regional";
@@ -308,7 +307,7 @@ export const marketAccessPaths: MarketAccessPath[] = [
     saxGlobalRole:
       "Advises on representation, partner strategy, and local business context.",
     ctaLabel: "Explore U.S. to Brazil path",
-    ctaHref: "/contact?path=united-states-to-brazil&type=cross-border",
+    ctaHref: "/market-access/united-states-to-brazil",
   },
   {
     slug: "brazil-paraguay",
@@ -331,7 +330,7 @@ export const marketAccessPaths: MarketAccessPath[] = [
     saxGlobalRole:
       "Supports regional route validation and local partner discussions.",
     ctaLabel: "Explore regional path",
-    ctaHref: "/contact?path=brazil-to-paraguay&type=regional",
+    ctaHref: "/market-access/brazil-to-paraguay",
   },
 ];
 
