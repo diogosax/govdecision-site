@@ -1,20 +1,25 @@
 import { Icon } from "@/components/ui/Icon";
-import {
-  govDecisionJourney,
-  govDecisionJourneyNote,
-} from "@/data/market-access";
+import { govDecisionJourney } from "@/data/market-access";
+
+export type JourneyStepCopy = { title: string; description: string };
 
 /**
  * The six-step path from market interest to a decision-ready outcome.
- * Numbered to read as a sequence, while staying clean on every breakpoint.
+ * Icons come from the data file; titles/descriptions are localized.
  */
-export function PathJourney() {
+export function PathJourney({
+  steps,
+  note,
+}: {
+  steps: JourneyStepCopy[];
+  note: string;
+}) {
   return (
     <>
       <ol className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {govDecisionJourney.map((step, i) => (
+        {steps.map((step, i) => (
           <li
-            key={step.label}
+            key={step.title}
             className="rounded-3xl border border-line bg-white p-6 shadow-soft"
           >
             <div className="flex items-center gap-3">
@@ -22,10 +27,10 @@ export function PathJourney() {
                 {i + 1}
               </span>
               <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-plum/5 text-plum">
-                <Icon name={step.icon} size={20} />
+                <Icon name={govDecisionJourney[i].icon} size={20} />
               </span>
             </div>
-            <h3 className="mt-4 font-bold text-plum">{step.label}</h3>
+            <h3 className="mt-4 font-bold text-plum">{step.title}</h3>
             <p className="mt-1.5 text-sm leading-relaxed text-slate">
               {step.description}
             </p>
@@ -40,7 +45,7 @@ export function PathJourney() {
             size={18}
             className="mt-0.5 shrink-0 text-plum/50"
           />
-          <span>{govDecisionJourneyNote}</span>
+          <span>{note}</span>
         </p>
       </div>
     </>

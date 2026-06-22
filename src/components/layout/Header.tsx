@@ -3,16 +3,32 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import {
-  loginLink,
-  mainNav,
-  primaryCta,
-} from "@/data/navigation";
+import type { Locale } from "@/i18n/config";
 import { Button } from "@/components/ui/Button";
 import { Logo } from "./Logo";
 import { LanguageSelector } from "./LanguageSelector";
 
-export function Header() {
+export type HeaderNavItem = { key: string; label: string; href: string };
+
+export type HeaderProps = {
+  locale: Locale;
+  homeHref: string;
+  nav: HeaderNavItem[];
+  primaryCta: { label: string; href: string };
+  login: { label: string; href: string };
+  languageLabel: string;
+  languageCurrent: string;
+};
+
+export function Header({
+  locale,
+  homeHref,
+  nav,
+  primaryCta,
+  login,
+  languageLabel,
+  languageCurrent,
+}: HeaderProps) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -32,8 +48,7 @@ export function Header() {
     };
   }, [menuOpen]);
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isActive = (href: string) => pathname.startsWith(href);
 
   return (
     <header
@@ -43,23 +58,18 @@ export function Header() {
           : "border-b border-transparent bg-ivory/0"
       }`}
     >
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-6 sm:h-[72px] sm:px-8">
-        <Logo priority className="h-7 sm:h-[30px]" />
+      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-3 px-6 sm:h-[72px] sm:px-8">
+        <Logo priority href={homeHref} className="h-7 sm:h-[30px]" />
 
         {/* Desktop nav */}
-        <nav
-          aria-label="Primary"
-          className="hidden items-center gap-1 lg:flex"
-        >
-          {mainNav.map((item) => (
+        <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
+          {nav.map((item) => (
             <Link
-              key={item.href}
+              key={item.key}
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
-              className={`rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
-                isActive(item.href)
-                  ? "text-plum"
-                  : "text-slate hover:text-plum"
+              className={`whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-colors ${
+                isActive(item.href) ? "text-plum" : "text-slate hover:text-plum"
               }`}
             >
               <span className="relative">
@@ -77,12 +87,16 @@ export function Header() {
 
         {/* Desktop actions */}
         <div className="hidden items-center gap-3 lg:flex">
-          <LanguageSelector />
+          <LanguageSelector
+            locale={locale}
+            label={languageLabel}
+            current={languageCurrent}
+          />
           <a
-            href={loginLink.href}
-            className="text-sm font-semibold text-plum/80 transition-colors hover:text-plum"
+            href={login.href}
+            className="whitespace-nowrap text-sm font-semibold text-plum/80 transition-colors hover:text-plum"
           >
-            {loginLink.label}
+            {login.label}
           </a>
           <Button href={primaryCta.href} size="md" withArrow>
             {primaryCta.label}
@@ -96,7 +110,7 @@ export function Header() {
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line text-plum lg:hidden"
+          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line text-plum lg:hidden"
         >
           <span className="relative block h-3.5 w-5">
             <span
@@ -119,15 +133,12 @@ export function Header() {
       </div>
 
       {/* Mobile menu */}
-      <div
-        id="mobile-menu"
-        className={`lg:hidden ${menuOpen ? "block" : "hidden"}`}
-      >
+      <div id="mobile-menu" className={`lg:hidden ${menuOpen ? "block" : "hidden"}`}>
         <div className="border-t border-line bg-ivory px-6 pb-8 pt-4">
           <nav aria-label="Mobile" className="flex flex-col">
-            {mainNav.map((item) => (
+            {nav.map((item) => (
               <Link
-                key={item.href}
+                key={item.key}
                 href={item.href}
                 onClick={() => setMenuOpen(false)}
                 aria-current={isActive(item.href) ? "page" : undefined}
@@ -153,14 +164,18 @@ export function Header() {
               {primaryCta.label}
             </Button>
             <a
-              href={loginLink.href}
+              href={login.href}
               onClick={() => setMenuOpen(false)}
               className="rounded-full border border-line py-3 text-center text-sm font-semibold text-plum"
             >
-              {loginLink.label}
+              {login.label}
             </a>
             <div className="mt-2 flex justify-center">
-              <LanguageSelector />
+              <LanguageSelector
+                locale={locale}
+                label={languageLabel}
+                current={languageCurrent}
+              />
             </div>
           </div>
         </div>

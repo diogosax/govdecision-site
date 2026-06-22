@@ -1,19 +1,18 @@
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { primaryCta, secondaryCta } from "@/data/navigation";
 
 export function CtaBand({
-  eyebrow = "Get started",
+  eyebrow,
   title,
   subtitle,
-  primary = primaryCta,
-  secondary = secondaryCta,
+  primary,
+  secondary,
 }: {
-  eyebrow?: string;
+  eyebrow: string;
   title: string;
   subtitle: string;
-  primary?: { label: string; href: string };
+  primary: { label: string; href: string };
   secondary?: { label: string; href: string } | null;
 }) {
   // Absolute (http/https) hrefs — e.g. the GovDecision app login — render as

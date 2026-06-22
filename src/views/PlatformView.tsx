@@ -1,5 +1,7 @@
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries/types";
+import { localePath } from "@/i18n/routing";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
@@ -15,14 +17,7 @@ import {
   DealRoomMockup,
   PostAwardMockup,
 } from "@/components/marketing/ProductMockups";
-import { platformIntro, platformModules } from "@/data/platform";
-import { secondaryCta } from "@/data/navigation";
-
-export const metadata: Metadata = {
-  title: "Platform",
-  description:
-    "The decision layer for government sales: Supplier Passport, Opportunity Qualification, Readiness Workspace, Country Packs, Deal Room, and Post-Award Enablement.",
-};
+import { platformModules } from "@/data/platform";
 
 const mockups: Record<string, ReactNode> = {
   "supplier-passport": <SupplierPassportMockup />,
@@ -37,20 +32,25 @@ const mockups: Record<string, ReactNode> = {
   "post-award": <PostAwardMockup />,
 };
 
-export default function PlatformPage() {
+export function PlatformView({
+  locale,
+  dict,
+}: {
+  locale: Locale;
+  dict: Dictionary;
+}) {
+  const lp = (href: string) => localePath(locale, href);
+  const t = dict.platform;
+
   return (
     <>
-      <PageHero
-        eyebrow={platformIntro.eyebrow}
-        title={platformIntro.title}
-        lead={platformIntro.description}
-      >
+      <PageHero eyebrow={t.eyebrow} title={t.title} lead={t.lead}>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Button href="/contact" size="lg" withArrow>
-            Start readiness
+          <Button href={lp("/contact")} size="lg" withArrow>
+            {dict.common.cta.startReadiness}
           </Button>
-          <Button href={secondaryCta.href} variant="ghost" size="lg">
-            View corridors
+          <Button href={lp("/corridors")} variant="ghost" size="lg">
+            {dict.common.cta.viewCorridors}
           </Button>
         </div>
       </PageHero>
@@ -58,7 +58,7 @@ export default function PlatformPage() {
       {/* Module overview */}
       <Section tone="ivory">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {platformModules.map((m) => (
+          {platformModules.map((m, i) => (
             <a
               key={m.id}
               href={`#${m.id}`}
@@ -68,8 +68,10 @@ export default function PlatformPage() {
                 {m.step}
               </span>
               <div>
-                <p className="text-sm font-bold text-plum">{m.name}</p>
-                <p className="mt-0.5 text-xs text-slate">{m.tagline}</p>
+                <p className="text-sm font-bold text-plum">
+                  {t.modules[i].name}
+                </p>
+                <p className="mt-0.5 text-xs text-slate">{t.modules[i].tagline}</p>
               </div>
             </a>
           ))}
@@ -80,6 +82,7 @@ export default function PlatformPage() {
       <div className="bg-white">
         {platformModules.map((m, i) => {
           const flip = i % 2 === 1;
+          const mod = t.modules[i];
           return (
             <section
               key={m.id}
@@ -94,20 +97,20 @@ export default function PlatformPage() {
                         {m.step}
                       </span>
                       <span className="text-xs font-semibold uppercase tracking-[0.16em] text-coral">
-                        Module {m.step}
+                        {t.moduleLabel} {m.step}
                       </span>
                     </div>
                     <h2 className="mt-4 text-balance text-3xl font-bold leading-tight tracking-tight text-plum">
-                      {m.name}
+                      {mod.name}
                     </h2>
                     <p className="mt-2 text-lg font-semibold text-plum/80">
-                      {m.tagline}
+                      {mod.tagline}
                     </p>
                     <p className="mt-4 text-pretty leading-relaxed text-slate">
-                      {m.description}
+                      {mod.description}
                     </p>
                     <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
-                      {m.points.map((p) => (
+                      {mod.points.map((p) => (
                         <li
                           key={p}
                           className="flex items-start gap-2.5 text-sm text-plum/85"
@@ -129,9 +132,11 @@ export default function PlatformPage() {
       </div>
 
       <CtaBand
-        title="See the decision layer on your own opportunities."
-        subtitle="Start with readiness, then qualify real opportunities with method — across every corridor you target."
-        secondary={{ label: "View pricing", href: "/pricing" }}
+        eyebrow={dict.common.footer.getStartedHeading}
+        title={t.finalCta.title}
+        subtitle={t.finalCta.subtitle}
+        primary={{ label: dict.common.cta.startReadiness, href: lp("/contact") }}
+        secondary={{ label: t.finalCta.secondaryLabel, href: lp("/pricing") }}
       />
     </>
   );

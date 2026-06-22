@@ -1,18 +1,23 @@
-import type { Metadata } from "next";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries/types";
+import { localePath } from "@/i18n/routing";
 import { Icon } from "@/components/ui/Icon";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { PageHero } from "@/components/marketing/PageHero";
-import { PricingCards } from "@/components/marketing/PricingCards";
+import {
+  PricingCards,
+  type PricingCardPlan,
+} from "@/components/marketing/PricingCards";
 import { CtaBand } from "@/components/marketing/CtaBand";
-import { pricingComparison, pricingNote } from "@/data/pricing";
+import { pricingPlans, pricingComparison } from "@/data/pricing";
 
-export const metadata: Metadata = {
-  title: "Pricing",
-  description:
-    "Two ways to work with GovDecision: GovDecision One (platform-led, self-service) and GovDecision Assisted (service-led, with Sax Global support). Brazil (BRL) and international (USD) pricing.",
-};
-
-function Cell({ value }: { value: string | boolean }) {
+function Cell({
+  value,
+  values,
+}: {
+  value: string | boolean;
+  values: Record<string, string>;
+}) {
   if (value === true) {
     return (
       <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-coral/10 text-coral-600">
@@ -23,62 +28,85 @@ function Cell({ value }: { value: string | boolean }) {
   if (value === false) {
     return <span className="text-line">—</span>;
   }
-  return <span className="text-sm font-semibold text-plum">{value}</span>;
+  return (
+    <span className="text-sm font-semibold text-plum">
+      {values[value] ?? value}
+    </span>
+  );
 }
 
-export default function PricingPage() {
+export function PricingView({
+  locale,
+  dict,
+}: {
+  locale: Locale;
+  dict: Dictionary;
+}) {
+  const lp = (href: string) => localePath(locale, href);
+  const t = dict.pricing;
+
+  const plans: PricingCardPlan[] = pricingPlans.map((plan, i) => ({
+    name: plan.name,
+    highlighted: plan.highlighted,
+    ctaHref: lp(plan.ctaHref),
+    ...t.plans[i],
+  }));
+
   return (
     <>
-      <PageHero
-        eyebrow="Pricing"
-        title="A premium platform for serious government business."
-        lead="GovDecision One is platform-led for teams that want structure and speed. GovDecision Assisted is service-led, with Sax Global support to build practical market access. Not a clipping tool — a business growth platform."
-      />
+      <PageHero eyebrow={t.eyebrow} title={t.title} lead={t.lead} />
 
       {/* Plans */}
       <Section tone="ivory">
-        <PricingCards />
+        <PricingCards
+          plans={plans}
+          brazilLabel={t.brazilLabel}
+          internationalLabel={t.internationalLabel}
+          serviceLedBadge={t.serviceLedBadge}
+        />
         <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-slate">
-          {pricingNote}
+          {t.note}
         </p>
       </Section>
 
       {/* Comparison */}
       <Section tone="white">
         <SectionHeader
-          eyebrow="Compare"
-          title="What is included in each plan."
-          lead="Both plans share the platform. Assisted adds Sax Global support, calibration, and executive guidance."
+          eyebrow={t.compare.eyebrow}
+          title={t.compare.title}
+          lead={t.compare.lead}
         />
         <div className="mt-10 overflow-hidden rounded-3xl border border-line">
           <table className="w-full border-collapse text-left">
             <thead>
               <tr className="bg-surface/70 text-sm">
-                <th className="px-5 py-4 font-semibold text-plum">Capability</th>
+                <th className="px-5 py-4 font-semibold text-plum">
+                  {t.compare.capability}
+                </th>
                 <th className="px-5 py-4 text-center font-semibold text-plum">
-                  GovDecision One
+                  {pricingPlans[0].name}
                 </th>
                 <th className="px-5 py-4 text-center font-semibold text-plum">
                   <span className="inline-flex items-center gap-1.5">
-                    GovDecision Assisted
+                    {pricingPlans[1].name}
                     <span className="rounded-full bg-coral px-2 py-0.5 text-[0.6rem] font-bold uppercase text-white">
-                      Guided
+                      {t.compare.guided}
                     </span>
                   </span>
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line/70 bg-white">
-              {pricingComparison.map((row) => (
+              {pricingComparison.map((row, i) => (
                 <tr key={row.capability} className="text-sm">
                   <td className="px-5 py-3.5 font-medium text-plum/90">
-                    {row.capability}
+                    {t.compare.rows[i]}
                   </td>
                   <td className="px-5 py-3.5 text-center">
-                    <Cell value={row.one} />
+                    <Cell value={row.one} values={t.compare.values} />
                   </td>
                   <td className="px-5 py-3.5 text-center">
-                    <Cell value={row.assisted} />
+                    <Cell value={row.assisted} values={t.compare.values} />
                   </td>
                 </tr>
               ))}
@@ -88,11 +116,11 @@ export default function PricingPage() {
       </Section>
 
       <CtaBand
-        eyebrow="Get started"
-        title="Let's scope the right plan for your company."
-        subtitle="Pricing depends on your country, corridor, profile, and the level of assisted support you need. Tell us where you want to compete."
-        primary={{ label: "Talk to Sax Global", href: "/contact" }}
-        secondary={{ label: "Explore the platform", href: "/platform" }}
+        eyebrow={t.finalCta.eyebrow}
+        title={t.finalCta.title}
+        subtitle={t.finalCta.subtitle}
+        primary={{ label: t.finalCta.primary, href: lp("/contact") }}
+        secondary={{ label: t.finalCta.secondary, href: lp("/platform") }}
       />
     </>
   );

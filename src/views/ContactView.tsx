@@ -1,51 +1,92 @@
-import type { Metadata } from "next";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries/types";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { ContactForm } from "@/components/marketing/ContactForm";
 import { site } from "@/data/site";
-import { loginLink } from "@/data/navigation";
-import { resolveContactContext } from "@/data/destinations";
+import { loginHref } from "@/data/navigation";
+import { contactPathLabels } from "@/data/destinations";
 
-/** Read `?path=` and `?type=` from `searchParams` (a single value each). */
+const asideIcons: IconName[] = ["target", "checklist", "compass"];
+
+/** Localized display names for the markets used in the contextual banner. */
+const marketName: Record<Locale, Record<string, string>> = {
+  "en-US": {},
+  "pt-BR": {
+    Brazil: "Brasil",
+    "United States": "Estados Unidos",
+    "UN & World Bank": "ONU e Banco Mundial",
+    Paraguay: "Paraguai",
+    Mexico: "México",
+    Canada: "Canadá",
+  },
+  es: {
+    Brazil: "Brasil",
+    "United States": "Estados Unidos",
+    "UN & World Bank": "ONU y Banco Mundial",
+    Paraguay: "Paraguay",
+    Mexico: "México",
+    Canada: "Canadá",
+  },
+};
+
 function firstParam(value: string | string[] | undefined): string | undefined {
   return Array.isArray(value) ? value[0] : value;
 }
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Start your government readiness conversation with GovDecision. Tell us what you sell and where you want to compete.",
-};
+type Context = { message: string; isLocal: boolean; targetMarkets?: string };
 
-const aside: { icon: IconName; title: string; body: string }[] = [
-  {
-    icon: "target",
-    title: "Qualify before you commit",
-    body: "We'll help you see fit, blockers, and effort before you invest a week in the wrong opportunity.",
-  },
-  {
-    icon: "checklist",
-    title: "Build readiness with method",
-    body: "Turn missing requirements into a plan with owners and dates across the markets you target.",
-  },
-  {
-    icon: "compass",
-    title: "Find your route to market",
-    body: "Direct, distributor, local partner, subcontract, consortium — or prepare first.",
-  },
-];
+function resolveContext(
+  dict: Dictionary,
+  locale: Locale,
+  path?: string,
+  type?: string,
+): Context | undefined {
+  const c = dict.contact.context;
+  const localize = (name: string) => marketName[locale][name] ?? name;
+  const pair = path ? contactPathLabels[path] : undefined;
+  const isLocal = type === "local" || (!!pair && pair.origin === pair.target);
 
-export default async function ContactPage({
-  searchParams,
+  if (!pair && !type) return undefined;
+
+  if (pair) {
+    const origin = localize(pair.origin);
+    const target = localize(pair.target);
+    if (isLocal) {
+      return {
+        isLocal: true,
+        message: c.localWithTarget.replace("{target}", target),
+        targetMarkets: target,
+      };
+    }
+    return {
+      isLocal: false,
+      message: c.crossWithPair
+        .replace("{origin}", origin)
+        .replace("{target}", target),
+      targetMarkets: target,
+    };
+  }
+
+  return type === "local"
+    ? { isLocal: true, message: c.local }
+    : { isLocal: false, message: c.cross };
+}
+
+export function ContactView({
+  locale,
+  dict,
+  sp,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  locale: Locale;
+  dict: Dictionary;
+  sp: { [key: string]: string | string[] | undefined };
 }) {
-  const sp = await searchParams;
-  const context = resolveContactContext(
-    firstParam(sp.path),
-    firstParam(sp.type),
-  );
+  const t = dict.contact;
+  const path = firstParam(sp.path);
+  const type = firstParam(sp.type);
+  const context = resolveContext(dict, locale, path, type);
 
   return (
     <>
@@ -55,23 +96,18 @@ export default async function ContactPage({
         <Container className="relative py-16 sm:py-20">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
             <div>
-              <Eyebrow>Contact</Eyebrow>
+              <Eyebrow>{t.eyebrow}</Eyebrow>
               <h1 className="mt-5 text-balance text-4xl font-bold leading-[1.05] tracking-tight text-plum sm:text-5xl">
-                Start your government readiness conversation.
+                {t.title}
               </h1>
               <p className="mt-6 text-pretty text-lg leading-relaxed text-slate">
-                Tell us what you sell and where you want to compete. We&apos;ll
-                help you decide where to focus, what readiness you need, and
-                which route to market makes sense.
+                {t.lead}
               </p>
 
               {context && (
                 <div className="mt-6 flex items-start gap-3 rounded-2xl border border-coral/30 bg-coral/5 p-4">
                   <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-white text-coral shadow-soft">
-                    <Icon
-                      name={context.type === "local" ? "target" : "route"}
-                      size={16}
-                    />
+                    <Icon name={context.isLocal ? "target" : "route"} size={16} />
                   </span>
                   <p className="text-sm font-medium leading-relaxed text-plum">
                     {context.message}
@@ -80,15 +116,15 @@ export default async function ContactPage({
               )}
 
               <div className="mt-8 space-y-4">
-                {aside.map((a) => (
+                {t.aside.map((a, i) => (
                   <div key={a.title} className="flex items-start gap-3">
                     <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-coral shadow-soft">
-                      <Icon name={a.icon} size={18} />
+                      <Icon name={asideIcons[i]} size={18} />
                     </span>
                     <div>
                       <p className="font-semibold text-plum">{a.title}</p>
                       <p className="text-sm leading-relaxed text-slate">
-                        {a.body}
+                        {a.description}
                       </p>
                     </div>
                   </div>
@@ -97,7 +133,7 @@ export default async function ContactPage({
 
               <div className="mt-8 flex flex-col gap-2 border-t border-line pt-6 text-sm">
                 <p className="text-slate">
-                  Prefer email?{" "}
+                  {t.preferEmail}{" "}
                   <a
                     href={`mailto:${site.contactEmail}`}
                     className="font-semibold text-plum underline-offset-4 hover:underline"
@@ -106,12 +142,12 @@ export default async function ContactPage({
                   </a>
                 </p>
                 <p className="text-slate">
-                  Already a customer?{" "}
+                  {t.alreadyCustomer}{" "}
                   <a
-                    href={loginLink.href}
+                    href={loginHref}
                     className="font-semibold text-plum underline-offset-4 hover:underline"
                   >
-                    Log in to the app
+                    {t.loginCta}
                   </a>
                 </p>
               </div>
@@ -119,9 +155,11 @@ export default async function ContactPage({
 
             <div>
               <ContactForm
+                locale={locale}
+                t={t.form}
                 defaultMarkets={context?.targetMarkets}
-                path={firstParam(sp.path)}
-                type={firstParam(sp.type)}
+                path={path}
+                type={type}
                 utmSource={firstParam(sp.utm_source)}
                 utmMedium={firstParam(sp.utm_medium)}
                 utmCampaign={firstParam(sp.utm_campaign)}
@@ -135,7 +173,7 @@ export default async function ContactPage({
       <section className="bg-plum py-10 text-white">
         <Container>
           <p className="text-center text-sm leading-relaxed text-white/70">
-            {site.legalDisclaimer}
+            {t.disclaimer}
           </p>
         </Container>
       </section>
