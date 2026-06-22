@@ -1,5 +1,5 @@
 /**
- * Contact lead delivery (SITE-004, SITE-005).
+ * Contact lead delivery (SITE-004, SITE-005, SITE-006).
  *
  * A small provider abstraction so the site can deliver leads through:
  *   - `ses`     — transactional email via AWS SES v2 (recommended in prod),
@@ -7,13 +7,18 @@
  *   - `webhook` — a signed POST to an arbitrary HTTPS endpoint,
  *   - `console` — a safe dev/local mode that logs a sanitized payload.
  *
+ * On a successful internal notification the configured provider may also send an
+ * optional, best-effort user auto-reply (SITE-006), gated behind
+ * `CONTACT_AUTOREPLY_ENABLED` and disabled by default.
+ *
  * Configuration is environment-based. No secrets live in code; private
  * addresses appear only as safe defaults used when env vars are missing. In
  * production, a missing/misconfigured provider returns a clear error so the
  * API can surface a friendly message instead of silently dropping a lead.
  */
 import { createHmac } from "node:crypto";
-import { type Lead, leadArm } from "./lead-routing";
+import type { Lead } from "./lead-routing";
+import { buildInternalEmail, buildAutoReplyEmail } from "./email";
 
 export type DeliveryResult = { ok: true } | { ok: false; error: string };
 
@@ -21,10 +26,6 @@ export type DeliveryResult = { ok: true } | { ok: false; error: string };
 const DEFAULT_TO_EMAIL = "contact@govdecision.com";
 const DEFAULT_FROM_EMAIL = "GovDecision <contact@govdecision.com>";
 const DEFAULT_REPLY_TO_EMAIL = "contact@govdecision.com";
-
-/** Honest disclaimer included on every notification. */
-const LEGAL_NOTE =
-  "GovDecision provides decision support and readiness workflows. Sax Global provides planning, context, and guidance where applicable. No eligibility, award, financing, market access, or government contract outcome is guaranteed.";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -43,6 +44,23 @@ function env(name: string): string | undefined {
 export async function deliverLead(lead: Lead): Promise<DeliveryResult> {
   const provider = (env("CONTACT_DELIVERY_PROVIDER") ?? "").toLowerCase();
 
+  const result = await deliverInternal(lead, provider);
+
+  // The auto-reply is best-effort: attempted only once the internal lead
+  // notification has actually been delivered, and never allowed to fail the
+  // submission (the lead is already captured at that point).
+  if (result.ok) {
+    await sendAutoReplyIfEnabled(lead, provider);
+  }
+
+  return result;
+}
+
+/** Route the internal lead notification to the configured provider. */
+async function deliverInternal(
+  lead: Lead,
+  provider: string,
+): Promise<DeliveryResult> {
   if (provider === "ses") return deliverViaSes(lead);
   if (provider === "resend") return deliverViaResend(lead);
   if (provider === "webhook") return deliverViaWebhook(lead);
@@ -66,6 +84,13 @@ export async function deliverLead(lead: Lead): Promise<DeliveryResult> {
   return deliverViaConsole(lead);
 }
 
+/** Reply-to for the internal email: the lead's work email when it is valid. */
+function internalReplyTo(lead: Lead): string {
+  return EMAIL_RE.test(lead.workEmail)
+    ? lead.workEmail
+    : env("CONTACT_REPLY_TO_EMAIL") ?? DEFAULT_REPLY_TO_EMAIL;
+}
+
 /* --------------------------------------------------------------- Resend */
 
 async function deliverViaResend(lead: Lead): Promise<DeliveryResult> {
@@ -81,12 +106,7 @@ async function deliverViaResend(lead: Lead): Promise<DeliveryResult> {
 
   const to = env("CONTACT_TO_EMAIL") ?? DEFAULT_TO_EMAIL;
   const from = env("CONTACT_FROM_EMAIL") ?? DEFAULT_FROM_EMAIL;
-  // Reply to the lead's work email when valid, otherwise the configured inbox.
-  const replyTo = EMAIL_RE.test(lead.workEmail)
-    ? lead.workEmail
-    : env("CONTACT_REPLY_TO_EMAIL") ?? DEFAULT_REPLY_TO_EMAIL;
-
-  const { subject, text } = buildEmail(lead);
+  const { subject, text, html } = buildInternalEmail(lead);
 
   try {
     const res = await fetch("https://api.resend.com/emails", {
@@ -95,7 +115,14 @@ async function deliverViaResend(lead: Lead): Promise<DeliveryResult> {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ from, to: [to], reply_to: replyTo, subject, text }),
+      body: JSON.stringify({
+        from,
+        to: [to],
+        reply_to: internalReplyTo(lead),
+        subject,
+        text,
+        html,
+      }),
     });
     if (!res.ok) {
       // Status only — never echo request headers/body (would expose the key).
@@ -122,13 +149,16 @@ function sesRegion(): string {
   return env("AWS_SES_REGION") ?? env("AWS_REGION") ?? "us-west-2";
 }
 
+/** True only when both AWS credential env vars are present. */
+function hasAwsCredentials(): boolean {
+  return Boolean(env("AWS_ACCESS_KEY_ID")) && Boolean(env("AWS_SECRET_ACCESS_KEY"));
+}
+
 async function deliverViaSes(lead: Lead): Promise<DeliveryResult> {
   // Sending requires AWS credentials. The SDK's default provider chain reads
   // AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY from the environment; we only
   // gate on their presence here so production never silently drops a lead.
-  const hasCredentials =
-    Boolean(env("AWS_ACCESS_KEY_ID")) && Boolean(env("AWS_SECRET_ACCESS_KEY"));
-  if (!hasCredentials) {
+  if (!hasAwsCredentials()) {
     if (isProd()) {
       console.error("[contact] AWS SES credentials are missing in production.");
       return { ok: false, error: "email_not_configured" };
@@ -139,13 +169,7 @@ async function deliverViaSes(lead: Lead): Promise<DeliveryResult> {
 
   const to = env("CONTACT_TO_EMAIL") ?? DEFAULT_TO_EMAIL;
   const from = env("CONTACT_FROM_EMAIL") ?? DEFAULT_FROM_EMAIL;
-  // Reply to the lead's work email when valid, otherwise the configured inbox.
-  const replyTo = EMAIL_RE.test(lead.workEmail)
-    ? lead.workEmail
-    : env("CONTACT_REPLY_TO_EMAIL") ?? DEFAULT_REPLY_TO_EMAIL;
-
-  const { subject, text } = buildEmail(lead);
-  const html = buildEmailHtml(lead);
+  const { subject, text, html } = buildInternalEmail(lead);
   const configurationSet = env("AWS_SES_CONFIGURATION_SET");
 
   try {
@@ -157,7 +181,7 @@ async function deliverViaSes(lead: Lead): Promise<DeliveryResult> {
     const command = new SendEmailCommand({
       FromEmailAddress: from,
       Destination: { ToAddresses: [to] },
-      ReplyToAddresses: [replyTo],
+      ReplyToAddresses: [internalReplyTo(lead)],
       // Only attach a configuration set when one is actually configured.
       ...(configurationSet ? { ConfigurationSetName: configurationSet } : {}),
       Content: {
@@ -246,148 +270,147 @@ async function deliverViaWebhook(lead: Lead): Promise<DeliveryResult> {
 function deliverViaConsole(lead: Lead): DeliveryResult {
   // Dev visibility only: logs the (non-secret) lead, never provider secrets.
   console.info(
-    `[contact] Lead received (dev/console delivery mode):\n${buildEmail(lead).text}`,
+    `[contact] Lead received (dev/console delivery mode):\n${buildInternalEmail(lead).text}`,
   );
   return { ok: true };
 }
 
-/* ------------------------------------------------------------ Email body */
+/* ------------------------------------------------------------- Auto-reply */
 
-function emailSubject(lead: Lead): string {
-  switch (lead.leadType) {
-    case "LOCAL_READINESS": {
-      const market = lead.pathLabel.replace(/\s*local readiness$/i, "").trim();
-      return `New GovDecision local readiness lead — ${market || "General"}`;
-    }
-    case "CROSS_BORDER_MARKET_ACCESS":
-      return `New Sax Global market access lead — ${lead.pathLabel}`;
-    case "MULTILATERAL_MARKET_ACCESS":
-      return `New Sax Global multilateral lead — ${lead.pathLabel}`;
-    case "REGIONAL_MARKET_ACCESS":
-      return `New Sax Global regional lead — ${lead.pathLabel}`;
-    default:
-      return "New GovDecision website lead";
-  }
+/** Auto-reply is opt-in: only `true` (case-insensitive) enables it. */
+function autoReplyEnabled(): boolean {
+  return (env("CONTACT_AUTOREPLY_ENABLED") ?? "").toLowerCase() === "true";
 }
 
-/** Render present UTM params as a compact string, or null when none are set. */
-function formatUtm(lead: Lead): string | null {
-  const parts = [
-    lead.utmSource ? `source=${lead.utmSource}` : null,
-    lead.utmMedium ? `medium=${lead.utmMedium}` : null,
-    lead.utmCampaign ? `campaign=${lead.utmCampaign}` : null,
-  ].filter(Boolean);
-  return parts.length ? parts.join(" · ") : null;
+/** Sender for the auto-reply; falls back to the internal sender, then default. */
+function autoReplyFrom(): string {
+  return (
+    env("CONTACT_AUTOREPLY_FROM_EMAIL") ??
+    env("CONTACT_FROM_EMAIL") ??
+    DEFAULT_FROM_EMAIL
+  );
 }
 
-function buildEmail(lead: Lead): { subject: string; text: string } {
-  const lines: string[] = [
-    `Lead type: ${lead.leadType}`,
-    `Owner: ${leadArm(lead.leadType)}`,
-    `Path label: ${lead.pathLabel}`,
-    `Path slug: ${lead.path ?? "—"}`,
-    `Type: ${lead.type ?? "—"}`,
-    "",
-    `Name: ${lead.name}`,
-    `Company: ${lead.company}`,
-    `Work email: ${lead.workEmail}`,
-    `Country: ${lead.country}`,
-    `Target markets: ${lead.targetMarkets}`,
-    "",
-    "Message:",
-    lead.message || "—",
-    "",
-    `Source page: ${lead.sourcePage ?? "—"}`,
-  ];
-
-  const utm = formatUtm(lead);
-  if (utm) lines.push(`UTM: ${utm}`);
-
-  lines.push(`Timestamp: ${lead.createdAt}`, "", "—", LEGAL_NOTE);
-
-  return { subject: emailSubject(lead), text: lines.join("\n") };
-}
-
-/** Minimal HTML-escaping for values embedded in the notification email. */
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+/** Reply-to for the auto-reply; falls back to the internal reply-to, then default. */
+function autoReplyReplyTo(): string {
+  return (
+    env("CONTACT_AUTOREPLY_REPLY_TO_EMAIL") ??
+    env("CONTACT_REPLY_TO_EMAIL") ??
+    DEFAULT_REPLY_TO_EMAIL
+  );
 }
 
 /**
- * Simple, email-client-safe HTML notification. A single card built from a
- * table with inline styles only — no external CSS, no remote assets — so it
- * renders consistently across clients. Every dynamic value is HTML-escaped.
- * Mirrors the plain-text body field-for-field.
+ * Best-effort confirmation email to the lead. Runs only when explicitly
+ * enabled, only after the internal notification succeeded, and only to the
+ * validated work email. Any failure is logged (sanitized) and swallowed — the
+ * lead is already captured, so the submission must never fail here.
  */
-function buildEmailHtml(lead: Lead): string {
-  const rows: Array<[string, string]> = [
-    ["Lead type", lead.leadType],
-    ["Owner", leadArm(lead.leadType)],
-    ["Path label", lead.pathLabel],
-    ["Path slug", lead.path ?? "—"],
-    ["Type", lead.type ?? "—"],
-    ["Name", lead.name],
-    ["Company", lead.company],
-    ["Work email", lead.workEmail],
-    ["Country", lead.country],
-    ["Target markets", lead.targetMarkets],
-    ["Source page", lead.sourcePage ?? "—"],
-  ];
-  const utm = formatUtm(lead);
-  if (utm) rows.push(["UTM", utm]);
-  rows.push(["Timestamp", lead.createdAt]);
+async function sendAutoReplyIfEnabled(lead: Lead, provider: string): Promise<void> {
+  if (!autoReplyEnabled()) return;
 
-  const tableRows = rows
-    .map(
-      ([label, value]) =>
-        "<tr>" +
-        `<td style="padding:6px 12px 6px 0;vertical-align:top;color:#6b7280;font-weight:600;white-space:nowrap;">${escapeHtml(label)}</td>` +
-        `<td style="padding:6px 0;vertical-align:top;color:#111827;">${escapeHtml(value)}</td>` +
-        "</tr>",
-    )
-    .join("");
+  // Only ever email the validated work email — never a fabricated address.
+  if (!EMAIL_RE.test(lead.workEmail)) {
+    console.warn("[contact] Auto-reply skipped — lead work email is not a valid recipient.");
+    return;
+  }
 
-  const message = escapeHtml(lead.message || "—").replace(/\n/g, "<br>");
+  try {
+    if (provider === "ses") {
+      await sendAutoReplyViaSes(lead);
+    } else if (provider === "resend") {
+      await sendAutoReplyViaResend(lead);
+    } else if (provider === "webhook") {
+      // The webhook provider intentionally does not send user-facing email.
+      console.info("[contact] Auto-reply not sent — webhook provider does not deliver user email.");
+    } else {
+      // console / dev / unset-in-dev / unknown-in-dev: log intent, send nothing.
+      logAutoReplyIntent(lead);
+    }
+  } catch (err) {
+    // Internal notification already succeeded — never fail the submission here.
+    console.warn(
+      "[contact] Auto-reply failed after internal notification succeeded:",
+      messageOf(err),
+    );
+  }
+}
 
-  return `<!doctype html>
-<html>
-  <body style="margin:0;padding:0;background:#f4f4f5;">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;padding:24px;">
-      <tr>
-        <td align="center">
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:12px;border:1px solid #e5e7eb;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;">
-            <tr>
-              <td style="padding:24px 24px 8px 24px;">
-                <h1 style="margin:0;font-size:18px;color:#111827;">${escapeHtml(emailSubject(lead))}</h1>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:8px 24px;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${tableRows}</table>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:8px 24px;">
-                <p style="margin:0 0 4px 0;color:#6b7280;font-weight:600;">Message</p>
-                <p style="margin:0;color:#111827;">${message}</p>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:16px 24px 24px 24px;">
-                <p style="margin:0;color:#9ca3af;font-size:12px;line-height:1.5;border-top:1px solid #e5e7eb;padding-top:16px;">${escapeHtml(LEGAL_NOTE)}</p>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </body>
-</html>`;
+/** Dev/console visibility: record the auto-reply intent without sending. */
+function logAutoReplyIntent(lead: Lead): void {
+  const { subject } = buildAutoReplyEmail(lead);
+  console.info(
+    `[contact] Auto-reply (dev/console mode — not sent) -> ${lead.workEmail}: "${subject}"`,
+  );
+}
+
+async function sendAutoReplyViaSes(lead: Lead): Promise<void> {
+  if (!hasAwsCredentials()) {
+    if (!isProd()) {
+      logAutoReplyIntent(lead);
+      return;
+    }
+    console.warn("[contact] Auto-reply skipped — AWS SES credentials missing.");
+    return;
+  }
+
+  const { subject, text, html } = buildAutoReplyEmail(lead);
+  const configurationSet = env("AWS_SES_CONFIGURATION_SET");
+
+  const { SESv2Client, SendEmailCommand } = await import("@aws-sdk/client-sesv2");
+  const client = new SESv2Client({ region: sesRegion() });
+
+  await client.send(
+    new SendEmailCommand({
+      FromEmailAddress: autoReplyFrom(),
+      Destination: { ToAddresses: [lead.workEmail] },
+      ReplyToAddresses: [autoReplyReplyTo()],
+      ...(configurationSet ? { ConfigurationSetName: configurationSet } : {}),
+      Content: {
+        Simple: {
+          Subject: { Data: subject, Charset: "UTF-8" },
+          Body: {
+            Text: { Data: text, Charset: "UTF-8" },
+            Html: { Data: html, Charset: "UTF-8" },
+          },
+        },
+      },
+    }),
+  );
+}
+
+async function sendAutoReplyViaResend(lead: Lead): Promise<void> {
+  const apiKey = env("RESEND_API_KEY");
+  if (!apiKey) {
+    if (!isProd()) {
+      logAutoReplyIntent(lead);
+      return;
+    }
+    console.warn("[contact] Auto-reply skipped — RESEND_API_KEY missing.");
+    return;
+  }
+
+  const { subject, text, html } = buildAutoReplyEmail(lead);
+
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: autoReplyFrom(),
+      to: [lead.workEmail],
+      reply_to: autoReplyReplyTo(),
+      subject,
+      text,
+      html,
+    }),
+  });
+  if (!res.ok) {
+    // Status only — the key never appears in the thrown message.
+    throw new Error(`Resend auto-reply responded with status ${res.status}`);
+  }
 }
 
 function messageOf(err: unknown): string {

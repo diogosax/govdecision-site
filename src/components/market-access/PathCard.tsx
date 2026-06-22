@@ -37,8 +37,8 @@ export function PathCard({ path }: { path: MarketAccessPath }) {
         {path.summary}
       </p>
 
-      {/* Focus areas */}
-      <ul className="mt-5 space-y-2 border-t border-line/70 pt-5">
+      {/* Focus areas — grows so cards of varying copy stay equal height */}
+      <ul className="mt-5 flex-1 space-y-2 border-t border-line/70 pt-5">
         {path.focusAreas.map((area) => (
           <li
             key={area}
@@ -50,8 +50,8 @@ export function PathCard({ path }: { path: MarketAccessPath }) {
         ))}
       </ul>
 
-      {/* CTA pinned to the bottom for an even grid */}
-      <div className="mt-6 pt-1">
+      {/* CTA pinned to the bottom so buttons align across the grid */}
+      <div className="mt-auto pt-6">
         <Button
           href={path.ctaHref}
           variant="ghost"
