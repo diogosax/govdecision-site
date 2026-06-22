@@ -18,15 +18,19 @@ export type NavItem = { key: NavKey; href: string };
 /**
  * Primary header navigation — real routed pages, never scroll anchors.
  *
- * Opportunity Briefs is intentionally NOT here: adding a sixth primary item
- * risks header overflow in the 1024–1100px band (and in PT-BR/ES), which the
- * brief explicitly warns against. It is surfaced instead through the footer nav
- * (below) plus prominent in-page promos on Home and Market Access — the
- * fallback the brief blesses when the header would otherwise be crowded.
+ * SITE-014 promotes Opportunity Briefs into the primary header nav, but safely:
+ * the header content is capped at ~1088px by `max-w-6xl`, so a sixth full-width
+ * item would overflow the 1024–1279px band (worse in PT-BR/ES, where the labels
+ * are longer). The compromise the brief blesses (fallback B): render Briefs with
+ * a compact label and only at the wider `xl` breakpoint — see `SiteChrome`, which
+ * tags it `desktopWideOnly`. In the 1024–1279px band the proven five-item layout
+ * is kept; Briefs still appears in the mobile menu, the footer nav (below) and
+ * the in-page promos on Home and Market Access.
  */
 export const mainNav: NavItem[] = [
   { key: "platform", href: "/platform" },
   { key: "marketAccess", href: "/market-access" },
+  { key: "opportunityBriefs", href: "/opportunity-briefs" },
   { key: "pricing", href: "/pricing" },
   { key: "company", href: "/company" },
   { key: "contact", href: "/contact" },

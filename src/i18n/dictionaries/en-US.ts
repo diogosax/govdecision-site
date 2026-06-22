@@ -10,6 +10,7 @@ export const enUS = {
       platform: "Platform",
       marketAccess: "Market Access",
       opportunityBriefs: "Opportunity Briefs",
+      opportunityBriefsShort: "Briefs",
       pricing: "Pricing",
       company: "Company",
       contact: "Contact",

@@ -9,7 +9,17 @@ import { trackEvent, pageFromPathname } from "@/lib/analytics/events";
 import { Logo } from "./Logo";
 import { LanguageSelector } from "./LanguageSelector";
 
-export type HeaderNavItem = { key: string; label: string; href: string };
+export type HeaderNavItem = {
+  key: string;
+  label: string;
+  href: string;
+  /** Compact label used for the inline desktop nav only (SITE-014). Falls back
+   *  to `label` when absent. The full `label` is always used in the mobile menu. */
+  shortLabel?: string;
+  /** Render inline only at the wider `xl` breakpoint; hidden in the 1024–1279px
+   *  band to avoid header overflow. Still shown in the mobile menu. (SITE-014) */
+  desktopWideOnly?: boolean;
+};
 
 export type HeaderProps = {
   locale: Locale;
@@ -86,12 +96,14 @@ export function Header({
               key={item.key}
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
-              className={`whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-colors ${
+              className={`${
+                item.desktopWideOnly ? "max-xl:hidden " : ""
+              }whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-colors ${
                 isActive(item.href) ? "text-plum" : "text-slate hover:text-plum"
               }`}
             >
               <span className="relative">
-                {item.label}
+                {item.shortLabel ?? item.label}
                 {isActive(item.href) && (
                   <span
                     aria-hidden

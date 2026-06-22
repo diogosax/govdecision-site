@@ -23,11 +23,25 @@ export function SiteChrome({
   dict: Dictionary;
   children: ReactNode;
 }) {
-  const nav: HeaderNavItem[] = mainNav.map((item) => ({
-    key: item.key,
-    label: dict.common.nav[item.key],
-    href: localePath(locale, item.href),
-  }));
+  const nav: HeaderNavItem[] = mainNav.map((item) => {
+    const base: HeaderNavItem = {
+      key: item.key,
+      label: dict.common.nav[item.key],
+      href: localePath(locale, item.href),
+    };
+    // SITE-014: Opportunity Briefs joins the primary header nav, but with a
+    // compact inline label and only at the wider `xl` breakpoint, so it never
+    // crowds the 1024–1279px band (worse in PT-BR/ES). The full `label` is kept
+    // for the mobile menu; the footer mapping below is unaffected.
+    if (item.key === "opportunityBriefs") {
+      return {
+        ...base,
+        shortLabel: dict.common.nav.opportunityBriefsShort,
+        desktopWideOnly: true,
+      };
+    }
+    return base;
+  });
 
   const footerLinks: HeaderNavItem[] = footerNav.map((item) => ({
     key: item.key,

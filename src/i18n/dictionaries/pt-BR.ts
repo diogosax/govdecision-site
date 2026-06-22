@@ -18,6 +18,7 @@ export const ptBR = {
       platform: "Plataforma",
       marketAccess: "Mercados",
       opportunityBriefs: "Oportunidades",
+      opportunityBriefsShort: "Oportunidades",
       pricing: "Preços",
       company: "Empresa",
       contact: "Contato",

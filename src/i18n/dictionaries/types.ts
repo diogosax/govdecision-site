@@ -19,6 +19,9 @@ export interface Dictionary {
       platform: string;
       marketAccess: string;
       opportunityBriefs: string;
+      /** Compact header-only label for Opportunity Briefs (SITE-014). The full
+       *  `opportunityBriefs` label is kept for the footer + mobile menu. */
+      opportunityBriefsShort: string;
       pricing: string;
       company: string;
       contact: string;
