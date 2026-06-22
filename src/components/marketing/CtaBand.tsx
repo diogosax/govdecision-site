@@ -1,6 +1,23 @@
 import { Button } from "@/components/ui/Button";
+import { TrackedButton } from "@/components/analytics/TrackedButton";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import type {
+  AnalyticsEventName,
+  AnalyticsProperties,
+} from "@/lib/analytics/events";
+
+/**
+ * A CTA link. When `event` is provided the button is tracked (rendered through
+ * the `TrackedButton` client wrapper); otherwise it stays a plain server
+ * `Button`, so existing untracked usages keep working unchanged.
+ */
+type CtaLink = {
+  label: string;
+  href: string;
+  event?: AnalyticsEventName;
+  eventProps?: AnalyticsProperties;
+};
 
 export function CtaBand({
   eyebrow,
@@ -12,8 +29,8 @@ export function CtaBand({
   eyebrow: string;
   title: string;
   subtitle: string;
-  primary: { label: string; href: string };
-  secondary?: { label: string; href: string } | null;
+  primary: CtaLink;
+  secondary?: CtaLink | null;
 }) {
   // Absolute (http/https) hrefs — e.g. the GovDecision app login — render as
   // real external anchors instead of client-routed links.
@@ -37,24 +54,49 @@ export function CtaBand({
               {subtitle}
             </p>
             <div className="mt-2 flex flex-col gap-3 sm:flex-row">
-              <Button
-                href={primary.href}
-                external={isExternal(primary.href)}
-                size="lg"
-                withArrow
-              >
-                {primary.label}
-              </Button>
-              {secondary && (
-                <Button
-                  href={secondary.href}
-                  external={isExternal(secondary.href)}
-                  variant="light"
+              {primary.event ? (
+                <TrackedButton
+                  href={primary.href}
+                  external={isExternal(primary.href)}
                   size="lg"
+                  withArrow
+                  event={primary.event}
+                  eventProps={primary.eventProps}
                 >
-                  {secondary.label}
+                  {primary.label}
+                </TrackedButton>
+              ) : (
+                <Button
+                  href={primary.href}
+                  external={isExternal(primary.href)}
+                  size="lg"
+                  withArrow
+                >
+                  {primary.label}
                 </Button>
               )}
+              {secondary &&
+                (secondary.event ? (
+                  <TrackedButton
+                    href={secondary.href}
+                    external={isExternal(secondary.href)}
+                    variant="light"
+                    size="lg"
+                    event={secondary.event}
+                    eventProps={secondary.eventProps}
+                  >
+                    {secondary.label}
+                  </TrackedButton>
+                ) : (
+                  <Button
+                    href={secondary.href}
+                    external={isExternal(secondary.href)}
+                    variant="light"
+                    size="lg"
+                  >
+                    {secondary.label}
+                  </Button>
+                ))}
             </div>
           </div>
         </div>

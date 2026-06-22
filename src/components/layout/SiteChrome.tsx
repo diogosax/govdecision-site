@@ -53,6 +53,7 @@ export function SiteChrome({
         {children}
       </main>
       <Footer
+        locale={locale}
         homeHref={localePath(locale, "/")}
         nav={nav}
         startReadinessHref={localePath(locale, "/contact")}

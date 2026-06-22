@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { ContactForm } from "@/components/marketing/ContactForm";
+import { TrackedLink } from "@/components/analytics/TrackedLink";
 import { site } from "@/data/site";
 import { loginHref } from "@/data/navigation";
 import { contactPathLabels } from "@/data/destinations";
@@ -143,12 +144,19 @@ export function ContactView({
                 </p>
                 <p className="text-slate">
                   {t.alreadyCustomer}{" "}
-                  <a
+                  <TrackedLink
                     href={loginHref}
+                    event="app_login_clicked"
+                    eventProps={{
+                      locale,
+                      page: "/contact",
+                      section: "contact_aside",
+                      href: loginHref,
+                    }}
                     className="font-semibold text-plum underline-offset-4 hover:underline"
                   >
                     {t.loginCta}
-                  </a>
+                  </TrackedLink>
                 </p>
               </div>
             </div>

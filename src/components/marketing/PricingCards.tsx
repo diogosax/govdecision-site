@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/Button";
+import { TrackedButton } from "@/components/analytics/TrackedButton";
 import { Icon } from "@/components/ui/Icon";
 
 export type PricingCardPlan = {
@@ -57,11 +57,13 @@ function Price({
 
 export function PricingCards({
   plans,
+  locale,
   brazilLabel,
   internationalLabel,
   serviceLedBadge,
 }: {
   plans: PricingCardPlan[];
+  locale: string;
   brazilLabel: string;
   internationalLabel: string;
   serviceLedBadge: string;
@@ -133,15 +135,26 @@ export function PricingCards({
             </ul>
 
             <div className="mt-7">
-              <Button
+              <TrackedButton
                 href={plan.ctaHref}
                 variant={featured ? "primary" : "secondary"}
                 size="lg"
                 withArrow
                 className="w-full"
+                event="pricing_cta_clicked"
+                eventProps={{
+                  locale,
+                  page: "/pricing",
+                  // Coarse, non-PII classification: the service-led plan is
+                  // custom-priced; the platform plan uses published pricing.
+                  market: featured ? "Custom" : "International",
+                  plan: plan.name,
+                  cta: plan.cta,
+                  href: plan.ctaHref,
+                }}
               >
                 {plan.cta}
-              </Button>
+              </TrackedButton>
             </div>
           </article>
         );

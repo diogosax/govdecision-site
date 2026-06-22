@@ -2,6 +2,8 @@ import "../globals.css";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { montserrat } from "../fonts";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { getDictionary } from "@/i18n/get-dictionary";
@@ -44,6 +46,8 @@ export default async function LocaleLayout({
         <SiteChrome locale={locale} dict={dict}>
           {children}
         </SiteChrome>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

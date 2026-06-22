@@ -11,6 +11,11 @@ import {
   pathTypeStyles,
   targetOptions,
 } from "@/data/market-access";
+import {
+  trackEvent,
+  normalizePathType,
+  type AnalyticsProperties,
+} from "@/lib/analytics/events";
 import { PathRoute } from "./PathRoute";
 
 export type PathSelectorCopy = {
@@ -57,9 +62,11 @@ function OptionChip({
  * are proper nouns (kept as-is); all labels come from the active locale.
  */
 export function PathSelector({
+  locale,
   t,
   startReadinessHref,
 }: {
+  locale: string;
   t: PathSelectorCopy;
   startReadinessHref: string;
 }) {
@@ -68,6 +75,32 @@ export function PathSelector({
 
   const pathType = classifyPath(origin, target);
   const requirements = t.requirements[pathType] ?? [];
+
+  // Fire on each origin/target change with the resolved (next) selection, so
+  // the event reflects what the user just picked. Only structured options are
+  // tracked — never free text.
+  function selectorEventProps(
+    nextOrigin: string,
+    nextTarget: string,
+  ): AnalyticsProperties {
+    return {
+      locale,
+      page: "/market-access",
+      originCountry: nextOrigin,
+      targetMarket: nextTarget,
+      pathType: normalizePathType(classifyPath(nextOrigin, nextTarget)),
+    };
+  }
+
+  function selectOrigin(value: string) {
+    setOrigin(value);
+    trackEvent("market_access_selector_changed", selectorEventProps(value, target));
+  }
+
+  function selectTarget(value: string) {
+    setTarget(value);
+    trackEvent("market_access_selector_changed", selectorEventProps(origin, value));
+  }
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
@@ -81,7 +114,7 @@ export function PathSelector({
                 key={option}
                 label={option}
                 selected={origin === option}
-                onSelect={() => setOrigin(option)}
+                onSelect={() => selectOrigin(option)}
               />
             ))}
           </div>
@@ -99,7 +132,7 @@ export function PathSelector({
                 key={option}
                 label={option}
                 selected={target === option}
-                onSelect={() => setTarget(option)}
+                onSelect={() => selectTarget(option)}
               />
             ))}
           </div>
@@ -158,7 +191,23 @@ export function PathSelector({
         </div>
 
         <div className="mt-6">
-          <Button href={startReadinessHref} withArrow className="w-full sm:w-auto">
+          <Button
+            href={startReadinessHref}
+            withArrow
+            className="w-full sm:w-auto"
+            onClick={() =>
+              trackEvent("cta_clicked", {
+                locale,
+                page: "/market-access",
+                section: "path_selector",
+                cta: "start_readiness",
+                href: startReadinessHref,
+                originCountry: origin,
+                targetMarket: target,
+                pathType: normalizePathType(pathType),
+              })
+            }
+          >
             {t.startReadiness}
           </Button>
         </div>

@@ -1,9 +1,12 @@
-import { Button } from "@/components/ui/Button";
+import { TrackedButton } from "@/components/analytics/TrackedButton";
 import { Icon } from "@/components/ui/Icon";
 import { pathTypeIcon, pathTypeStyles, type PathType } from "@/data/market-access";
 import { PathRoute } from "./PathRoute";
 
 export type PathCardData = {
+  /** Stable path slug + active locale — used for analytics, not shown. */
+  slug: string;
+  locale: string;
   pathType: PathType;
   pathTypeLabel: string;
   statusLabel: string;
@@ -60,15 +63,27 @@ export function PathCard({ path }: { path: PathCardData }) {
 
       {/* CTA pinned to the bottom so buttons align across the grid */}
       <div className="mt-auto pt-6">
-        <Button
+        <TrackedButton
           href={path.ctaHref}
           variant="ghost"
           size="md"
           withArrow
           className="w-full"
+          event="market_access_path_clicked"
+          eventProps={{
+            locale: path.locale,
+            page: "/market-access",
+            section: "path_card",
+            path: path.slug,
+            pathType: path.pathType.toLowerCase(),
+            originCountry: path.originCountry,
+            targetMarket: path.targetMarket,
+            cta: path.ctaLabel,
+            href: path.ctaHref,
+          }}
         >
           {path.ctaLabel}
-        </Button>
+        </TrackedButton>
       </div>
     </article>
   );
