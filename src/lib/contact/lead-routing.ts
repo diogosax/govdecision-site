@@ -73,6 +73,26 @@ export function leadArm(leadType: LeadType): LeadArm {
 }
 
 /**
+ * A concrete, internal-only next step the GovDecision / Sax Global team should
+ * take for a lead, surfaced in the notification email so triage is faster.
+ * Purely advisory copy — it changes nothing about classification or routing.
+ */
+export function recommendedNextStep(leadType: LeadType): string {
+  switch (leadType) {
+    case "LOCAL_READINESS":
+      return "Review GovDecision readiness fit and invite the lead to the app/readiness flow.";
+    case "CROSS_BORDER_MARKET_ACCESS":
+      return "Review Sax Global market access path and schedule a market access conversation.";
+    case "MULTILATERAL_MARKET_ACCESS":
+      return "Review procurement readiness and registration path before suggesting next steps.";
+    case "REGIONAL_MARKET_ACCESS":
+      return "Validate country pack and local route assumptions before follow-up.";
+    default:
+      return "Triage manually.";
+  }
+}
+
+/**
  * Build a readable route label, reusing the Market Access path map so labels
  * stay consistent with the destination pages. Examples:
  *   "Brazil local readiness", "Brazil → United States", "Brazil → UN & World Bank".
