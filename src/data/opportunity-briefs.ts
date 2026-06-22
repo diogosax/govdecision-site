@@ -36,7 +36,9 @@ export type BriefMarket =
   | "Paraguay"
   | "Mexico"
   | "Canada"
+  | "Colombia"
   | "UN / World Bank"
+  | "IDB"
   | "Selected African markets";
 
 /** Drives the CTA (local → GovDecision readiness, else → Sax Global) and copy. */
@@ -684,6 +686,623 @@ export const opportunityBriefs: OpportunityBrief[] = [
       "African Water & Sanitation (AfDB) — Government Opportunity Brief",
     metaDescription:
       "A real-world donor-funded demand example: AfDB-financed water and sanitation procurement across Africa — and why suppliers need fit, readiness, and a validated route.",
+    decisionMockup: {
+      fitSignal: "medium",
+      readinessRisk: "high",
+      blockersDetected: 5,
+      route: "partner",
+      decision: "prepare-first",
+    },
+  },
+
+  /* ======================== SITE-016 — library expansion ======================== */
+
+  /* ----------------------------------------- United States · IT (local) */
+  {
+    slug: "united-states-it-infrastructure",
+    market: "United States",
+    pathType: "local",
+    status: "real-world-example",
+    icon: "layers",
+    currency: "USD",
+    source: {
+      name: "GSA — Multiple Award Schedule, IT Category",
+      url: "https://www.gsa.gov/technology/it-contract-vehicles-and-purchasing-programs/multiple-award-schedule-it",
+    },
+    references: [
+      {
+        name: "SAM.gov — Contract Opportunities",
+        url: "https://sam.gov/opportunities",
+      },
+      {
+        name: "USAspending.gov — Federal spending data",
+        url: "https://www.usaspending.gov/",
+      },
+    ],
+    contactPath: "united-states",
+    relatedHref: "/market-access/united-states",
+
+    opportunityType: "IT infrastructure, hardware & technical equipment",
+    buyerType: "U.S. federal agencies & GSA-served buyers (state/local via cooperative purchasing)",
+    shortTitle: "Federal IT infrastructure & equipment",
+    heroEyebrow: "United States · Local market",
+    heroTitle: "Continuous federal demand for IT hardware and infrastructure.",
+    heroSubtitle:
+      "U.S. agencies buy IT infrastructure — servers, networking, storage, endpoints and related equipment — through GSA contract vehicles and SAM.gov. The demand is recurring and broad; getting positioned on the right vehicle is the work.",
+    summary:
+      "The U.S. government is one of the largest technology buyers in the world, and much of its IT hardware and infrastructure flows through GSA's Multiple Award Schedule and SAM.gov. Demand is steady — but registration, category positioning, and contract-vehicle placement decide who competes.",
+    whySuppliersCare: [
+      "IT infrastructure is a recurring, high-frequency federal category, so a positioned reseller or manufacturer can build repeatable revenue.",
+      "Distributors and OEMs of servers, networking, storage and endpoints map directly to existing federal demand.",
+      "Government-wide vehicles (e.g., the GSA IT Schedule) can turn many scattered buyers into a single route once you are on contract.",
+    ],
+    commonRequirements: [
+      "An active SAM.gov registration with a UEI, and the right NAICS / PSC codes for IT products.",
+      "Placement on a GSA Schedule or other contract vehicle is often the practical route to recurring orders.",
+      "Supply-chain, country-of-origin (e.g., Trade Agreements Act) and security terms frequently must be validated per solicitation.",
+    ],
+    commonBlockers: [
+      "Registration and code mapping are incomplete, so the supplier never surfaces for the right IT buyers.",
+      "Country-of-origin and supply-chain rules are underestimated, and non-compliant products are quoted.",
+      "Schedule placement and pricing discipline are treated as paperwork rather than a positioning decision.",
+    ],
+    govDecisionAnalysis: [
+      "Compare the opportunity category against the Supplier Passport to see where the IT portfolio already fits.",
+      "Use AI-assisted requirement extraction to pull registration, code, country-of-origin and security terms out of the notice.",
+      "Detect blockers — missing registration, non-compliant origin, no vehicle — before any bid effort.",
+      "Produce a Go / No-Go decision brief: pursue now, get on a vehicle first, or pass.",
+    ],
+    saxGlobalAngle: [],
+    readinessQuestions: [
+      "Do we sell IT infrastructure categories a federal buyer actually orders?",
+      "Is our SAM.gov registration active, with the correct UEI, NAICS and PSC codes?",
+      "Are our products compliant with country-of-origin and supply-chain rules?",
+      "Are we on a GSA Schedule or other vehicle — or do we need to get on one first?",
+      "Is the realistic route a direct bid, or placement on a contract vehicle?",
+    ],
+    relatedLabel: "United States market access brief",
+    metaTitle:
+      "U.S. Federal IT Infrastructure & Equipment — Government Opportunity Brief",
+    metaDescription:
+      "A real-world U.S. public-sector demand example: recurring federal IT infrastructure and equipment via GSA and SAM.gov, and why suppliers need fit, readiness, and a clear route before pursuing.",
+    decisionMockup: {
+      fitSignal: "medium-high",
+      readinessRisk: "medium",
+      blockersDetected: 3,
+      route: "direct",
+      decision: "qualify-first",
+    },
+  },
+
+  /* ------------------------------ United States · energy efficiency (local) */
+  {
+    slug: "united-states-energy-efficiency",
+    market: "United States",
+    pathType: "local",
+    status: "real-world-example",
+    icon: "coins",
+    currency: "USD",
+    source: {
+      name: "U.S. DOE — FEMP, Energy-Efficient Product Procurement",
+      url: "https://www.energy.gov/cmei/femp/energy-efficient-product-procurement",
+    },
+    references: [
+      {
+        name: "ENERGY STAR — Federal Procurement of Energy-Efficient Products",
+        url: "https://www.energystar.gov/products/federal_procurement_policies_energy_star_certified_products",
+      },
+      {
+        name: "SAM.gov — Contract Opportunities",
+        url: "https://sam.gov/opportunities",
+      },
+    ],
+    contactPath: "united-states",
+    relatedHref: "/market-access/united-states",
+
+    opportunityType: "Energy-efficiency & building-systems equipment",
+    buyerType: "U.S. federal agencies & installations",
+    shortTitle: "Federal energy-efficiency equipment",
+    heroEyebrow: "United States · Local market",
+    heroTitle: "Federal agencies are directed to buy energy-efficient equipment.",
+    heroSubtitle:
+      "U.S. agencies are required to procure energy- and water-efficient products — LED lighting, HVAC, building controls, motors and more — under federal energy-management rules. The mandate creates steady, category-broad demand for qualifying equipment.",
+    summary:
+      "Federal law directs agencies to buy energy- and water-efficient products, and the DOE Federal Energy Management Program (FEMP) sets the purchasing requirements. For suppliers of qualifying building-systems equipment the result is a recurring demand signal — but registration, product qualification, and the right contract route still decide who competes.",
+    whySuppliersCare: [
+      "Federal efficiency mandates make energy-efficient equipment a recurring, policy-driven category rather than a one-off buy.",
+      "Manufacturers and distributors of LED lighting, HVAC, controls, motors and water-efficient products map to existing requirements.",
+      "ENERGY STAR / FEMP-designated products carry a built-in qualification signal buyers are directed to prefer.",
+    ],
+    commonRequirements: [
+      "An active SAM.gov registration with a UEI, and NAICS / PSC codes for the product category.",
+      "Products often must meet ENERGY STAR or FEMP-designated efficiency levels to qualify.",
+      "A contract vehicle or schedule placement is frequently the practical route to recurring orders.",
+    ],
+    commonBlockers: [
+      "Products are not on the ENERGY STAR / FEMP-designated lists buyers are directed to prefer.",
+      "Registration and code mapping are incomplete, so the supplier never surfaces for the right buyers.",
+      "Delivery, installation and specification terms are underestimated and must be validated per solicitation.",
+    ],
+    govDecisionAnalysis: [
+      "Compare the opportunity against the Supplier Passport to confirm product and efficiency-qualification fit.",
+      "Use AI-assisted requirement extraction to pull efficiency standards, registration and delivery terms out of the notice.",
+      "Detect blockers — non-qualifying products, missing registration, no vehicle — before any bid effort.",
+      "Produce a Go / No-Go decision brief: pursue now, qualify products first, or pass.",
+    ],
+    saxGlobalAngle: [],
+    readinessQuestions: [
+      "Do our products meet ENERGY STAR or FEMP-designated efficiency levels?",
+      "Is our SAM.gov registration active, with the correct UEI, NAICS and PSC codes?",
+      "Can we evidence the efficiency claims a federal buyer is directed to require?",
+      "Can we meet federal delivery, installation and specification terms?",
+      "Is the realistic route a direct bid, or placement on a contract vehicle first?",
+    ],
+    relatedLabel: "United States market access brief",
+    metaTitle:
+      "U.S. Federal Energy-Efficiency Equipment — Government Opportunity Brief",
+    metaDescription:
+      "A real-world U.S. public-sector demand example: federal energy-efficiency and building-systems equipment under DOE FEMP rules, and why suppliers need fit, product qualification, and readiness.",
+    decisionMockup: {
+      fitSignal: "medium-high",
+      readinessRisk: "medium",
+      blockersDetected: 4,
+      route: "direct",
+      decision: "review-before-pursuit",
+    },
+  },
+
+  /* ----------------------------------------------- Brazil · education (local) */
+  {
+    slug: "brazil-education-equipment",
+    market: "Brazil",
+    pathType: "local",
+    status: "real-world-example",
+    icon: "memo",
+    currency: "BRL",
+    source: {
+      name: "FNDE — Atas de Registro de Preços (Compras governamentais)",
+      url: "https://www.fnde.gov.br/acoes/compras-governamentais/compras-nacionais/atas-de-registro-de-precos",
+    },
+    references: [
+      {
+        name: "PNCP — Portal Nacional de Contratações Públicas",
+        url: "https://pncp.gov.br/app/editais",
+      },
+      {
+        name: "FNDE — SIGARP (Sistema de Gestão de Atas de Registro de Preços)",
+        url: "https://www.fnde.gov.br/sigarpweb/",
+      },
+    ],
+    contactPath: "brazil",
+    relatedHref: "/market-access/brazil",
+
+    opportunityType: "School furniture, equipment & education supplies",
+    buyerType: "FNDE plus state & municipal education networks (price-registration adhesion)",
+    shortTitle: "School & education equipment",
+    heroEyebrow: "Brazil · Local market",
+    heroTitle: "Nationwide school-equipment demand, organized through the FNDE.",
+    heroSubtitle:
+      "Brazil's FNDE runs national price-registration records (atas) for school furniture, equipment, kitchen items and school buses that thousands of municipalities and states can buy from. The demand is large and standardized — qualifying for it is the work.",
+    summary:
+      "The FNDE (the education ministry's funding agency) centralizes large volumes of school furniture and equipment demand into national price-registration records that states and municipalities adhere to. For qualifying manufacturers the volume is real — but Inmetro conformity, registration, and production capacity decide who competes.",
+    whySuppliersCare: [
+      "FNDE price-registration records aggregate school-equipment demand across thousands of municipalities into standardized lots.",
+      "Manufacturers of school furniture, kitchen equipment and classroom items map directly to recurring public education demand.",
+      "Adhesion by states and municipalities can turn a single registration into a broad, repeatable pipeline.",
+    ],
+    commonRequirements: [
+      "Participation in FNDE price-registration processes (e.g., via SIGARP) and the related habilitation are usually expected.",
+      "Inmetro conformity and technical specifications often apply to school furniture and equipment.",
+      "Production, quality-control and delivery capacity at national scale must be validated per record.",
+    ],
+    commonBlockers: [
+      "Products do not meet the Inmetro and technical specifications the records require.",
+      "Suppliers underestimate the production and delivery capacity adhesion volumes can demand.",
+      "Habilitation documents lapse or are incomplete, disqualifying otherwise competitive manufacturers.",
+    ],
+    govDecisionAnalysis: [
+      "Match the opportunity to the Supplier Passport to confirm product, conformity and capacity fit.",
+      "Use AI-assisted extraction to pull conformity, habilitation and delivery requirements from the record.",
+      "Detect blockers — missing Inmetro conformity, capacity gaps, expired documents — before committing.",
+      "Prepare a Go / No-Go decision brief instead of reacting to every published record.",
+    ],
+    saxGlobalAngle: [],
+    readinessQuestions: [
+      "Do we manufacture school furniture or equipment the FNDE records actually cover?",
+      "Do our products carry the required Inmetro conformity and technical specifications?",
+      "Can we produce and deliver at the scale adhesion volumes may demand?",
+      "Are our habilitation documents current and complete?",
+      "Is this worth pursuing now, or should we organize conformity and capacity first?",
+    ],
+    relatedLabel: "Brazil market access brief",
+    metaTitle:
+      "Brazil School & Education Equipment (FNDE) — Government Opportunity Brief",
+    metaDescription:
+      "A real-world Brazilian public-sector demand example: school furniture and education equipment through FNDE price-registration records, and why suppliers need fit, conformity, and readiness.",
+    decisionMockup: {
+      fitSignal: "high",
+      readinessRisk: "medium",
+      blockersDetected: 3,
+      route: "direct",
+      decision: "qualify-first",
+    },
+  },
+
+  /* ----------------------------- Mexico · electrical / industrial (cross-border) */
+  {
+    slug: "mexico-electrical-industrial-supplies",
+    market: "Mexico",
+    pathType: "cross-border",
+    status: "market-signal",
+    icon: "route",
+    currency: "MXN",
+    source: {
+      name: "ComprasMX — Plataforma Digital de Contrataciones (Gobierno de México)",
+      url: "https://comprasmx.buengobierno.gob.mx/",
+    },
+    references: [
+      {
+        name: "ComprasMX — Registro Único de Proveedores y Contratistas (RUPC)",
+        url: "https://comprasmx.buengobierno.gob.mx/rupc",
+      },
+    ],
+    contactPath: "brazil-to-mexico",
+    relatedHref: "/market-access",
+
+    opportunityType: "Electrical components & industrial / operational supplies",
+    buyerType: "Mexican federal public administration entities",
+    shortTitle: "Electrical & industrial supplies",
+    heroEyebrow: "Mexico · Cross-border path",
+    heroTitle: "A large federal buyer with steady industrial-supply needs.",
+    heroSubtitle:
+      "Mexico's federal government publishes tenders on ComprasMX (the platform that replaced CompraNet), including electrical components and industrial / operational supplies. For a cross-border supplier — for example from Brazil — proximity and regional trade ties help, but registration and representation rules are decisive.",
+    summary:
+      "Mexico's federal procurement runs through ComprasMX, with continuous demand for electrical components and industrial supplies. The market is sizable and adjacent for many LATAM suppliers, but cross-border participants must validate RUPC registration, representation, and compliance before competing.",
+    whySuppliersCare: [
+      "A large federal buyer with continuous electrical and industrial-supply needs is a meaningful adjacent market.",
+      "A modernized, centralized platform (ComprasMX) makes federal demand more transparent and searchable.",
+      "Electrical components and industrial supplies map to existing B2B product lines for many manufacturers and distributors.",
+    ],
+    commonRequirements: [
+      "Registration in the supplier and contractor registry (RUPC) on ComprasMX is generally required to participate.",
+      "A local presence, representative or RFC tax registration may be required depending on the procedure.",
+      "Bid documentation in Spanish, technical norms (e.g., NOM) and compliance must be validated per tender.",
+    ],
+    commonBlockers: [
+      "Cross-border suppliers underestimate RUPC registration, tax and local-representation requirements.",
+      "Mexican technical norms (NOM) and specifications are buyer-specific and must be validated, not assumed.",
+      "Delivery, warranty and support obligations across the border add execution risk.",
+    ],
+    govDecisionAnalysis: [
+      "Compare the opportunity to the Supplier Passport and surface cross-border eligibility gaps.",
+      "Extract registration, representation and technical-norm requirements with AI assistance.",
+      "Detect blockers — RUPC registration, RFC, NOM compliance — before investing in a bid.",
+      "Produce a Go / No-Go decision brief: direct, partner-led, or prepare first.",
+    ],
+    saxGlobalAngle: [
+      "For a Brazil → Mexico path, Sax Global may support market-access planning and route validation across the border.",
+      "Sax Global can help test local-representation, tax-presence and distributor assumptions where required.",
+      "Execution context — language, warranty, in-country support — can be scoped before commitment.",
+    ],
+    readinessQuestions: [
+      "Do our electrical / industrial categories match what Mexican federal buyers order?",
+      "Are we ready to register (RUPC) and meet local tax / representation rules?",
+      "Can our products meet Mexican technical norms (NOM) where they apply?",
+      "Can we meet delivery, warranty and support obligations across the border?",
+      "Is a direct route realistic, or should we prepare or partner first?",
+    ],
+    relatedLabel: "All market access paths",
+    metaTitle:
+      "Mexico Electrical & Industrial Supplies — Government Opportunity Brief",
+    metaDescription:
+      "A real-world Mexican federal demand example via ComprasMX for electrical components and industrial supplies — and why cross-border suppliers need fit, readiness, and a validated route.",
+    decisionMockup: {
+      fitSignal: "medium",
+      readinessRisk: "high",
+      blockersDetected: 5,
+      route: "partner",
+      decision: "prepare-first",
+    },
+  },
+
+  /* ----------------------------- Canada · facilities management (cross-border) */
+  {
+    slug: "canada-facilities-management",
+    market: "Canada",
+    pathType: "cross-border",
+    status: "market-signal",
+    icon: "target",
+    currency: "CAD",
+    source: {
+      name: "CanadaBuys — Government of Canada tender opportunities",
+      url: "https://canadabuys.canada.ca/en/tender-opportunities",
+    },
+    references: [
+      {
+        name: "PSPC — Real property services & infrastructure",
+        url: "https://www.canada.ca/en/public-services-procurement/services/infrastructure-buildings.html",
+      },
+    ],
+    contactPath: "canada",
+    relatedHref: "/market-access",
+
+    opportunityType: "Facilities management, building operations & maintenance",
+    buyerType: "Government of Canada departments & agencies (real property, via PSPC)",
+    shortTitle: "Facilities management & operations",
+    heroEyebrow: "Canada · Cross-border path",
+    heroTitle: "Federal real estate that needs continuous operation and upkeep.",
+    heroSubtitle:
+      "Canada's federal government operates a large real-property portfolio and contracts facilities management, building operations and maintenance through CanadaBuys, operated by PSPC. Demand is published openly — but trade-agreement rules, registration and delivery terms shape who can compete.",
+    summary:
+      "PSPC manages a large federal real-property portfolio and publishes facilities-management and maintenance requirements on CanadaBuys. The demand is steady and transparent, but suppliers must validate registration, trade-agreement coverage, bilingual terms and local delivery capacity.",
+    whySuppliersCare: [
+      "A large federal real-property portfolio creates continuous facilities-management and maintenance demand.",
+      "An open, English / French federal portal (CanadaBuys) makes the demand unusually easy to monitor.",
+      "Trade agreements can open Canadian procurement to qualifying foreign suppliers — a real cross-border signal.",
+    ],
+    commonRequirements: [
+      "Supplier registration on CanadaBuys is generally needed to bid.",
+      "Facilities and maintenance work usually needs local delivery capacity and may require bonding or insurance.",
+      "Procurement may be governed by trade agreements and bilingual terms that must be validated.",
+    ],
+    commonBlockers: [
+      "Service-based facilities work usually needs local presence or partners that cross-border suppliers underestimate.",
+      "Bilingual and Canadian-specific compliance terms are underestimated.",
+      "Bonding, insurance and delivery requirements must be validated per tender.",
+    ],
+    govDecisionAnalysis: [
+      "Compare the opportunity to the Supplier Passport and flag cross-border eligibility and capacity questions.",
+      "Extract registration, trade-agreement, bonding and delivery requirements with AI assistance.",
+      "Detect blockers — local presence, bonding, bilingual compliance — before committing.",
+      "Prepare a Go / No-Go decision brief rather than chasing every notice.",
+    ],
+    saxGlobalAngle: [
+      "For a cross-border path into Canada, Sax Global may support market-access planning and route validation.",
+      "Sax Global can help test local-presence, partner and trade-agreement assumptions where they apply.",
+      "Execution context — local delivery, bonding, support — can be scoped before commitment.",
+    ],
+    readinessQuestions: [
+      "Do our facilities / maintenance services match what Canadian federal buyers order?",
+      "Are we registered on CanadaBuys and clear on trade-agreement coverage?",
+      "Can we provide the local delivery capacity facilities work usually needs?",
+      "Can we meet bilingual, bonding and insurance requirements?",
+      "Is a direct route realistic, or do we need a Canadian partner first?",
+    ],
+    relatedLabel: "All market access paths",
+    metaTitle:
+      "Canada Facilities Management & Operations — Government Opportunity Brief",
+    metaDescription:
+      "A real-world Canadian federal demand example via CanadaBuys for facilities management and building operations — and why cross-border suppliers need fit, readiness, and trade-agreement clarity.",
+    decisionMockup: {
+      fitSignal: "medium",
+      readinessRisk: "high",
+      blockersDetected: 4,
+      route: "partner",
+      decision: "prepare-first",
+    },
+  },
+
+  /* ------------------------------------------------ Colombia · MRO (regional) */
+  {
+    slug: "colombia-operational-supplies",
+    market: "Colombia",
+    pathType: "regional",
+    status: "market-signal",
+    icon: "compass",
+    currency: "COP",
+    source: {
+      name: "Colombia Compra Eficiente — SECOP II",
+      url: "https://www.colombiacompra.gov.co/secop/secop-ii",
+    },
+    references: [
+      {
+        name: "Colombia Compra Eficiente — Proveedores (supplier registration)",
+        url: "https://www.colombiacompra.gov.co/secop/proveedores",
+      },
+    ],
+    contactPath: "colombia",
+    relatedHref: "/market-access",
+
+    opportunityType: "MRO, operational & industrial supplies",
+    buyerType: "Colombian national & territorial public entities",
+    shortTitle: "MRO & operational supplies",
+    heroEyebrow: "Colombia · Regional path",
+    heroTitle: "A large LATAM market with a centralized, transactional portal.",
+    heroSubtitle:
+      "Colombia runs public procurement through SECOP II, the transactional platform operated by Colombia Compra Eficiente, where national and territorial entities buy MRO, operational and industrial supplies. The portal is open to national and foreign suppliers — but registration and local terms must be validated.",
+    summary:
+      "Colombia centralizes public contracting on SECOP II, a fully transactional platform. MRO and operational-supply demand recurs across national and territorial buyers, and the system is formally open to foreign suppliers — but supplier-account setup, documentation, and local representation shape who can realistically compete.",
+    whySuppliersCare: [
+      "Colombia is one of the larger LATAM public markets, with a centralized, transactional portal (SECOP II).",
+      "MRO, operational and industrial-supply categories recur across national and territorial entities.",
+      "The system is formally open to national and foreign suppliers, a real signal for regional expansion.",
+    ],
+    commonRequirements: [
+      "A SECOP II supplier account, with the required legal and financial documentation, is generally expected.",
+      "RUP (Registro Único de Proponentes) and a local representative or presence may apply depending on the process.",
+      "Bid documentation in Spanish and compliance with local terms must be validated per process.",
+    ],
+    commonBlockers: [
+      "Foreign suppliers underestimate supplier-account, RUP and documentation requirements.",
+      "Local representation, currency and logistics add execution risk that must be planned.",
+      "Financial-capacity and experience criteria are process-specific and must be validated, not assumed.",
+    ],
+    govDecisionAnalysis: [
+      "Compare the opportunity to the Supplier Passport and flag where cross-border eligibility is unclear.",
+      "Extract supplier-account, RUP and documentation requirements from the process with AI assistance.",
+      "Detect blockers — missing registration, local presence, capacity gaps — before pursuing.",
+      "Frame a Go / No-Go: pursue directly, pursue via a local partner, or prepare first.",
+    ],
+    saxGlobalAngle: [
+      "For a regional path into Colombia, Sax Global may support market-access planning and route validation.",
+      "Sax Global can help test partner / distributor and local-representation assumptions where required.",
+      "Execution context — language, logistics, currency — can be scoped before any commitment.",
+    ],
+    readinessQuestions: [
+      "Do we sell categories Colombian public buyers order, and at the right scale?",
+      "Are we prepared to set up a SECOP II account and meet RUP / documentation rules?",
+      "Do we need a local representative or distributor for this process?",
+      "Can we handle cross-border delivery, currency and documentation?",
+      "Is a direct route realistic, or is a partner / prepare-first route smarter?",
+    ],
+    relatedLabel: "All market access paths",
+    metaTitle:
+      "Colombia MRO & Operational Supplies — Government Opportunity Brief",
+    metaDescription:
+      "A real-world Colombian public-sector demand example via SECOP II for MRO and operational supplies — and why a regional supplier needs fit, readiness, and a validated route.",
+    decisionMockup: {
+      fitSignal: "medium",
+      readinessRisk: "medium",
+      blockersDetected: 4,
+      route: "partner",
+      decision: "prepare-first",
+    },
+  },
+
+  /* ------------------------------------------------------- IDB (multilateral) */
+  {
+    slug: "idb-development-equipment",
+    market: "IDB",
+    pathType: "multilateral",
+    status: "real-world-example",
+    icon: "globe",
+    currency: "USD",
+    source: {
+      name: "IDB — Procurement Notices (IDB-financed projects)",
+      url: "https://www.iadb.org/en/how-we-can-work-together/procurement/procurement-projects/procurement-notices",
+    },
+    references: [
+      {
+        name: "IDB — Procurement for IDB-financed projects",
+        url: "https://www.iadb.org/en/how-we-can-work-together/procurement/procurement-projects",
+      },
+    ],
+    contactPath: "latin-america-development-bank",
+    relatedHref: "/market-access",
+
+    opportunityType: "Technical & infrastructure equipment for development projects",
+    buyerType: "Latin American & Caribbean executing agencies (IDB-financed projects)",
+    shortTitle: "IDB-financed project equipment",
+    heroEyebrow: "IDB · Multilateral path",
+    heroTitle: "Development-bank-financed demand across Latin America and the Caribbean.",
+    heroSubtitle:
+      "The Inter-American Development Bank finances thousands of projects across Latin America and the Caribbean, with executing agencies procuring goods, equipment and works. Procurement is open to firms from IDB member countries — but eligibility and process discipline are central.",
+    summary:
+      "IDB-financed projects generate tens of thousands of contracts a year for goods, equipment and works, procured by borrower executing agencies under IDB rules. Demand is broad across the region, and participation is open to firms from IDB member countries — but eligibility, process and execution discipline decide who competes.",
+    whySuppliersCare: [
+      "IDB-financed projects generate large, recurring procurement for goods, equipment and works across the region.",
+      "Participation is open to firms from IDB member countries, widening who can compete.",
+      "Suppliers of technical and infrastructure equipment map directly to project needs.",
+    ],
+    commonRequirements: [
+      "Eligibility typically depends on IDB member-country rules and the project's procurement method.",
+      "Bids follow executing-agency and IDB procurement policies that must be read per notice.",
+      "Technical specifications, delivery to project sites and documentation must be validated per opportunity.",
+    ],
+    commonBlockers: [
+      "Suppliers treat IDB procurement like domestic bidding and miss eligibility and process rules.",
+      "Logistics to project locations, lead times and local presence are underestimated.",
+      "Performance guarantees, standards and documentation must be validated per opportunity.",
+    ],
+    govDecisionAnalysis: [
+      "Compare the opportunity to the Supplier Passport and flag eligibility and capacity gaps.",
+      "Extract eligibility, specification and delivery requirements from the notice with AI assistance.",
+      "Detect blockers — eligibility, logistics, guarantees — before committing resources.",
+      "Produce a Go / No-Go decision brief tuned to multilateral process discipline.",
+    ],
+    saxGlobalAngle: [
+      "For multilateral, development-bank-financed paths, Sax Global may support market-access planning and route validation.",
+      "Sax Global can help test partner, logistics and execution-capacity assumptions where applicable.",
+      "Execution context for project delivery can be scoped before commitment.",
+    ],
+    readinessQuestions: [
+      "Do our categories match what IDB-financed projects actually procure?",
+      "Are we eligible under IDB member-country and project procurement rules?",
+      "Can we deliver to project locations and meet technical specifications?",
+      "Can we provide the guarantees and documentation these projects require?",
+      "Is a direct route realistic, or should we partner or prepare first?",
+    ],
+    relatedLabel: "All market access paths",
+    metaTitle: "IDB-Financed Project Equipment — Government Opportunity Brief",
+    metaDescription:
+      "A real-world multilateral demand example: technical and infrastructure equipment for IDB-financed projects across Latin America and the Caribbean — and why suppliers need fit, readiness, and process discipline.",
+    decisionMockup: {
+      fitSignal: "medium",
+      readinessRisk: "high",
+      blockersDetected: 5,
+      route: "prepare-first",
+      decision: "prepare-first",
+    },
+  },
+
+  /* ------------------------- Selected African markets · energy (multilateral) */
+  {
+    slug: "africa-energy-access",
+    market: "Selected African markets",
+    pathType: "multilateral",
+    status: "real-world-example",
+    icon: "spark",
+    currency: "USD / local",
+    source: {
+      name: "African Development Bank — Sustainable Energy Fund for Africa (SEFA)",
+      url: "https://www.afdb.org/en/topics-and-sectors/initiatives-partnerships/sustainable-energy-fund-for-africa",
+    },
+    references: [
+      {
+        name: "African Development Bank — Project Procurement",
+        url: "https://www.afdb.org/en/projects-and-operations/procurement",
+      },
+    ],
+    contactPath: "africa-energy-access",
+    relatedHref: "/market-access",
+
+    opportunityType: "Energy-access & electrification equipment (donor-funded)",
+    buyerType: "African public agencies & utilities via AfDB-financed energy programs",
+    shortTitle: "Energy access & electrification",
+    heroEyebrow: "Selected African markets · Multilateral path",
+    heroTitle: "Donor-funded energy-access demand across the continent.",
+    heroSubtitle:
+      "The African Development Bank finances renewable-energy and electrification programs — including the Sustainable Energy Fund for Africa (SEFA) and the Desert to Power initiative — generating procurement for solar, off-grid and electrification equipment. The demand is significant; multilateral eligibility and execution rules are central.",
+    summary:
+      "AfDB-financed energy programs — including SEFA and Desert to Power — drive procurement for solar systems, off-grid kits, mini-grids and electrification equipment across Africa. Demand is real and growing, but eligibility, executing-agency rules, and execution capacity decide participation.",
+    whySuppliersCare: [
+      "Donor-funded energy-access programs create sustained demand for solar, off-grid and electrification equipment.",
+      "AfDB procurement is open to firms from member countries, widening who can participate.",
+      "Suppliers of solar modules, batteries, inverters and distribution equipment map directly to project needs.",
+    ],
+    commonRequirements: [
+      "Eligibility typically depends on AfDB member-country rules and the project's procurement method.",
+      "Bids follow executing-agency and AfDB procurement rules that must be read per notice.",
+      "Technical specifications, delivery to project sites and after-sales support may all be required.",
+    ],
+    commonBlockers: [
+      "Suppliers misjudge eligibility and executing-agency requirements that vary by project.",
+      "Logistics to remote project locations, lead times and local presence are underestimated.",
+      "Quality standards, warranties and documentation must be validated per opportunity.",
+    ],
+    govDecisionAnalysis: [
+      "Compare the opportunity to the Supplier Passport and flag eligibility and capacity gaps.",
+      "Extract eligibility, specification and delivery requirements from the notice with AI assistance.",
+      "Detect blockers — eligibility, logistics, warranties — before committing resources.",
+      "Prepare a Go / No-Go decision brief suited to donor-funded execution.",
+    ],
+    saxGlobalAngle: [
+      "For donor-funded, multilateral paths, Sax Global may support market-access planning and route validation.",
+      "Sax Global can help test partner, logistics and execution-capacity assumptions where applicable.",
+      "Practical execution context for project delivery can be scoped before commitment.",
+    ],
+    readinessQuestions: [
+      "Do our energy products fit AfDB-financed electrification and renewable-energy projects?",
+      "Are we eligible under member-country and project procurement rules?",
+      "Can we deliver to remote project locations and meet technical specifications?",
+      "Can we provide the warranties, support and documentation these projects require?",
+      "Is a direct route realistic, or should we partner or prepare first?",
+    ],
+    relatedLabel: "All market access paths",
+    metaTitle:
+      "African Energy Access & Electrification (AfDB) — Government Opportunity Brief",
+    metaDescription:
+      "A real-world donor-funded demand example: AfDB-financed energy-access and electrification equipment across Africa — and why suppliers need fit, readiness, and a validated route.",
     decisionMockup: {
       fitSignal: "medium",
       readinessRisk: "high",
