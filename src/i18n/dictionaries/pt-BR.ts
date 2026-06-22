@@ -17,9 +17,16 @@ export const ptBR = {
     nav: {
       platform: "Plataforma",
       marketAccess: "Mercados",
+      opportunityBriefs: "Oportunidades",
       pricing: "Preços",
       company: "Empresa",
       contact: "Contato",
+    },
+    briefsPromo: {
+      eyebrow: "Briefs de oportunidades públicas",
+      title: "Veja como são as oportunidades públicas reais.",
+      lead: "Exemplos reais de demanda pública entre mercados — e por que descobrir a oportunidade não basta.",
+      cta: "Explorar os briefs",
     },
     cta: {
       startReadiness: "Iniciar readiness",

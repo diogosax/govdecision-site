@@ -13,6 +13,7 @@ import { HeroMockup } from "@/components/marketing/HeroMockup";
 import { WorldMap } from "@/components/marketing/WorldMap";
 import { worldMapLabels } from "@/components/marketing/worldMapLabels";
 import { CtaBand } from "@/components/marketing/CtaBand";
+import { BriefsPromo } from "@/components/briefs/BriefsPromo";
 import { capabilityCards } from "@/data/platform";
 import { corridors } from "@/data/corridors";
 
@@ -240,6 +241,14 @@ export function HomeView({
           {t.corridors.coverage}
         </p>
       </Section>
+
+      {/* ------------------------------------------- Opportunity Briefs promo */}
+      <BriefsPromo
+        locale={locale}
+        page="/"
+        href={lp("/opportunity-briefs")}
+        t={dict.common.briefsPromo}
+      />
 
       {/* ------------------------------------------------ AI-assisted, decision-led */}
       <Section tone="surface">

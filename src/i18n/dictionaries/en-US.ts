@@ -9,9 +9,16 @@ export const enUS = {
     nav: {
       platform: "Platform",
       marketAccess: "Market Access",
+      opportunityBriefs: "Opportunity Briefs",
       pricing: "Pricing",
       company: "Company",
       contact: "Contact",
+    },
+    briefsPromo: {
+      eyebrow: "Government opportunity briefs",
+      title: "See what real government opportunities look like.",
+      lead: "Real-world public-sector demand examples across markets — and why opportunity discovery alone is not enough.",
+      cta: "Explore opportunity briefs",
     },
     cta: {
       startReadiness: "Start readiness",

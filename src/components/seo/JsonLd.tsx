@@ -68,6 +68,39 @@ export function SiteJsonLd({ locale }: { locale: Locale }) {
   return <JsonLdScript data={data} />;
 }
 
+/**
+ * A conservative WebPage node for editorial/analysis pages (the Opportunity
+ * Briefs index + detail, SITE-013). Deliberately NOT an Article/NewsArticle —
+ * these are brief/editorial analysis pages, not news — and carries no author,
+ * rating, review, or offer claims.
+ */
+export function WebPageJsonLd({
+  locale,
+  path,
+  name,
+  description,
+  about,
+}: {
+  locale: Locale;
+  path: string;
+  name: string;
+  description: string;
+  about?: string;
+}) {
+  const data: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name,
+    description,
+    url: abs(localePath(locale, path)),
+    inLanguage: localeHtmlLang[locale],
+    isPartOf: { "@id": `${site.url}/#website` },
+    publisher: { "@id": `${site.url}/#organization` },
+  };
+  if (about) data.about = about;
+  return <JsonLdScript data={data} />;
+}
+
 export type Crumb = { name: string; path: string };
 
 /**

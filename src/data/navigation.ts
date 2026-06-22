@@ -8,13 +8,22 @@ import { site } from "./site";
 export type NavKey =
   | "platform"
   | "marketAccess"
+  | "opportunityBriefs"
   | "pricing"
   | "company"
   | "contact";
 
 export type NavItem = { key: NavKey; href: string };
 
-/** Primary header navigation — real routed pages, never scroll anchors. */
+/**
+ * Primary header navigation — real routed pages, never scroll anchors.
+ *
+ * Opportunity Briefs is intentionally NOT here: adding a sixth primary item
+ * risks header overflow in the 1024–1100px band (and in PT-BR/ES), which the
+ * brief explicitly warns against. It is surfaced instead through the footer nav
+ * (below) plus prominent in-page promos on Home and Market Access — the
+ * fallback the brief blesses when the header would otherwise be crowded.
+ */
 export const mainNav: NavItem[] = [
   { key: "platform", href: "/platform" },
   { key: "marketAccess", href: "/market-access" },
@@ -23,7 +32,15 @@ export const mainNav: NavItem[] = [
   { key: "contact", href: "/contact" },
 ];
 
-export const footerNav: NavItem[] = mainNav;
+/** Footer navigation — the full set, including Opportunity Briefs (SITE-013). */
+export const footerNav: NavItem[] = [
+  { key: "platform", href: "/platform" },
+  { key: "marketAccess", href: "/market-access" },
+  { key: "opportunityBriefs", href: "/opportunity-briefs" },
+  { key: "pricing", href: "/pricing" },
+  { key: "company", href: "/company" },
+  { key: "contact", href: "/contact" },
+];
 
 /** External app login — never locale-prefixed. */
 export const loginHref = site.loginUrl;

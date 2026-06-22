@@ -30,9 +30,16 @@ export const es = {
     nav: {
       platform: "Plataforma",
       marketAccess: "Mercados",
+      opportunityBriefs: "Oportunidades",
       pricing: "Precios",
       company: "Empresa",
       contact: "Contacto",
+    },
+    briefsPromo: {
+      eyebrow: "Briefs de oportunidades públicas",
+      title: "Mira cómo son las oportunidades públicas reales.",
+      lead: "Ejemplos reales de demanda pública entre mercados — y por qué descubrir la oportunidad no alcanza.",
+      cta: "Explorar los briefs",
     },
     cta: {
       startReadiness: "Iniciar readiness",
