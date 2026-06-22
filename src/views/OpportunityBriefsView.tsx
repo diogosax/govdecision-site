@@ -9,7 +9,9 @@ import { CtaBand } from "@/components/marketing/CtaBand";
 import { FieldRow, Pill, WindowFrame } from "@/components/marketing/MockupKit";
 import { BriefsGrid } from "@/components/briefs/BriefsGrid";
 import type { BriefGridItem } from "@/components/briefs/BriefCard";
+import { PartnerCapitalPromo } from "@/components/partner-capital/PartnerCapitalPromo";
 import { briefChrome, getBriefCards, getMarketLabels } from "@/i18n/briefs";
+import { getPartnerCapital } from "@/i18n/partner-capital";
 
 /**
  * Government Opportunity Briefs index. Rendered by both the EN-US (`(site)`) and
@@ -251,6 +253,15 @@ export function OpportunityBriefsView({ locale }: { locale: Locale }) {
           </Container>
         </div>
       </section>
+
+      {/* ------------------------------------------- Partner / Capital cross-link */}
+      <PartnerCapitalPromo
+        locale={locale}
+        page="/opportunity-briefs"
+        partnerHref={localePath(locale, "/partners")}
+        capitalHref={localePath(locale, "/capital")}
+        t={getPartnerCapital(locale).promo}
+      />
 
       {/* ----------------------------------------------------------- Final CTA */}
       <CtaBand

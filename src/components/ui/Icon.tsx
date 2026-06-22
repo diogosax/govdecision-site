@@ -14,7 +14,8 @@ export type IconName =
   | "layers"
   | "passport"
   | "compass"
-  | "flag";
+  | "flag"
+  | "coins";
 
 const paths: Record<IconName, React.ReactNode> = {
   target: (
@@ -96,6 +97,13 @@ const paths: Record<IconName, React.ReactNode> = {
     <>
       <path d="M6 21V4" />
       <path d="M6 4.5c3-1.5 6 1.5 9 0v7c-3 1.5-6-1.5-9 0" />
+    </>
+  ),
+  coins: (
+    <>
+      <ellipse cx="12" cy="6" rx="7" ry="3" />
+      <path d="M5 6v12c0 1.66 3.13 3 7 3s7-1.34 7-3V6" />
+      <path d="M5 12c0 1.66 3.13 3 7 3s7-1.34 7-3" />
     </>
   ),
 };

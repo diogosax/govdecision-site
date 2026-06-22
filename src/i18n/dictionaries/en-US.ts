@@ -11,6 +11,8 @@ export const enUS = {
       marketAccess: "Market Access",
       opportunityBriefs: "Opportunity Briefs",
       marketAccessOverview: "Market Access",
+      partners: "Partners",
+      capital: "Capital",
       pricing: "Pricing",
       company: "Company",
       contact: "Contact",

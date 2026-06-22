@@ -32,6 +32,8 @@ export const es = {
       marketAccess: "Mercados",
       opportunityBriefs: "Oportunidades",
       marketAccessOverview: "Acceso a mercados",
+      partners: "Socios",
+      capital: "Capital",
       pricing: "Precios",
       company: "Empresa",
       contact: "Contacto",

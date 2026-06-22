@@ -19,6 +19,8 @@ export const ptBR = {
       marketAccess: "Mercados",
       opportunityBriefs: "Oportunidades",
       marketAccessOverview: "Acesso a mercados",
+      partners: "Parceiros",
+      capital: "Capital",
       pricing: "Preços",
       company: "Empresa",
       contact: "Contato",

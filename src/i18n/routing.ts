@@ -21,6 +21,8 @@ export const localizedPaths = [
   "/platform",
   "/market-access",
   "/opportunity-briefs",
+  "/partners",
+  "/capital",
   "/pricing",
   "/company",
   "/contact",

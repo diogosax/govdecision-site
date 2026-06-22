@@ -9,6 +9,8 @@ export type NavKey =
   | "platform"
   | "marketAccess"
   | "opportunityBriefs"
+  | "partners"
+  | "capital"
   | "pricing"
   | "company"
   | "contact";
@@ -56,11 +58,17 @@ export const mainNav: NavItem[] = [
   { key: "contact", href: "/contact" },
 ];
 
-/** Footer navigation — the full set, including Opportunity Briefs (SITE-013). */
+/**
+ * Footer navigation — the full set. Partners + GovDecision Capital live here
+ * (SITE-015) rather than in the primary header, keeping the header uncluttered
+ * while the two pages stay discoverable via the footer and in-page promos.
+ */
 export const footerNav: NavItem[] = [
   { key: "platform", href: "/platform" },
   { key: "marketAccess", href: "/market-access" },
   { key: "opportunityBriefs", href: "/opportunity-briefs" },
+  { key: "partners", href: "/partners" },
+  { key: "capital", href: "/capital" },
   { key: "pricing", href: "/pricing" },
   { key: "company", href: "/company" },
   { key: "contact", href: "/contact" },

@@ -24,6 +24,8 @@ export interface Dictionary {
        *  `marketAccess` ("Acesso a mercados" / "Acceso a mercados" vs "Mercados").
        *  In EN both are "Market Access". */
       marketAccessOverview: string;
+      partners: string;
+      capital: string;
       pricing: string;
       company: string;
       contact: string;
