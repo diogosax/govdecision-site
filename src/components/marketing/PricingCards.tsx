@@ -1,5 +1,6 @@
 import { TrackedButton } from "@/components/analytics/TrackedButton";
 import { Icon } from "@/components/ui/Icon";
+import type { ExperimentVariant } from "@/lib/experiments/experiments";
 
 export type PricingCardPlan = {
   name: string;
@@ -61,12 +62,19 @@ export function PricingCards({
   brazilLabel,
   internationalLabel,
   serviceLedBadge,
+  assistedVariant,
 }: {
   plans: PricingCardPlan[];
   locale: string;
   brazilLabel: string;
   internationalLabel: string;
   serviceLedBadge: string;
+  /**
+   * Active `pricingAssistedCta` variant (SITE-017). Tags the assisted
+   * (highlighted) plan's CTA event with experiment + variant. The button label
+   * itself is already set on that plan's `cta` by the caller.
+   */
+  assistedVariant?: ExperimentVariant;
 }) {
   return (
     <div className="grid gap-6 lg:grid-cols-2">
@@ -151,6 +159,13 @@ export function PricingCards({
                   plan: plan.name,
                   cta: plan.cta,
                   href: plan.ctaHref,
+                  // The assisted (highlighted) CTA carries the copy experiment.
+                  ...(featured && assistedVariant
+                    ? {
+                        experiment: "pricingAssistedCta",
+                        variant: assistedVariant,
+                      }
+                    : {}),
                 }}
               >
                 {plan.cta}

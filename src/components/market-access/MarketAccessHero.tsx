@@ -1,8 +1,13 @@
 import { Button } from "@/components/ui/Button";
+import { TrackedButton } from "@/components/analytics/TrackedButton";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Icon } from "@/components/ui/Icon";
 import { Pill, WindowFrame } from "@/components/marketing/MockupKit";
+import type {
+  AnalyticsEventName,
+  AnalyticsProperties,
+} from "@/lib/analytics/events";
 
 /** Compact down-chevron used on the mockup's selector fields. */
 function Chevron() {
@@ -56,6 +61,18 @@ export type MarketAccessHeroCopy = {
 };
 
 /**
+ * Optional override for the secondary CTA, used to run the `marketAccessCta`
+ * copy experiment (SITE-017). When provided, the secondary CTA renders as a
+ * tracked button with the experiment label + analytics; when omitted it falls
+ * back to the default, untracked `t.secondaryCta` button (control behavior).
+ */
+export type MarketAccessSecondaryCta = {
+  label: string;
+  event: AnalyticsEventName;
+  eventProps: AnalyticsProperties;
+};
+
+/**
  * Market Access hero: a strategic headline paired with a product-style path
  * selector mockup (origin / target / path type / next step) and a compact
  * decision path. The mockup keeps its sample (Brazil → United States) values in
@@ -64,9 +81,11 @@ export type MarketAccessHeroCopy = {
 export function MarketAccessHero({
   t,
   primaryHref,
+  secondaryCta,
 }: {
   t: MarketAccessHeroCopy;
   primaryHref: string;
+  secondaryCta?: MarketAccessSecondaryCta;
 }) {
   return (
     <section className="relative overflow-hidden border-b border-line bg-gradient-to-b from-surface to-ivory">
@@ -98,9 +117,21 @@ export function MarketAccessHero({
             <Button href={primaryHref} size="lg" withArrow>
               {t.primaryCta}
             </Button>
-            <Button href="#paths" variant="ghost" size="lg">
-              {t.secondaryCta}
-            </Button>
+            {secondaryCta ? (
+              <TrackedButton
+                href="#paths"
+                variant="ghost"
+                size="lg"
+                event={secondaryCta.event}
+                eventProps={secondaryCta.eventProps}
+              >
+                {secondaryCta.label}
+              </TrackedButton>
+            ) : (
+              <Button href="#paths" variant="ghost" size="lg">
+                {t.secondaryCta}
+              </Button>
+            )}
           </div>
         </div>
 

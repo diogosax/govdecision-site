@@ -12,6 +12,18 @@
 
 export type TitleDesc = { title: string; description: string };
 
+/**
+ * Copy for a single CTA-copy conversion experiment (SITE-017). The three keys
+ * map 1:1 to `ExperimentVariant` ("control" | "variantA" | "variantB"), so the
+ * active label is `copy[variant]`. Keep all three short enough for the existing
+ * button width (especially PT-BR / ES).
+ */
+export type ExperimentCtaCopy = {
+  control: string;
+  variantA: string;
+  variantB: string;
+};
+
 export interface Dictionary {
   /** Shared chrome: navigation, footer, CTAs, language selector. */
   common: {
@@ -332,5 +344,25 @@ export interface Dictionary {
     corridorById: Record<string, { name: string; summary: string; focus: string[] }>;
     statusLabels: Record<string, string>; // CorridorStatus -> localized
     finalCta: { title: string; subtitle: string; primary: string; secondary: string };
+  };
+
+  /**
+   * Conversion experiment copy (SITE-017). Defaults render the `control`
+   * variant; a build-time env flag can select `variantA` / `variantB`. CTA-copy
+   * experiments share the `ExperimentCtaCopy` shape; `contactIntent` adds an
+   * optional contextual card (variant A) or trust card (variant B) — its control
+   * adds nothing, so only the two variants carry copy.
+   */
+  experiments: {
+    homeHeroCta: ExperimentCtaCopy;
+    marketAccessCta: ExperimentCtaCopy;
+    pricingAssistedCta: ExperimentCtaCopy;
+    briefsCta: ExperimentCtaCopy;
+    contactIntent: {
+      /** variantA — "What happens next" card (title + 3 numbered steps). */
+      nextSteps: { title: string; steps: string[] };
+      /** variantB — compact trust card (title + one supporting line). */
+      trust: { title: string; body: string };
+    };
   };
 }

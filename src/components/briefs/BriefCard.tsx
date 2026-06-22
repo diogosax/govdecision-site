@@ -43,10 +43,13 @@ export function BriefCard({
   item,
   labels,
   locale,
+  experimentVariant,
 }: {
   item: BriefGridItem;
   labels: BriefCardLabels;
   locale: string;
+  /** Active `briefsCta` variant (SITE-017) — tags the card CTA event when set. */
+  experimentVariant?: string;
 }) {
   return (
     <article className="flex h-full flex-col rounded-3xl border border-line bg-white p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-card">
@@ -114,6 +117,9 @@ export function BriefCard({
             pathType: item.pathType,
             cta: labels.cardCta,
             href: item.detailHref,
+            ...(experimentVariant
+              ? { experiment: "briefsCta", variant: experimentVariant }
+              : {}),
           }}
         >
           {labels.cardCta}

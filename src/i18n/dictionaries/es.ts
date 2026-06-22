@@ -938,6 +938,43 @@ export const es = {
       secondary: "Conocer la plataforma",
     },
   },
+
+  experiments: {
+    homeHeroCta: {
+      control: "Empezar",
+      variantA: "Iniciar readiness",
+      variantB: "Ver mi ruta",
+    },
+    marketAccessCta: {
+      control: "Explorar acceso a mercados",
+      variantA: "Elegir mi ruta",
+      variantB: "Ver dónde competir",
+    },
+    pricingAssistedCta: {
+      control: "Solicitar precio asistido",
+      variantA: "Hablar con Sax Global",
+      variantB: "Planear acceso a mercado",
+    },
+    briefsCta: {
+      control: "Leer brief",
+      variantA: "Ver lecciones de readiness",
+      variantB: "Analizar oportunidad",
+    },
+    contactIntent: {
+      nextSteps: {
+        title: "Qué pasa después",
+        steps: [
+          "Revisamos tu empresa, ruta y mercado objetivo.",
+          "Identificamos si es una solicitud de readiness GovDecision o acceso a mercado con Sax Global.",
+          "Respondemos con el próximo paso práctico.",
+        ],
+      },
+      trust: {
+        title: "Nada de venta genérica.",
+        body: "Tu solicitud se enruta por ruta e intención: readiness local, acceso internacional, multilateral, regional o general.",
+      },
+    },
+  },
 } satisfies Dictionary;
 
 export default es;

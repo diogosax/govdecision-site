@@ -925,6 +925,43 @@ export const ptBR = {
       secondary: "Conhecer a plataforma",
     },
   },
+
+  experiments: {
+    homeHeroCta: {
+      control: "Começar",
+      variantA: "Iniciar readiness",
+      variantB: "Ver meu caminho",
+    },
+    marketAccessCta: {
+      control: "Explorar acesso a mercados",
+      variantA: "Escolher meu caminho",
+      variantB: "Ver onde competir",
+    },
+    pricingAssistedCta: {
+      control: "Solicitar preço assistido",
+      variantA: "Falar com a Sax Global",
+      variantB: "Planejar acesso a mercado",
+    },
+    briefsCta: {
+      control: "Ler brief",
+      variantA: "Ver lições de readiness",
+      variantB: "Analisar oportunidade",
+    },
+    contactIntent: {
+      nextSteps: {
+        title: "O que acontece depois",
+        steps: [
+          "Revisamos sua empresa, caminho e mercado-alvo.",
+          "Identificamos se é uma demanda de readiness GovDecision ou acesso a mercado com Sax Global.",
+          "Retornamos com o próximo passo prático.",
+        ],
+      },
+      trust: {
+        title: "Nada de abordagem genérica.",
+        body: "Sua solicitação é roteada por caminho e intenção: readiness local, acesso internacional, multilateral, regional ou geral.",
+      },
+    },
+  },
 } satisfies Dictionary;
 
 export default ptBR;

@@ -8,6 +8,8 @@ import {
   PricingCards,
   type PricingCardPlan,
 } from "@/components/marketing/PricingCards";
+import { ExperimentView } from "@/components/analytics/ExperimentView";
+import { getExperimentVariant } from "@/lib/experiments/experiments";
 import { CtaBand } from "@/components/marketing/CtaBand";
 import { pricingPlans, pricingComparison } from "@/data/pricing";
 
@@ -45,11 +47,18 @@ export function PricingView({
   const lp = (href: string) => localePath(locale, href);
   const t = dict.pricing;
 
+  // Experiment 3 — Pricing Assisted CTA (pricingAssistedCta). Only the assisted
+  // (highlighted) plan's CTA label changes; plan features and prices are untouched.
+  const assistedCtaVariant = getExperimentVariant("pricingAssistedCta");
+  const assistedCtaLabel = dict.experiments.pricingAssistedCta[assistedCtaVariant];
+
   const plans: PricingCardPlan[] = pricingPlans.map((plan, i) => ({
     name: plan.name,
     highlighted: plan.highlighted,
     ctaHref: lp(plan.ctaHref),
     ...t.plans[i],
+    // The assisted plan's CTA copy is driven by the experiment variant.
+    cta: plan.highlighted ? assistedCtaLabel : t.plans[i].cta,
   }));
 
   return (
@@ -58,12 +67,19 @@ export function PricingView({
 
       {/* Plans */}
       <Section tone="ivory">
+        <ExperimentView
+          experiment="pricingAssistedCta"
+          variant={assistedCtaVariant}
+          locale={locale}
+          page="/pricing"
+        />
         <PricingCards
           plans={plans}
           locale={locale}
           brazilLabel={t.brazilLabel}
           internationalLabel={t.internationalLabel}
           serviceLedBadge={t.serviceLedBadge}
+          assistedVariant={assistedCtaVariant}
         />
         <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-slate">
           {t.note}

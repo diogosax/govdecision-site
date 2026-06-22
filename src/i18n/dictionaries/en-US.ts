@@ -919,6 +919,43 @@ export const enUS = {
       secondary: "Explore the platform",
     },
   },
+
+  experiments: {
+    homeHeroCta: {
+      control: "Start",
+      variantA: "Start readiness",
+      variantB: "See your path",
+    },
+    marketAccessCta: {
+      control: "Explore Market Access",
+      variantA: "Choose your market path",
+      variantB: "Find where to compete",
+    },
+    pricingAssistedCta: {
+      control: "Request assisted pricing",
+      variantA: "Talk to Sax Global",
+      variantB: "Plan market access",
+    },
+    briefsCta: {
+      control: "Read brief",
+      variantA: "See readiness lessons",
+      variantB: "Analyze this opportunity",
+    },
+    contactIntent: {
+      nextSteps: {
+        title: "What happens next",
+        steps: [
+          "We review your company, path and target market.",
+          "We identify whether this is a GovDecision readiness or Sax Global market access request.",
+          "We follow up with the next practical step.",
+        ],
+      },
+      trust: {
+        title: "No generic sales pitch.",
+        body: "Your request is routed by path and intent: local readiness, cross-border market access, multilateral, regional or general.",
+      },
+    },
+  },
 } satisfies Dictionary;
 
 export default enUS;

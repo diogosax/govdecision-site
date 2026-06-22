@@ -9,6 +9,7 @@ import { BriefsPromo } from "@/components/briefs/BriefsPromo";
 import { PartnerCapitalPromo } from "@/components/partner-capital/PartnerCapitalPromo";
 import { getPartnerCapital } from "@/i18n/partner-capital";
 import { MarketAccessHero } from "@/components/market-access/MarketAccessHero";
+import { getExperimentVariant } from "@/lib/experiments/experiments";
 import { PathSelector } from "@/components/market-access/PathSelector";
 import { PathCard, type PathCardData } from "@/components/market-access/PathCard";
 import { PathJourney } from "@/components/market-access/PathJourney";
@@ -25,6 +26,12 @@ export function MarketAccessView({
   const lp = (href: string) => localePath(locale, href);
   const t = dict.marketAccess;
   const contactHref = lp("/contact");
+
+  // Experiment 2 — Market Access CTA framing (marketAccessCta). Applied to the
+  // hero secondary CTA only (in-page jump to the paths section). Do not over-apply.
+  const marketAccessCtaVariant = getExperimentVariant("marketAccessCta");
+  const marketAccessCtaLabel =
+    dict.experiments.marketAccessCta[marketAccessCtaVariant];
 
   const cards: PathCardData[] = marketAccessPaths.map((p) => {
     const c = t.paths.cards[p.slug];
@@ -46,7 +53,23 @@ export function MarketAccessView({
 
   return (
     <>
-      <MarketAccessHero t={t.hero} primaryHref={contactHref} />
+      <MarketAccessHero
+        t={t.hero}
+        primaryHref={contactHref}
+        secondaryCta={{
+          label: marketAccessCtaLabel,
+          event: "cta_clicked",
+          eventProps: {
+            locale,
+            page: "/market-access",
+            section: "hero",
+            cta: "explore_market_access",
+            href: "#paths",
+            experiment: "marketAccessCta",
+            variant: marketAccessCtaVariant,
+          },
+        }}
+      />
 
       {/* --------------------------------------------- Local vs cross-border */}
       <Section tone="white">
