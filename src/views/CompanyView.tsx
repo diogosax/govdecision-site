@@ -7,6 +7,8 @@ import { Icon, type IconName } from "@/components/ui/Icon";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { PageHero } from "@/components/marketing/PageHero";
 import { CtaBand } from "@/components/marketing/CtaBand";
+import { TrackedLink } from "@/components/analytics/TrackedLink";
+import { site } from "@/data/site";
 
 const factIcons: IconName[] = ["shield", "compass", "flag", "globe"];
 const beliefIcons: IconName[] = ["target", "checklist", "route"];
@@ -102,6 +104,24 @@ export function CompanyView({
               {t.madeWith.cta}
             </Button>
           </div>
+          <p className="mt-6 text-sm leading-relaxed text-slate">
+            <span className="font-semibold text-plum">{t.whatsapp.prompt}</span>{" "}
+            {t.whatsapp.lead}{" "}
+            <TrackedLink
+              href={site.whatsappUrl}
+              event="cta_clicked"
+              eventProps={{
+                locale,
+                page: "/company",
+                section: "company_contact",
+                cta: "whatsapp_contact",
+              }}
+              className="font-semibold text-plum underline-offset-4 hover:underline"
+            >
+              {site.whatsappNumber}
+            </TrackedLink>
+            .
+          </p>
         </Container>
       </Section>
 

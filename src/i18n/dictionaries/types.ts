@@ -289,6 +289,11 @@ export interface Dictionary {
       body: string;
       cta: string;
     };
+    /** WhatsApp Business alternate-contact line (SITE-018). */
+    whatsapp: {
+      prompt: string; // e.g. "Prefer WhatsApp?"
+      lead: string; // precedes the linked number, e.g. "Message GovDecision at"
+    };
     finalCta: { title: string; subtitle: string; secondary: string };
   };
 

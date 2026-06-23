@@ -744,6 +744,10 @@ export const es = {
       body: "Less Clipping, More Decision — una plataforma para empresas que quieren crecer en los negocios gubernamentales, hecha con cuidado para quienes la usan.",
       cta: "Hablar con el equipo",
     },
+    whatsapp: {
+      prompt: "¿Prefieres WhatsApp?",
+      lead: "Escríbele a GovDecision al",
+    },
     finalCta: {
       title: "Haz crecer tu negocio con el gobierno, con método.",
       subtitle:
