@@ -33,6 +33,14 @@ export const site = {
   // Easy to change once mailbox is provisioned
   contactEmail: "contact@govdecision.com",
 
+  // Current public contact line — a WhatsApp Business number. Displayed in a
+  // clean, professional format and linked via wa.me / tel: where appropriate.
+  // The display string is the only form ever shown; analytics never receive the
+  // number as a property.
+  whatsappNumber: "+1 (813) 853-6483",
+  whatsappUrl: "https://wa.me/18138536483",
+  whatsappTel: "tel:+18138536483",
+
   ogImage: "/brand/govdecision-logo-tagline.png",
 
   metaTitle: "GovDecision — Global Government Business Platform",

@@ -96,5 +96,18 @@ export const footerNav: NavItem[] = [
   { key: "contact", href: "/contact" },
 ];
 
+/**
+ * Footer legal / compliance group (SITE-018). A small, clean cluster kept
+ * separate from the platform/company links so the footer stays uncluttered.
+ * Labels come from `common.nav.{terms,privacy,compliance}` in each locale.
+ */
+export type LegalNavKey = "terms" | "privacy" | "compliance";
+
+export const legalNav: { key: LegalNavKey; href: string }[] = [
+  { key: "terms", href: "/terms" },
+  { key: "privacy", href: "/privacy" },
+  { key: "compliance", href: "/compliance" },
+];
+
 /** External app login — never locale-prefixed. */
 export const loginHref = site.loginUrl;

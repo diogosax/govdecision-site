@@ -27,6 +27,9 @@ export const ptBR = {
       pricing: "Preços",
       company: "Empresa",
       contact: "Contato",
+      terms: "Termos",
+      privacy: "Privacidade",
+      compliance: "Compliance",
     },
     briefsPromo: {
       eyebrow: "Briefs de oportunidades públicas",
@@ -59,6 +62,8 @@ export const ptBR = {
       platformHeading: "Plataforma",
       getStartedHeading: "Comece agora",
       startReadiness: "Iniciar readiness",
+      legalHeading: "Jurídico",
+      whatsappLabel: "WhatsApp Business",
       legalDisclaimer:
         "A GovDecision oferece apoio à decisão, fluxos de prontidão e orientação de acesso a mercados. Não garante elegibilidade, habilitação, aceitação de propostas, financiamento, contratos ou resultados em compras públicas.",
       copyright: "Uma plataforma do Sax Group.",
@@ -761,6 +766,8 @@ export const ptBR = {
       },
     ],
     preferEmail: "Prefere e-mail?",
+    preferWhatsapp: "Prefere WhatsApp?",
+    whatsappLead: "Fale conosco pelo",
     alreadyCustomer: "Já é cliente?",
     loginCta: "Entrar no app",
     disclaimer:

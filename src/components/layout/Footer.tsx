@@ -10,6 +10,10 @@ export type FooterProps = {
   locale: Locale;
   homeHref: string;
   nav: FooterNavItem[];
+  /** Legal / compliance links (Terms · Privacy · Compliance) — SITE-018. */
+  legal: FooterNavItem[];
+  /** WhatsApp Business contact line — SITE-018. */
+  whatsapp: { label: string; number: string; href: string };
   startReadinessHref: string;
   login: { label: string; href: string };
   t: {
@@ -18,6 +22,7 @@ export type FooterProps = {
     platformHeading: string;
     getStartedHeading: string;
     startReadiness: string;
+    legalHeading: string;
     legalDisclaimer: string;
     copyright: string;
     madeWith: string;
@@ -29,6 +34,8 @@ export function Footer({
   locale,
   homeHref,
   nav,
+  legal,
+  whatsapp,
   startReadinessHref,
   login,
   t,
@@ -39,7 +46,7 @@ export function Footer({
     <footer className="bg-plum text-white">
       <div className="bg-grid-light">
         <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-8 sm:py-20">
-          <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr]">
+          <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-10">
             {/* Brand */}
             <div className="max-w-sm">
               <Logo variant="white" href={homeHref} className="h-8" />
@@ -116,8 +123,37 @@ export function Footer({
                     {site.contactEmail}
                   </a>
                 </li>
+                <li>
+                  <a
+                    href={whatsapp.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="text-white/75 transition-colors hover:text-white"
+                  >
+                    {whatsapp.label}: {whatsapp.number}
+                  </a>
+                </li>
               </ul>
             </div>
+
+            {/* Legal / compliance */}
+            <nav aria-label="Legal" className="text-sm">
+              <h3 className="text-xs font-semibold uppercase tracking-[0.16em] text-white/40">
+                {t.legalHeading}
+              </h3>
+              <ul className="mt-4 space-y-3">
+                {legal.map((item) => (
+                  <li key={item.key}>
+                    <Link
+                      href={item.href}
+                      className="text-white/75 transition-colors hover:text-white"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
 
           {/* Legal disclaimer */}
