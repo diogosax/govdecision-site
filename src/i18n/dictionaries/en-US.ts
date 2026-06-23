@@ -19,6 +19,9 @@ export const enUS = {
       pricing: "Pricing",
       company: "Company",
       contact: "Contact",
+      terms: "Terms",
+      privacy: "Privacy",
+      compliance: "Compliance",
     },
     briefsPromo: {
       eyebrow: "Government opportunity briefs",
@@ -51,6 +54,8 @@ export const enUS = {
       platformHeading: "Platform",
       getStartedHeading: "Get started",
       startReadiness: "Start readiness",
+      legalHeading: "Legal",
+      whatsappLabel: "WhatsApp Business",
       legalDisclaimer:
         "GovDecision provides decision support, readiness workflows, and market access guidance. It does not guarantee eligibility, qualification, bid submission acceptance, financing, awards, or government contract outcomes.",
       copyright: "A Sax Group platform.",
@@ -755,6 +760,8 @@ export const enUS = {
       },
     ],
     preferEmail: "Prefer email?",
+    preferWhatsapp: "Prefer WhatsApp?",
+    whatsappLead: "Message us at",
     alreadyCustomer: "Already a customer?",
     loginCta: "Log in to the app",
     disclaimer:

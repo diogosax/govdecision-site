@@ -27,6 +27,9 @@ export const localizedPaths = [
   "/company",
   "/contact",
   "/corridors",
+  "/terms",
+  "/privacy",
+  "/compliance",
 ] as const;
 
 /**

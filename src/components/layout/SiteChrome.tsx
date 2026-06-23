@@ -2,7 +2,14 @@ import type { ReactNode } from "react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries/types";
 import { localePath } from "@/i18n/routing";
-import { mainNav, footerNav, loginHref, type NavItem } from "@/data/navigation";
+import {
+  mainNav,
+  footerNav,
+  legalNav,
+  loginHref,
+  type NavItem,
+} from "@/data/navigation";
+import { site } from "@/data/site";
 import { SiteJsonLd } from "@/components/seo/JsonLd";
 import { Header, type HeaderNavItem } from "./Header";
 import { Footer } from "./Footer";
@@ -47,6 +54,12 @@ export function SiteChrome({
     href: localePath(locale, item.href),
   }));
 
+  const legalLinks = legalNav.map((item) => ({
+    key: item.key,
+    label: dict.common.nav[item.key],
+    href: localePath(locale, item.href),
+  }));
+
   const login = { label: dict.common.login, href: loginHref };
 
   return (
@@ -77,6 +90,12 @@ export function SiteChrome({
         locale={locale}
         homeHref={localePath(locale, "/")}
         nav={footerLinks}
+        legal={legalLinks}
+        whatsapp={{
+          label: dict.common.footer.whatsappLabel,
+          number: site.whatsappNumber,
+          href: site.whatsappUrl,
+        }}
         startReadinessHref={localePath(locale, "/contact")}
         login={login}
         t={dict.common.footer}

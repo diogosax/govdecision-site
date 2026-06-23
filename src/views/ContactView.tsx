@@ -151,6 +151,23 @@ export function ContactView({
                   </a>
                 </p>
                 <p className="text-slate">
+                  {t.preferWhatsapp} {t.whatsappLead}{" "}
+                  <TrackedLink
+                    href={site.whatsappUrl}
+                    event="cta_clicked"
+                    eventProps={{
+                      locale,
+                      page: "/contact",
+                      section: "contact_aside",
+                      cta: "whatsapp_contact",
+                    }}
+                    className="font-semibold text-plum underline-offset-4 hover:underline"
+                  >
+                    {site.whatsappNumber}
+                  </TrackedLink>
+                  .
+                </p>
+                <p className="text-slate">
                   {t.alreadyCustomer}{" "}
                   <TrackedLink
                     href={loginHref}

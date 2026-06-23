@@ -47,6 +47,10 @@ export interface Dictionary {
       pricing: string;
       company: string;
       contact: string;
+      /** Footer legal / compliance group (SITE-018). */
+      terms: string;
+      privacy: string;
+      compliance: string;
     };
     /** Reusable Opportunity Briefs promo (Home + Market Access cross-links). */
     briefsPromo: {
@@ -82,6 +86,10 @@ export interface Dictionary {
       platformHeading: string;
       getStartedHeading: string;
       startReadiness: string;
+      /** Heading for the footer legal/compliance link group (SITE-018). */
+      legalHeading: string;
+      /** Label shown before the WhatsApp Business number in the footer (SITE-018). */
+      whatsappLabel: string;
       legalDisclaimer: string;
       copyright: string; // "A {parent} platform."
       madeWith: string; // text before the heart
@@ -291,6 +299,9 @@ export interface Dictionary {
     lead: string;
     aside: TitleDesc[]; // 3
     preferEmail: string;
+    /** WhatsApp alternate-contact block (SITE-018). */
+    preferWhatsapp: string;
+    whatsappLead: string; // precedes the linked number, e.g. "Message us at"
     alreadyCustomer: string;
     loginCta: string;
     disclaimer: string;
