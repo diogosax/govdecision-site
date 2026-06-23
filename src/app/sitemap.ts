@@ -7,6 +7,13 @@ import { localePath, localizedPaths } from "@/i18n/routing";
 
 const abs = (path: string) => `${site.url}${path === "/" ? "" : path}`;
 
+/**
+ * Legal routes stay in the sitemap (with full hreflang/canonical alternates) but
+ * carry a lower priority than commercial/core pages — they're required, not the
+ * pages we want crawlers to weight (SITE-018).
+ */
+const legalPaths = new Set(["/terms", "/privacy", "/compliance"]);
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   const entries: MetadataRoute.Sitemap = [];
@@ -17,12 +24,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const l of locales) languages[l] = abs(localePath(l, path));
     languages["x-default"] = abs(localePath("en-US", path));
 
+    const priority = path === "/" ? 1 : legalPaths.has(path) ? 0.3 : 0.8;
+
     for (const l of locales) {
       entries.push({
         url: abs(localePath(l, path)),
         lastModified: now,
         changeFrequency: "monthly",
-        priority: path === "/" ? 1 : 0.8,
+        priority,
         alternates: { languages },
       });
     }
